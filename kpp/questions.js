@@ -1588,7 +1588,8 @@ window.KPP_DATA = {
     "C": [
      "feniks.care"
     ]
-   }
+   },
+   "pdf_edition": "2025"
   },
   {
    "id": 45,
@@ -2852,7 +2853,8 @@ window.KPP_DATA = {
      "quizlet-710735124",
      "quizlet-804902455"
     ]
-   }
+   },
+   "pdf_edition": "2025"
   },
   {
    "id": 80,
@@ -6205,7 +6207,8 @@ window.KPP_DATA = {
     "E": [
      "quizlet-595014549"
     ]
-   }
+   },
+   "pdf_edition": "2025"
   },
   {
    "id": 176,

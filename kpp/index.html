@@ -68,6 +68,7 @@
     border:1px solid var(--rule);
     border-left:3px solid var(--terrain);
     padding:22px 24px;margin:0 0 20px;
+    scroll-margin-top:24px;      /* anchor jumps clear the viewport edge */
   }
   .q-head{
     display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
@@ -104,7 +105,18 @@
   }
   .opt.is-correct{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:600;}
   .opt.is-wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
-  .opt .mark{margin-left:auto;font-weight:700;flex:0 0 auto;}
+  .opt .mark{margin-left:auto;font-weight:700;flex:0 0 auto;align-self:flex-start;}
+  /* how many keys pointed at this option — revealed with the answer */
+  .opt .votes{
+    margin-left:auto;flex:0 0 auto;align-self:flex-start;margin-top:2px;
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:12px;letter-spacing:.03em;
+    padding:1px 7px;border:1px solid var(--rule);border-radius:2px;
+    background:var(--paper-deep);color:var(--slate);
+  }
+  .opt .votes + .mark{margin-left:10px;}
+  .opt.is-correct .votes{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+  .opt.is-wrong .votes{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
 
   .q-note{
     margin:14px 0 0;padding:10px 12px;font-size:14px;line-height:1.5;
@@ -236,7 +248,7 @@
     .tile{padding:3px 9px;display:flex;gap:6px;align-items:baseline;}
     .tile .n{font-size:18px;}
     .btn{width:auto;padding:6px 11px;font-size:11px;margin-left:auto;}
-    .q{padding:18px 16px;}
+    .q{padding:18px 16px;scroll-margin-top:76px;}   /* clear the sticky bar */
     .opt{padding:10px 12px;}
     .cov-list li{flex-wrap:wrap;}
     .cov-list .src{flex:1 0 100%;}
@@ -305,7 +317,7 @@
 <script>
 (function () {
   var LIST = document.getElementById('list');
-  var state = { questions: [], order: [], ok: 0, bad: 0 };
+  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [] };
   var maxSources = 0;   // how many answer keys the build had available
 
   function shuffle(a) {
@@ -421,7 +433,38 @@
       LIST.appendChild(card);
     });
     observe();
+    buildinfo();
     update();
+  }
+
+  // Rebuilt on every render: the anchors point at positions in the current
+  // shuffle, so they move when the order changes.
+  function buildinfo() {
+    var box = document.getElementById('buildinfo'), m = state.meta;
+    if (!box || !m) return;
+    box.textContent = 'Baza zbudowana ' + m.built + ' — ' + m.count + ' pytań, ' +
+      ((m.stats && m.stats.verified) || 0) + ' potwierdzonych przez co najmniej dwa źródła, ';
+
+    if (!state.review.length) {
+      box.appendChild(document.createTextNode('brak spornych.'));
+      return;
+    }
+    var pos = {};
+    state.order.forEach(function (qi, idx) { pos[state.questions[qi].id] = idx + 1; });
+
+    box.appendChild(document.createTextNode('do weryfikacji: '));
+    state.review.forEach(function (id, i) {
+      if (i) box.appendChild(document.createTextNode(', '));
+      if (pos[id]) {
+        var a = el('a', null, 'nr ' + id);
+        a.href = '#q' + pos[id];
+        a.title = 'Przejdź do pytania (obecnie ' + pos[id] + ' w kolejności)';
+        box.appendChild(a);
+      } else {
+        box.appendChild(document.createTextNode('nr ' + id));
+      }
+    });
+    box.appendChild(document.createTextNode('.'));
   }
 
   function answer(card, q, letter) {
@@ -432,10 +475,17 @@
     var right = letter === correct;
     right ? state.ok++ : state.bad++;
 
+    var total = sources(q);
     var btns = card.querySelectorAll('.opt');
     q.options.forEach(function (o, i) {
       var btn = btns[i];
       btn.disabled = true;
+      var backing = q.votes[o.letter] || [];
+      if (backing.length) {
+        var lab = el('span', 'votes', backing.length + '/' + total);
+        lab.title = backing.join(', ');
+        btn.appendChild(lab);
+      }
       if (o.letter === correct) {
         btn.classList.add('is-correct');
         btn.appendChild(el('span', 'mark', '✓'));
@@ -487,7 +537,8 @@
     state.order = shuffle(state.questions.map(function (_, i) { return i; }));
     document.getElementById('total').textContent = 'z ' + state.order.length;
     document.getElementById('ver').textContent = data.meta.questions_version;
-    var s = data.meta.stats, review = data.meta.needs_review || [];
+    state.meta = data.meta;
+    state.review = data.meta.needs_review || [];
     maxSources = data.meta.key_sources.length;
 
     var list = document.getElementById('portals');
@@ -499,11 +550,7 @@
       li.appendChild(a);
       list.appendChild(li);
     });
-    document.getElementById('buildinfo').textContent =
-      'Baza zbudowana ' + data.meta.built + ' — ' + data.meta.count + ' pytań, ' +
-      (s.verified || 0) + ' potwierdzonych przez co najmniej dwa źródła, ' +
-      (review.length ? 'do weryfikacji: nr ' + review.join(', ') + '.' : 'brak spornych.');
-    render();
+    render();   // renders the cards, then buildinfo() with anchors into them
   }
 
   if (window.KPP_DATA) {
