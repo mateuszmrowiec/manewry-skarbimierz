@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manewry Search &amp; Rescue Skarbimierz — historia edycji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8E9E4;
+    --paper-deep:#DDDFD8;
+    --ink:#1C2321;
+    --terrain:#6B7C6E;
+    --slate:#4A5551;
+    --signal:#FFD400;
+    --rule:#C3C7BE;
+    --measure:64ch;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Literata",Georgia,serif;
+    font-size:17px;
+    line-height:1.62;
+  }
+
+  a{color:var(--ink);text-decoration-color:var(--terrain);text-underline-offset:3px;}
+  a:hover{text-decoration-color:var(--ink);}
+  a:focus-visible{outline:3px solid var(--ink);outline-offset:2px;background:var(--signal);}
+
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
+
+  /* ---- Hero ---- */
+  header.masthead{
+    border-bottom:2px solid var(--ink);
+    padding:56px 0 0;
+  }
+  .kicker{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:.02em;
+    color:var(--slate);
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;
+    font-size:clamp(34px,7vw,60px);
+    line-height:1.02;
+    margin:0 0 22px;
+    max-width:18ch;
+  }
+  .lede{
+    max-width:var(--measure);
+    margin:0 0 40px;
+    font-size:18px;
+  }
+
+  .next{
+    border-top:1px solid var(--rule);
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:0 28px;
+    align-items:baseline;
+    padding:26px 0 30px;
+  }
+  .next-date{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;
+    font-size:clamp(30px,6vw,46px);
+    line-height:1;
+    white-space:nowrap;
+    border-bottom:6px solid var(--signal);
+    padding-bottom:4px;
+  }
+  .next-body{max-width:46ch;}
+  .next-body p{margin:0;}
+  .next-body .ed{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;
+    font-size:17px;
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ---- Timeline ---- */
+  main{padding:52px 0 0;}
+
+  .section-head{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 4px;
+  }
+  .section-note{
+    color:var(--slate);
+    font-size:15.5px;
+    max-width:var(--measure);
+    margin:0 0 38px;
+  }
+
+  .edition{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:0 32px;
+    padding:0 0 40px;
+    position:relative;
+  }
+  .edition::before{
+    content:"";
+    position:absolute;
+    left:99px;
+    top:12px;
+    bottom:0;
+    width:2px;
+    background:var(--rule);
+  }
+  .edition:last-of-type::before{display:none;}
+
+  .marker{text-align:right;padding-right:0;}
+  .year{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;
+    font-size:30px;
+    line-height:1;
+    display:block;
+  }
+  .numeral{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--terrain);
+    display:block;
+    margin-top:3px;
+  }
+
+  .body{padding-left:2px;max-width:var(--measure);}
+  .dates{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;
+    font-size:19px;
+    margin:0 0 12px;
+    padding-top:4px;
+  }
+  .body ul{margin:0 0 16px;padding-left:20px;}
+  .body li{margin-bottom:7px;}
+  .body p{margin:0 0 14px;}
+
+  .thin{color:var(--slate);font-style:italic;}
+
+  .sources{
+    font-size:14.5px;
+    color:var(--slate);
+    border-left:3px solid var(--rule);
+    padding:4px 0 4px 14px;
+    margin:0;
+  }
+  .sources a{color:var(--slate);}
+  .sources strong{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;
+    font-style:normal;
+    color:var(--ink);
+  }
+
+  .flag{
+    background:var(--paper-deep);
+    border-left:4px solid var(--signal);
+    padding:14px 16px;
+    font-size:15.5px;
+    margin:0 0 16px;
+  }
+  .flag p{margin:0;}
+
+  .gap{
+    grid-column:1 / -1;
+    border-top:1px dashed var(--rule);
+    border-bottom:1px dashed var(--rule);
+    padding:12px 0;
+    margin:0 0 40px;
+    color:var(--slate);
+    font-size:15.5px;
+    text-align:center;
+  }
+
+  /* ---- Organizer ---- */
+  .org{
+    border-top:2px solid var(--ink);
+    margin-top:12px;
+    padding:38px 0 0;
+  }
+  .org h2{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;
+    font-size:22px;
+    margin:0 0 16px;
+  }
+  .org ul{margin:0 0 18px;padding-left:20px;max-width:var(--measure);}
+  .org li{margin-bottom:7px;}
+
+  footer{
+    margin-top:44px;
+    border-top:1px solid var(--rule);
+    padding:22px 0 64px;
+    color:var(--slate);
+    font-size:14.5px;
+    max-width:var(--measure);
+  }
+
+  @media (max-width:620px){
+    body{font-size:16px;}
+    .wrap{padding:0 18px;}
+    .next{grid-template-columns:1fr;gap:14px;}
+    .next-date{display:inline-block;}
+    .edition{grid-template-columns:1fr;gap:0;padding-bottom:34px;}
+    .edition::before{display:none;}
+    .marker{
+      text-align:left;
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      border-bottom:2px solid var(--rule);
+      padding-bottom:6px;
+      margin-bottom:12px;
+    }
+    .numeral{margin-top:0;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="kicker">Ogólnopolskie Manewry Grup Poszukiwawczo-Ratowniczych</p>
+    <h1>Search &amp; Rescue Skarbimierz</h1>
+    <p class="lede">Zestawienie tego, co wiadomo o poprzednich edycjach manewrów organizowanych przez Jednostkę Ratownictwa Specjalistycznego OSP Skarbimierz. Każdy wpis z odnośnikiem do źródła.</p>
+
+    <div class="next">
+      <div class="next-date">25–26.09.2026</div>
+      <div class="next-body">
+        <p><span class="ed">Najbliższa edycja</span>X edycja, gmina Skarbimierz, powiat brzeski.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <h2 class="section-head">Poprzednie edycje</h2>
+    <p class="section-note">Od najnowszej. Przy edycjach VI i VIII nie udało się dotrzeć do opisu scenariusza — zostały jedynie materiały wideo.</p>
+
+    <div class="edition">
+      <div class="marker">
+        <span class="year">2025</span>
+        <span class="numeral">IX edycja</span>
+      </div>
+      <div class="body">
+        <p class="dates">19–21 września</p>
+        <ul>
+          <li>Główny epizod w nocy z 19 na 20: zderzenie szynobusu z autobusem i autocysterną na niestrzeżonym przejeździe kolejowym DK94, wyciek substancji niebezpiecznej</li>
+          <li>65 osób w symulacji, pozoranci — żołnierze WOT</li>
+          <li>Dalsze epizody: poszukiwania osób zaginionych w terenie leśnym, zaopatrywanie rannych</li>
+          <li>Zakres: kwalifikowana pierwsza pomoc, ratownictwo techniczne, punkt segregacji poszkodowanych, łączność, ratownictwo chemiczno-ekologiczne</li>
+          <li>Udział: KP PSP Brzeg, KM PSP Opole, KP PSP Kędzierzyn-Koźle, JRS OSP Skarbimierz, Opolskie Centrum Ratownictwa Medycznego, Policja, WIOŚ, wojskowy patrol rozpoznania chemicznego, cywilne grupy SAR (m.in. GGPR Gliwice)</li>
+          <li>Nadzór: nadbryg. Paweł Kielar, bryg. Dariusz Kulawinek</li>
+        </ul>
+        <div class="flag">
+          <p>Nowa Trybuna Opolska opisała to samo wydarzenie jako „XI edycję”. To błąd — trzy pozostałe, niezależne źródła zgodnie podają IX.</p>
+        </div>
+        <p class="sources"><strong>Źródła:</strong>
+          <a href="https://www.24opole.pl/58220,Zderzenie_szynobusu_z_cysterna._Manewry_Search_Rescue_na_Opolszczyznie,wiadomosc.html">24opole.pl</a> ·
+          <a href="https://www.ggpr.org.pl/aktualnosci/9_ogolnopolskie_manewry_gpr_search_rescue/">ggpr.org.pl</a> ·
+          <a href="https://www.facebook.com/reel/795668592868976">film (FB)</a> ·
+          <a href="https://nto.pl/katastrofa-na-torach-tym-razem-tylko-na-probe-sluzby-cwiczyly-w-powiecie-brzeskim/ar/c1p2-27987127">nto.pl (z błędną numeracją)</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="edition">
+      <div class="marker">
+        <span class="year">2023</span>
+        <span class="numeral">VIII edycja</span>
+      </div>
+      <div class="body">
+        <p class="dates">Dokładne dni nieustalone</p>
+        <p class="thin">Nie znaleziono relacji opisującej scenariusz. Pozostają materiały wideo od organizatora.</p>
+        <p class="sources"><strong>Materiały:</strong>
+          <a href="https://www.facebook.com/reel/1715599998958876">film (FB)</a> ·
+          <a href="https://www.youtube.com/watch?v=ZBX0-M3y_hY">film (YouTube)</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="gap">Między 2019 a 2023 brak śladu po edycjach — najprawdopodobniej przerwa pandemiczna, ale nie potwierdza tego żadne źródło.</div>
+
+    <div class="edition">
+      <div class="marker">
+        <span class="year">2019</span>
+        <span class="numeral">VII edycja</span>
+      </div>
+      <div class="body">
+        <p class="dates">Około 10–12 maja</p>
+        <ul>
+          <li>Nocna katastrofa komunikacyjna: poszkodowani na miejscu oraz zgłoszenie o zaginionych</li>
+          <li>Wykłady połączone z działaniami terenowymi prowadzonymi w nocy, w trudnych warunkach</li>
+          <li>Udział psów tropiących</li>
+          <li>Zespoły z całej Polski</li>
+        </ul>
+        <p class="sources"><strong>Źródło:</strong>
+          <a href="https://radiopark.fm/wiadomosci/cwiczenia-ratownikow-w-skarbimierzu--zjechaly-druzyny-z-calej-polski">radiopark.fm</a> — relacja z 13 maja 2019 nazywa to wprost siódmą edycją
+        </p>
+      </div>
+    </div>
+
+    <div class="edition">
+      <div class="marker">
+        <span class="year">2018</span>
+        <span class="numeral">VI edycja</span>
+      </div>
+      <div class="body">
+        <p class="dates">Dokładne dni nieustalone</p>
+        <p class="thin">Nie znaleziono relacji opisującej scenariusz. Pozostaje materiał wideo od organizatora.</p>
+        <p class="sources"><strong>Materiały:</strong>
+          <a href="https://www.facebook.com/reel/170964217121602">film (FB)</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="edition">
+      <div class="marker">
+        <span class="year">2017</span>
+        <span class="numeral">V edycja</span>
+      </div>
+      <div class="body">
+        <p class="dates">9–11 czerwca</p>
+        <ul>
+          <li>Organizator: OSP Lipki. Piętnaście zespołów z terenu całej Polski</li>
+          <li>Noc z piątku na sobotę: symulowany wypadek kolejowy, blisko 30 poszkodowanych — wspólnie z JRG Brzeg i OSP z terenu gminy Skarbimierz</li>
+          <li>Sobota i niedziela: działania na gruzowisku, jazda terenowa, ratownictwo wodne, nawigacja w terenie</li>
+          <li>Sobotnie popołudnie: symulowana akcja poszukiwawcza w terenie leśnym na obszarze blisko 360 hektarów, około 60 osób</li>
+        </ul>
+        <p class="sources"><strong>Źródła:</strong>
+          <a href="https://osp.pl/artykuly/v-ogolnopolskie-manewry-grup-poszukiwawczo-ratowniczych-search-rescue-2017%2C9334/">osp.pl</a> ·
+          <a href="https://nto.pl/ogolnopolskie-manewry-grup-poszukiwawczych-w-gminie-skarbimierz/ar/12165056">nto.pl</a>
+        </p>
+      </div>
+    </div>
+
+    <section class="org">
+      <h2>Organizator</h2>
+      <ul>
+        <li>Jednostka Ratownictwa Specjalistycznego OSP Skarbimierz, wcześniej Sekcja Poszukiwawczo-Ratownicza OSP Lipki — gmina Skarbimierz, powiat brzeski, województwo opolskie</li>
+        <li>Działa od 2012 roku, początkowo jako harcerska grupa ratownicza</li>
+        <li>Około 30 członków; pięć psów ratowniczych — cztery o specjalności terenowej i jeden gruzowiskowy</li>
+        <li>Jedyna jednostka w województwie z przyczepą medyczną do wypadków mnogich i masowych</li>
+        <li>Od 2024 roku specjalizacja poszerzona o ratownictwo techniczne</li>
+        <li>Prezes: Szymon Oparowski</li>
+      </ul>
+      <p class="sources"><strong>Źródła:</strong>
+        <a href="https://przegladbrzeski.pl/2025/02/16/wesprzyj-strazakow-ze-skarbimierza-przekaz-15-podatku/">przegladbrzeski.pl</a> ·
+        <a href="https://glospowiatu24.pl/osp-skarbimierz-jednostka-ratownictwa-specjalistycznego/">glospowiatu24.pl</a>
+      </p>
+    </section>
+
+    <footer>
+      <p>Zestawienie opracowane na podstawie ogólnodostępnych publikacji i materiałów organizatora, wrzesień 2026. Luki w latach 2018, 2020–2022 i 2023 wynikają z braku zaindeksowanych relacji — nie z potwierdzonego braku wydarzeń.</p>
+    </footer>
+
+  </div>
+</main>
+
+<!-- GoatCounter: cookieless analytics, no consent banner required -->
+<script data-goatcounter="https://manewry-skarbimierz.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

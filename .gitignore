@@ -1,0 +1,9 @@
+# Only the published site is tracked: index.html, historia/, kpp/.
+#
+# Everything below stays local. docs/ holds the source PDFs and harvested
+# answer keys (third-party material we don't redistribute); tools/ builds
+# kpp/questions.js from them; SOURCES.md records where the key came from.
+# Keep a backup of these — without them the question base cannot be rebuilt.
+docs/
+tools/
+SOURCES.md
