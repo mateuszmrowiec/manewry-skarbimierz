@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Test KPP — weryfikacja klucza</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#E8E9E4;
+    --paper-deep:#DDDFD8;
+    --card:#F2F3EF;
+    --ink:#1C2321;
+    --terrain:#6B7C6E;
+    --slate:#4A5551;
+    --signal:#FFD400;
+    --rule:#C3C7BE;
+
+    --good:#2E6B4F;
+    --good-bg:#D4E6DA;
+    --bad:#9B3B2E;
+    --bad-bg:#F1DBD6;
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Literata",Georgia,serif;
+    font-size:17px;
+    line-height:1.62;
+  }
+
+  .sans{font-family:"Archivo Narrow",Arial Narrow,sans-serif;}
+
+  a{color:var(--ink);text-decoration-color:var(--terrain);text-underline-offset:3px;}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px;}
+
+  /* ---------- masthead ---------- */
+  header.masthead{border-bottom:2px solid var(--ink);background:var(--paper);}
+  .masthead-inner{max-width:1180px;margin:0 auto;padding:40px 24px 22px;}
+  .kicker{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;font-size:15px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--slate);margin:0 0 8px;
+  }
+  h1{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:clamp(30px,5vw,48px);line-height:1.05;
+    margin:0 0 14px;
+  }
+  .lede{margin:0;max-width:62ch;color:var(--slate);font-size:16px;}
+
+  /* ---------- layout ---------- */
+  .shell{
+    max-width:1180px;margin:0 auto;padding:28px 24px 80px;
+    display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:40px;align-items:start;
+  }
+
+  /* ---------- question cards ---------- */
+  .q{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--terrain);
+    padding:22px 24px;margin:0 0 20px;
+    scroll-margin-top:24px;      /* anchor jumps clear the viewport edge */
+  }
+  .q-head{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+    margin-bottom:12px;
+  }
+  code{font-family:ui-monospace,Consolas,monospace;font-size:.92em;}
+  .q-num{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:14px;letter-spacing:.06em;
+    color:var(--slate);text-transform:uppercase;
+  }
+  /* The CEM number is what the PDF is searched by, so it leads the card. */
+  .q-nr{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:17px;letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .badge{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    padding:2px 8px;border:1px solid var(--rule);color:var(--slate);
+    background:var(--paper-deep);border-radius:2px;
+  }
+  .badge.verified{color:var(--good);border-color:var(--good);background:var(--good-bg);}
+  .badge.conflict{color:var(--bad);border-color:var(--bad);background:var(--bad-bg);}
+  .badge.manual{color:var(--ink);border-color:var(--ink);background:var(--signal);}
+  .q-stem{margin:0 0 16px;font-weight:600;}
+
+  .opts{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+  .opt{
+    display:flex;gap:12px;width:100%;text-align:left;
+    font:inherit;color:inherit;cursor:pointer;
+    background:var(--paper);border:1px solid var(--rule);
+    padding:11px 14px;border-radius:2px;
+    transition:background .12s,border-color .12s;
+  }
+  .opt:hover:not(:disabled){background:var(--paper-deep);border-color:var(--terrain);}
+  .opt:disabled{cursor:default;}
+  .opt .letter{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;flex:0 0 auto;min-width:1.2em;
+  }
+  .opt.is-correct{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:600;}
+  .opt.is-wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+  .opt .mark{margin-left:auto;font-weight:700;flex:0 0 auto;align-self:flex-start;}
+  /* how many keys pointed at this option — revealed with the answer */
+  .opt .votes{
+    margin-left:auto;flex:0 0 auto;align-self:flex-start;margin-top:2px;
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:12px;letter-spacing:.03em;
+    padding:1px 7px;border:1px solid var(--rule);border-radius:2px;
+    background:var(--paper-deep);color:var(--slate);
+  }
+  .opt .votes + .mark{margin-left:10px;}
+  .opt.is-correct .votes{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+  .opt.is-wrong .votes{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+
+  .q-note{
+    margin:14px 0 0;padding:10px 12px;font-size:14px;line-height:1.5;
+    background:var(--bad-bg);border-left:3px solid var(--bad);color:var(--bad);
+  }
+
+  /* ---------- source coverage ---------- */
+  .cov{margin:16px 0 0;padding-top:13px;border-top:1px solid var(--rule);}
+  .cov .q-note{margin:11px 0 0;}
+  .cov-h{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--bad);margin:0 0 7px;display:flex;justify-content:space-between;gap:12px;
+  }
+  .cov-h em{color:var(--slate);}
+  .cov-h em{font-style:normal;}
+  /* one cell per source: 1/1 must not look as strong as 4/4 */
+  .cov-bar{display:flex;gap:3px;height:10px;}
+  .cov-bar span{display:block;flex:1 1 0;border:1px solid var(--rule);}
+  .cov-bar .key{background:var(--good);border-color:var(--good);}
+  .cov-bar .dis{background:var(--bad);border-color:var(--bad);}
+  .cov-bar .pad{background:var(--paper-deep);}
+  .cov-list{
+    list-style:none;margin:9px 0 0;padding:0;
+    font-size:13.5px;line-height:1.5;color:var(--slate);
+  }
+  .cov-list li{display:flex;gap:9px;align-items:baseline;}
+  .cov-list li + li{margin-top:3px;}
+  .cov-list .l{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;min-width:1.1em;
+  }
+  .cov-list .pc{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;min-width:7.4em;
+  }
+  .cov-list .src{font-size:12.5px;opacity:.85;}
+  .cov-list .key .l,.cov-list .key .pc{color:var(--good);}
+  .cov-list .dis .l,.cov-list .dis .pc{color:var(--bad);}
+
+  /* ---------- sidebar ---------- */
+  aside{position:sticky;top:22px;}
+  .panel{
+    background:var(--card);border:1px solid var(--rule);
+    border-top:3px solid var(--ink);padding:20px;
+  }
+  .panel h2{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+    margin:0 0 16px;color:var(--slate);font-weight:600;
+  }
+  .now{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:15px;color:var(--slate);margin:0 0 6px;
+  }
+  .now b{font-size:26px;color:var(--ink);}
+
+  .bar{height:8px;background:var(--paper-deep);border:1px solid var(--rule);margin:12px 0 18px;}
+  .bar span{display:block;height:100%;background:var(--terrain);width:0;transition:width .2s;}
+
+  .tally{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .tile{padding:10px;border:1px solid var(--rule);background:var(--paper);text-align:center;}
+  .tile .n{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:30px;font-weight:700;line-height:1;display:block;
+  }
+  .tile .l{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);
+  }
+  .tile.good .n{color:var(--good);}
+  .tile.bad .n{color:var(--bad);}
+
+  .score{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:14px;color:var(--slate);margin:0 0 16px;padding-top:14px;
+    border-top:1px solid var(--rule);
+  }
+  .score b{color:var(--ink);font-size:17px;}
+
+  .btn{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+    width:100%;padding:10px;cursor:pointer;
+    background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+  }
+  .btn:hover{background:var(--slate);border-color:var(--slate);}
+  .btn.ghost{background:transparent;color:var(--ink);margin-top:8px;}
+  .btn.ghost:hover{background:var(--paper-deep);color:var(--ink);}
+
+  .fineprint{
+    font-size:13px;line-height:1.5;color:var(--slate);
+    margin:18px 0 0;padding-top:14px;border-top:1px solid var(--rule);
+  }
+
+  footer{
+    border-top:2px solid var(--ink);background:var(--paper-deep);
+    padding:26px 24px;font-size:14px;color:var(--slate);
+  }
+  footer .inner{max-width:1180px;margin:0 auto;}
+  footer p{margin:0 0 8px;max-width:74ch;}
+  .portals{
+    list-style:none;margin:0 0 12px;padding:0;
+    display:flex;flex-wrap:wrap;gap:3px 18px;
+  }
+
+  .loading{padding:40px 0;color:var(--slate);}
+
+  /* ---------- narrow ---------- */
+  @media (max-width:860px){
+    .masthead-inner{padding:32px 16px 18px;}
+    .shell{grid-template-columns:minmax(0,1fr);gap:0;padding:20px 16px 60px;}
+    aside{
+      position:sticky;top:0;z-index:20;order:-1;
+      margin:0 -16px 20px;padding:0;
+    }
+    /* flex-wrap, not a fixed grid: the tiles and button cannot share a row
+       at phone widths without forcing the page wider than the viewport */
+    .panel{
+      border:0;border-bottom:2px solid var(--ink);
+      display:flex;flex-wrap:wrap;align-items:center;
+      gap:8px 10px;padding:9px 16px;
+    }
+    .panel h2,.score,.fineprint,.btn.ghost{display:none;}
+    .now{margin:0;font-size:13px;flex:0 0 auto;}
+    .now b{font-size:18px;}
+    .bar{order:9;flex:1 0 100%;margin:0;}
+    .tally{margin:0;gap:8px;display:flex;flex:0 0 auto;}
+    .tile{padding:3px 9px;display:flex;gap:6px;align-items:baseline;}
+    .tile .n{font-size:18px;}
+    .btn{width:auto;padding:6px 11px;font-size:11px;margin-left:auto;}
+    .q{padding:18px 16px;scroll-margin-top:76px;}   /* clear the sticky bar */
+    .opt{padding:10px 12px;}
+    .cov-list li{flex-wrap:wrap;}
+    .cov-list .src{flex:1 0 100%;}
+  }
+  @media (max-width:420px){
+    h1{font-size:clamp(24px,8vw,34px);}
+    .cov-list .pc{min-width:6.6em;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="kicker">Manewry Search &amp; Rescue Skarbimierz</p>
+    <h1>Test KPP — weryfikacja klucza</h1>
+    <p class="lede">
+      Wersja robocza, nieopublikowana. Pytania idą w kolejności numerów CEM,
+      bez losowania, żeby każde dało się porównać z plikiem
+      <code>KPP2026.pdf</code> jeden do jednego.
+    </p>
+  </div>
+</header>
+
+<div class="shell">
+  <main id="list" aria-live="polite">
+    <p class="loading">Wczytywanie pytań…</p>
+  </main>
+
+  <aside>
+    <div class="panel">
+      <h2>Postęp</h2>
+      <p class="now">pytanie <b id="cur">–</b> <span id="total"></span></p>
+      <div class="bar"><span id="bar"></span></div>
+      <div class="tally">
+        <div class="tile good"><span class="n" id="ok">0</span><span class="l">dobrze</span></div>
+        <div class="tile bad"><span class="n" id="bad">0</span><span class="l">źle</span></div>
+      </div>
+      <p class="score">Skuteczność: <b id="pct">–</b><br><span id="left"></span></p>
+      <button class="btn" id="reset" type="button">Zacznij od nowa</button>
+      <button class="btn ghost" id="jump" type="button">Następne bez odpowiedzi</button>
+      <p class="fineprint">
+        Egzamin teoretyczny KPP to 30 pytań z tej bazy. Próg zaliczenia — 90%.
+      </p>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="inner">
+    <p>
+      <strong>Pytania:</strong> Centrum Egzaminów Medycznych —
+      <a href="https://www.cem.edu.pl/ppomoc.php">cem.edu.pl</a>, wydanie
+      <span id="ver">KPP2026</span>. Baza publikowana przez CEM jako materiał urzędowy.
+    </p>
+    <p>
+      <strong>Klucz odpowiedzi jest nieoficjalny</strong> — CEM nie publikuje odpowiedzi.
+      Klucz zestawiono z:
+    </p>
+    <ul class="portals" id="portals"></ul>
+    <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
+    <p id="lockinfo"></p>
+    <p id="buildinfo"></p>
+  </div>
+</footer>
+
+<!-- Two files on purpose: questions.js is the frozen CEM base, answers.js is
+     the key being worked on. Rebuilding the key never touches the questions. -->
+<script src="questions.js"></script>
+<script src="answers.js"></script>
+<script>
+(function () {
+  var LIST = document.getElementById('list');
+  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [] };
+  var maxSources = 0;   // how many answer keys the build had available
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function sources(q) {
+    var n = 0, k;
+    for (k in q.votes) n += q.votes[k].length;
+    return n;
+  }
+
+  // 1 źródło / 2–4 źródła / 5+ źródeł
+  function zrodla(n) {
+    if (n === 1) return '1 źródło';
+    return n + (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)
+      ? ' źródła' : ' źródeł');
+  }
+
+  function badge(q) {
+    if (q.status === 'manual') return ['manual', 'ustalone ręcznie'];
+    if (q.status === 'conflict') return ['conflict', 'sporne'];
+    if (q.status === 'majority') return ['conflict', 'niezgodne'];
+    if (!q.correct) return ['conflict', 'brak klucza'];
+    return [q.status === 'verified' ? 'verified' : '', zrodla(sources(q))];
+  }
+
+  // Only rendered when the keys disagree. When they are unanimous the badge on
+  // the card already says how many backed it, and a 100% bar adds nothing.
+  function coverage(q) {
+    var total = sources(q);
+    var rows = Object.keys(q.votes).map(function (L) {
+      return { letter: L, srcs: q.votes[L], pct: q.votes[L].length / total * 100 };
+    }).sort(function (a, b) {
+      return b.srcs.length - a.srcs.length || (a.letter < b.letter ? -1 : 1);
+    });
+    // A hand-set answer always shows its working, even when the sources were
+    // unanimous — especially then, since it is overruling all of them.
+    if (rows.length < 2 && q.status !== 'manual') return null;
+
+    var box = el('div', 'cov');
+    var head = el('div', 'cov-h');
+    head.appendChild(el('span', null, q.status === 'manual'
+      ? 'Odpowiedź ustalona ręcznie — tak głosowały źródła'
+      : 'Źródła nie są zgodne'));
+    head.appendChild(el('em', null, total + ' z ' + zrodla(maxSources)));
+    box.appendChild(head);
+
+    // one cell per source, plus empty cells up to the number of keys we hold,
+    // so a lone source reads as 1-of-5 rather than a confident 100%
+    var bar = el('div', 'cov-bar');
+    rows.forEach(function (r) {
+      r.srcs.forEach(function () {
+        bar.appendChild(el('span', r.letter === q.correct ? 'key' : 'dis'));
+      });
+    });
+    for (var i = total; i < maxSources; i++) bar.appendChild(el('span', 'pad'));
+    box.appendChild(bar);
+
+    var ul = el('ul', 'cov-list');
+    rows.forEach(function (r) {
+      var li = el('li', r.letter === q.correct ? 'key' : 'dis');
+      li.appendChild(el('span', 'l', r.letter));
+      li.appendChild(el('span', 'pc',
+        Math.round(r.pct) + '% (' + r.srcs.length + '/' + total + ')'));
+      li.appendChild(el('span', 'src', r.srcs.join(', ')));
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+
+    var note;
+    if (q.status === 'manual') {
+      note = 'Odpowiedź ' + q.correct + ' wpisana ręcznie'
+        + (q.voted && q.voted !== q.correct ? ' zamiast wygłosowanej ' + q.voted : '')
+        + '.' + (q.note ? ' ' + q.note : '');
+    } else if (q.status === 'conflict') {
+      note = 'Remis — zaznaczona odpowiedź to tylko przybliżenie. '
+        + 'Do rozstrzygnięcia przez instruktora.';
+    } else {
+      note = 'Zaznaczono odpowiedź większościową. '
+        + 'Do rozstrzygnięcia przez instruktora.';
+    }
+    box.appendChild(el('p', 'q-note', note));
+    return box;
+  }
+
+  function render() {
+    LIST.textContent = '';
+    state.order.forEach(function (qi, idx) {
+      var q = state.questions[qi];
+      var card = el('article', 'q');
+      card.dataset.pos = idx + 1;
+      // Anchored on the CEM number, not on the position: the order is fixed,
+      // so a link to a question stays valid between reloads.
+      card.id = 'q' + q.id;
+
+      var head = el('div', 'q-head');
+      head.appendChild(el('span', 'q-nr', 'Nr ' + q.id));
+      head.appendChild(el('span', 'q-num', (idx + 1) + ' / ' + state.order.length));
+      var b = badge(q);
+      head.appendChild(el('span', 'badge ' + b[0], b[1]));
+      card.appendChild(head);
+
+      card.appendChild(el('p', 'q-stem', q.stem));
+
+      var ul = el('ul', 'opts');
+      q.options.forEach(function (o) {
+        var li = document.createElement('li');
+        var btn = el('button', 'opt');
+        btn.type = 'button';
+        btn.appendChild(el('span', 'letter', o.letter + '.'));
+        btn.appendChild(el('span', 'txt', o.text));
+        btn.addEventListener('click', function () { answer(card, q, o.letter); });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      LIST.appendChild(card);
+    });
+    observe();
+    buildinfo();
+    update();
+  }
+
+  function buildinfo() {
+    var lock = document.getElementById('lockinfo');
+    if (lock && state.base) {
+      lock.textContent = 'Baza pytań zamrożona ' + state.base.locked + ' z pliku ' +
+        state.base.file + ' — ' + state.base.count + ' pytań, suma kontrolna ' +
+        state.base.digest.slice(0, 12) + '. Pytania się nie zmieniają; ' +
+        'przebudowywany jest wyłącznie klucz odpowiedzi.';
+    }
+
+    var box = document.getElementById('buildinfo'), m = state.meta;
+    if (!box || !m) return;
+    box.textContent = 'Baza zbudowana ' + m.built + ' — ' + m.count + ' pytań, ' +
+      ((m.stats && m.stats.verified) || 0) + ' potwierdzonych przez co najmniej dwa źródła, ';
+
+    if (!state.review.length) {
+      box.appendChild(document.createTextNode('brak spornych.'));
+      return;
+    }
+    var have = {};
+    state.order.forEach(function (qi) { have[state.questions[qi].id] = true; });
+
+    box.appendChild(document.createTextNode('do weryfikacji: '));
+    state.review.forEach(function (id, i) {
+      if (i) box.appendChild(document.createTextNode(', '));
+      if (have[id]) {
+        var a = el('a', null, 'nr ' + id);
+        a.href = '#q' + id;
+        a.title = 'Przejdź do pytania nr ' + id;
+        box.appendChild(a);
+      } else {
+        box.appendChild(document.createTextNode('nr ' + id));
+      }
+    });
+    box.appendChild(document.createTextNode('.'));
+  }
+
+  function answer(card, q, letter) {
+    if (card.dataset.done) return;
+    card.dataset.done = '1';
+
+    var correct = q.correct;
+    var right = letter === correct;
+    right ? state.ok++ : state.bad++;
+
+    var total = sources(q);
+    var btns = card.querySelectorAll('.opt');
+    q.options.forEach(function (o, i) {
+      var btn = btns[i];
+      btn.disabled = true;
+      var backing = q.votes[o.letter] || [];
+      if (backing.length) {
+        var lab = el('span', 'votes', backing.length + '/' + total);
+        lab.title = backing.join(', ');
+        btn.appendChild(lab);
+      }
+      if (o.letter === correct) {
+        btn.classList.add('is-correct');
+        btn.appendChild(el('span', 'mark', '✓'));
+      } else if (o.letter === letter) {
+        btn.classList.add('is-wrong');
+        btn.appendChild(el('span', 'mark', '✕'));
+      }
+    });
+
+    var cov = coverage(q);
+    if (cov) card.appendChild(cov);
+    update();
+  }
+
+  function update() {
+    var done = state.ok + state.bad, n = state.order.length;
+    document.getElementById('ok').textContent = state.ok;
+    document.getElementById('bad').textContent = state.bad;
+    document.getElementById('bar').style.width = n ? (done / n * 100) + '%' : 0;
+    document.getElementById('pct').textContent = done ? Math.round(state.ok / done * 100) + '%' : '–';
+    document.getElementById('left').textContent = 'Pozostało: ' + (n - done) + ' z ' + n;
+  }
+
+  var io;
+  function observe() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) document.getElementById('cur').textContent = e.target.dataset.pos;
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    document.querySelectorAll('.q').forEach(function (c) { io.observe(c); });
+  }
+
+  document.getElementById('reset').addEventListener('click', function () {
+    state.ok = 0; state.bad = 0;
+    render();
+    window.scrollTo({ top: 0 });
+  });
+
+  document.getElementById('jump').addEventListener('click', function () {
+    var next = document.querySelector('.q:not([data-done])');
+    if (next) next.scrollIntoView({ block: 'center' });
+  });
+
+  function start(base, key) {
+    // The question is the locked record; the key is bolted on beside it and is
+    // the only part that changes between builds.
+    state.questions = base.questions.map(function (q) {
+      var a = key.answers[String(q.id)] || {};
+      return {
+        id: q.id, stem: q.stem, options: q.options,
+        correct: a.correct || null, status: a.status || 'unkeyed',
+        votes: a.votes || {}, voted: a.voted || null, note: a.note || ''
+      };
+    }).filter(function (q) { return q.correct; });
+
+    // Fixed order, by CEM number — the point of this build is that question N
+    // here is question N in the official PDF.
+    state.order = state.questions
+      .map(function (_, i) { return i; })
+      .sort(function (a, b) { return state.questions[a].id - state.questions[b].id; });
+    document.getElementById('total').textContent = 'z ' + state.order.length;
+    document.getElementById('ver').textContent = base.meta.version;
+    state.meta = key.meta;
+    state.base = base.meta;
+    state.review = key.meta.needs_review || [];
+    maxSources = key.meta.key_sources.length;
+
+    var list = document.getElementById('portals');
+    (key.meta.portals || []).forEach(function (p) {
+      var a = el('a', null, p.label);
+      a.href = p.url;
+      a.rel = 'noopener';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    render();   // renders the cards, then buildinfo() with anchors into them
+  }
+
+  function fail(msg) {
+    LIST.textContent = '';
+    LIST.appendChild(el('p', 'loading', msg));
+  }
+
+  if (!window.KPP_QUESTIONS) {
+    fail('Nie wczytano pliku questions.js — musi leżeć obok review.html. ' +
+         'Zbuduj go poleceniem: python tools/lock-questions.py');
+  } else if (!window.KPP_ANSWERS) {
+    fail('Nie wczytano pliku answers.js — musi leżeć obok review.html. ' +
+         'Zbuduj go poleceniem: python tools/build-answers.py');
+  } else if (window.KPP_ANSWERS.meta.questions_digest !== window.KPP_QUESTIONS.meta.digest) {
+    // Refusing here rather than showing the test: a key built against other
+    // question wording can silently attach the right answer to the wrong
+    // question, which is exactly the failure the lock exists to prevent.
+    fail('Klucz odpowiedzi zbudowano na innej bazie pytań niż wczytana. ' +
+         'Przebuduj go poleceniem: python tools/build-answers.py');
+  } else {
+    start(window.KPP_QUESTIONS, window.KPP_ANSWERS);
+  }
+})();
+</script>
+</body>
+</html>
