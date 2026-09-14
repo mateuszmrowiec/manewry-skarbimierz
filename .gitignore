@@ -1,13 +1,25 @@
 # Only the published site is tracked: index.html, historia/, kpp/.
 #
 # Everything below stays local. docs/ holds the source PDFs and harvested
-# answer keys (third-party material we don't redistribute); tools/ builds
-# kpp/questions.js from them; SOURCES.md records where the key came from.
+# answer keys (third-party material we don't redistribute); tools/ builds the
+# test data from them; SOURCES.md records where the key came from.
 # Keep a backup of these — without them the question base cannot be rebuilt.
 docs/
 tools/
 SOURCES.md
+__pycache__/
 
-# Answer key withdrawn from the published site — mistakes were found in it.
-# Kept locally so it can be corrected; re-track once verified.
+# The test data, withdrawn from the published site — mistakes were found in
+# the key. Kept locally so it can be corrected; re-track once verified.
+#
+#   questions.js         the CEM bank, frozen and checksummed; does not change
+#   answers.js           the key, rebuilt as often as needed
+#   answers-manual.json  answers settled by hand; they outrank the vote
 kpp/questions.js
+kpp/answers.js
+kpp/answers-manual.json
+
+# Unpublished working copy of the test: fixed CEM order, used to check the key
+# question by question against the official PDF. kpp/index.html stays the
+# takedown notice until that check is finished.
+kpp/review.html
