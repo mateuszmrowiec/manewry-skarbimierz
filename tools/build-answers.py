@@ -17,9 +17,9 @@ script will not undo it. Format:
 
 Usage:  python tools/build-answers.py
 """
-import re, json, glob, pathlib, datetime, collections
+import sys, re, json, glob, pathlib, datetime, collections
 
-from kppcommon import (DOCS, ANSWERS_JS, ROOT, Index, load_questions, write_js,
+from kppcommon import (DOCS, ANSWERS_JS, ROOT, Index, load_questions, load_js, write_js,
                        vote_letter, merge_keys, pdf_date, src_pdf_bold,
                        src_quizlet_qa, src_quizlet_reversed, src_feniks)
 
@@ -72,6 +72,26 @@ indexes = []
 for name, entries in SOURCES:
     print(f'  {name:<20} {len(entries):>4} keyed entries')
     indexes.append((name, Index(entries)))
+
+# A fresh clone has no docs/ — it is third-party material and stays out of the
+# repository. Rebuilding then would quietly overwrite a good key with a file in
+# which every question is unkeyed, so refuse before writing rather than after.
+if not SOURCES:
+    raise SystemExit(
+        '\nno answer-key sources found in docs/ — nothing to build from.\n'
+        'Run  python tools/fetch-sources.py  first; it fetches what it can and\n'
+        'names the PDFs you have to download by hand.')
+
+if ANSWERS_JS.exists() and '--force' not in sys.argv:
+    had = load_js(ANSWERS_JS, 'KPP_ANSWERS')['meta'].get('key_sources', [])
+    lost = [s for s in had if s not in [n for n, _ in SOURCES]]
+    if lost:
+        raise SystemExit(
+            f'\nthe existing key was built from {len(had)} sources, '
+            f'of which these are missing now:\n  ' + '\n  '.join(lost) +
+            '\nRebuilding would produce a WEAKER key than the one on disk.\n'
+            'Restore the missing files in docs/ (tools/fetch-sources.py), or\n'
+            'pass --force if you really mean to rebuild with fewer sources.')
 
 manual = {}
 if MANUAL.exists():

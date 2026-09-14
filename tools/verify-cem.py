@@ -41,6 +41,13 @@ OPT_RE = re.compile(r'(?<![^\s])([A-E])\.\s')
 def pdf_questions():
     """Segment the official PDF: 'Nr N.' opens a question, then the markers
     'A.'..'E.' in sequence cut its options out of the flattened block."""
+    if not PDF.exists():
+        raise SystemExit(
+            f'missing {PDF.relative_to(ROOT)} — the official CEM bank.\n'
+            'docs/ is not in the repository (third-party material). Download it\n'
+            'from https://www.cem.edu.pl/pliki/KPP2026.pdf, or run\n'
+            '  python tools/fetch-sources.py\n'
+            'which fetches what it can and names the rest.')
     chunks = []
     with pdfplumber.open(PDF) as pdf:
         for page in pdf.pages:
