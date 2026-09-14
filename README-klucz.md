@@ -17,6 +17,17 @@ linkuje, ale adres działa i indeksuje się.
 Na `main` ma zostać to, co jest teraz: `index.html`, `historia/`
 i `kpp/index.html` z komunikatem o wyłączeniu.
 
+## Uwaga przy commitowaniu
+
+Pliki z tej gałęzi są wymienione w `.gitignore` — bo na `main` mają nie trafić.
+Są tu **śledzone mimo to** (dodane przez `git add -f`), więc zmiany w nich
+commitujesz normalnie:
+
+```bash
+git commit -am "…"          # działa, pliki są już śledzone
+git add -f kpp/answers.js   # gdyby git kręcił nosem na .gitignore
+```
+
 ## Uwaga przy przełączaniu gałęzi
 
 Plików z tej gałęzi nie ma na `main`, więc `git checkout main` **usunie je
