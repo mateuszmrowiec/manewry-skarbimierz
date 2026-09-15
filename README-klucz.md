@@ -82,6 +82,68 @@ każde kolejne przebudowanie.
 Szczegóły — źródła, zasady zestawiania, zamek na bazie pytań, stan
 weryfikacji — w [`SOURCES.md`](SOURCES.md).
 
+## Zbieranie uwag od ludzi
+
+`review.html` ma wbudowane zgłaszanie błędów w kluczu. Po odpowiedzi na pytanie
+pojawia się przycisk *„Klucz jest tu błędny”*; zgłaszający może wskazać, która
+odpowiedź jego zdaniem jest poprawna, i dopisać jedno zdanie. Panel z boku
+liczy zgłoszenia, przycisk *„Wyślij uwagi”* wysyła całość naraz.
+
+**Bez logowania i bez konta.** To był warunek — próg wejścia ma być zerowy.
+Cena jest taka, że każdy endpoint zapisu jest otwarty, i stąd `CLOSES`.
+
+Konfiguracja to trzy stałe na początku `<script>` w `review.html`:
+
+```js
+var FEEDBACK = {
+  CLOSES:   '2026-09-22',   // ostatni dzień, w którym strona pokazuje test
+  ENDPOINT: '',             // dokąd POST-ować zgłoszenia (JSON)
+  EMAIL:    ''              // opcjonalnie, do wariantu bez endpointu
+};
+```
+
+- **`CLOSES`** — po tej dacie strona **nie renderuje żadnych pytań**, tylko
+  komunikat, że zbieranie uwag się skończyło. Link, który wyciekł poza grupę,
+  sam robi się bezużyteczny i nikt się nie uczy ze złego klucza. To jednak
+  **kurtyna, nie zamek**: prawdziwym końcem jest usunięcie plików. Data jest po
+  to, żeby nie trzeba było o tym pamiętać co do dnia.
+- **`ENDPOINT`** puste — i wtedy **żaden otwarty endpoint nie istnieje**.
+  Strona zbiera zgłoszenia lokalnie i na końcu podaje gotowy tekst do
+  skopiowania; zgłaszający wysyła go tak, jak grupa i tak się komunikuje.
+  Zero infrastruktury, zero rejestracji, zero czegokolwiek do zaatakowania.
+- **`ENDPOINT` ustawiony** — POST `application/json` pod ten adres. Wystarczy
+  dowolna usługa formularzy (Formspree i podobne) albo własna funkcja.
+  Gdy wysyłka padnie, strona **nie gubi zgłoszenia** — wraca do wariantu
+  „skopiuj i wyślij”.
+
+Zgłoszenia są trzymane w `localStorage` przeglądarki zgłaszającego, więc
+przerwana sesja nic nie traci. Nie wychodzą nigdzie, dopóki ktoś nie kliknie
+*Wyślij*.
+
+Kształt zgłoszenia:
+
+```json
+{
+  "kind": "kpp-klucz-uwagi",
+  "questions_digest": "012f39c4…",
+  "answers_built": "2026-09-14",
+  "sent": "2026-09-18T09:12:00.000Z",
+  "items": [ { "nr": 79, "key": "D", "suggest": "E", "note": "przekładka" } ]
+}
+```
+
+`questions_digest` wiąże zgłoszenie z konkretnym brzmieniem pytań — gdyby
+baza kiedyś się zmieniła, wiadomo, do czego odnosiła się uwaga.
+
+### Gdyby to miało pójść na publiczną stronę
+
+Nie poszło i nie pójdzie samo — `main` to wciąż tylko komunikat o wyłączeniu.
+Publikacja na tydzień wymaga świadomych kroków: skopiować `review.html` na
+`main` pod nieodsyłanym adresem (np. `kpp/weryfikacja/index.html`), zostawić
+`noindex`, **nie** linkować z `index.html`, rozesłać link grupie — i po
+`CLOSES` usunąć pliki jednym commitem. Baner na górze strony mówi wprost,
+że w kluczu są błędy i że nie jest to materiał do nauki.
+
 ## Kiedy klucz będzie sprawdzony
 
 Dopiero wtedy wraca publikacja, i to świadomą decyzją, nie scaleniem gałęzi:

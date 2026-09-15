@@ -132,6 +132,59 @@
     background:var(--bad-bg);border-left:3px solid var(--bad);color:var(--bad);
   }
 
+  /* ---------- reporting a wrong key ---------- */
+  .flag{margin:14px 0 0;}
+  .flag-btn{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:13px;font-weight:600;letter-spacing:.03em;
+    background:transparent;border:1px solid var(--rule);color:var(--slate);
+    padding:5px 11px;border-radius:2px;cursor:pointer;
+  }
+  .flag-btn:hover{border-color:var(--bad);color:var(--bad);}
+  .flag.on .flag-btn{background:var(--signal);border-color:var(--ink);color:var(--ink);}
+  .flag-form{
+    margin-top:10px;padding:11px 12px;
+    background:var(--paper-deep);border:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;
+    font-size:14px;
+  }
+  .flag-form label{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:13px;color:var(--slate);
+  }
+  .flag-form select,.flag-form input{
+    font:inherit;font-size:14px;padding:5px 8px;
+    background:var(--paper);border:1px solid var(--rule);color:var(--ink);
+    border-radius:2px;
+  }
+  .flag-form input{flex:1 1 15em;min-width:0;}
+  .flag-form select:focus-visible,.flag-form input:focus-visible,
+  .flag-btn:focus-visible{outline:2px solid var(--ink);outline-offset:1px;}
+
+  /* panel: how many reports are waiting to be sent */
+  .fb{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);}
+  .fb .n{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:14px;color:var(--slate);margin:0 0 10px;
+  }
+  .fb .n b{color:var(--ink);font-size:17px;}
+  .sent{
+    margin:10px 0 0;padding:9px 11px;font-size:13.5px;line-height:1.5;
+    background:var(--good-bg);border-left:3px solid var(--good);color:var(--good);
+  }
+  .sent.err{background:var(--bad-bg);border-left-color:var(--bad);color:var(--bad);}
+  .copybox{
+    width:100%;margin-top:9px;min-height:8em;font:inherit;font-size:12.5px;
+    background:var(--paper);border:1px solid var(--rule);color:var(--ink);padding:8px;
+  }
+
+  .closed{
+    max-width:64ch;margin:0;padding:20px 22px;
+    background:var(--bad-bg);border-left:4px solid var(--bad);
+  }
+  .closed p{margin:0 0 10px;}
+  .closed p:last-child{margin:0;}
+
   /* ---------- source coverage ---------- */
   .cov{margin:16px 0 0;padding-top:13px;border-top:1px solid var(--rule);}
   .cov .q-note{margin:11px 0 0;}
@@ -257,6 +310,14 @@
     .tile{padding:3px 9px;display:flex;gap:6px;align-items:baseline;}
     .tile .n{font-size:18px;}
     .btn{width:auto;padding:6px 11px;font-size:11px;margin-left:auto;}
+    /* the sticky bar is the phone's whole header — the report count and its
+       button share one row rather than costing two */
+    .fb{
+      order:8;flex:1 0 100%;margin:0;padding:0;border:0;
+      display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;
+    }
+    .fb .n{margin:0;font-size:12px;}
+    .fb .n b{font-size:15px;}
     .q{padding:18px 16px;scroll-margin-top:76px;}   /* clear the sticky bar */
     .opt{padding:10px 12px;}
     .cov-list li{flex-wrap:wrap;}
@@ -275,9 +336,12 @@
     <p class="kicker">Manewry Search &amp; Rescue Skarbimierz</p>
     <h1>Test KPP — weryfikacja klucza</h1>
     <p class="lede">
-      Wersja robocza, nieopublikowana. Pytania idą w kolejności numerów CEM,
-      bez losowania, żeby każde dało się porównać z plikiem
-      <code>KPP2026.pdf</code> jeden do jednego.
+      <strong>W tym kluczu są błędy</strong> — i właśnie po to tu jesteś.
+      Pytania pochodzą z oficjalnej bazy CEM, ale odpowiedzi nie: CEM ich nie
+      publikuje, więc klucz złożyliśmy z trzech krążących rekonstrukcji.
+      Jeśli widzisz odpowiedź, która jest zła — kliknij przy niej
+      <em>„Klucz jest tu błędny”</em>. Nie ucz się z tego testu, dopóki
+      nie przejdziemy przez zgłoszenia.
     </p>
   </div>
 </header>
@@ -299,6 +363,13 @@
       <p class="score">Skuteczność: <b id="pct">–</b><br><span id="left"></span></p>
       <button class="btn" id="reset" type="button">Zacznij od nowa</button>
       <button class="btn ghost" id="jump" type="button">Następne bez odpowiedzi</button>
+
+      <div class="fb" id="fb" hidden>
+        <p class="n">Zgłoszone błędy w kluczu: <b id="fbn">0</b></p>
+        <button class="btn" id="fbsend" type="button">Wyślij uwagi</button>
+        <div id="fbout"></div>
+      </div>
+
       <p class="fineprint">
         Egzamin teoretyczny KPP to 30 pytań z tej bazy. Próg zaliczenia — 90%.
       </p>
@@ -330,8 +401,30 @@
 <script src="answers.js"></script>
 <script>
 (function () {
+  // ------------------------------------------------ collecting the feedback
+  //
+  // The point of publishing this at all is to find the wrong answers, so
+  // reporting one has to cost nothing: no account, no login, no email address.
+  // That means an open write endpoint, which is why CLOSES exists.
+  //
+  //   CLOSES   last day the test is served, YYYY-MM-DD. After it the page
+  //            renders a notice and NO questions — so a link that leaked
+  //            outside the group goes inert by itself, and nobody is left
+  //            learning answers we already know are wrong. It is a courtesy
+  //            timer, not a lock: deleting the files is the real end of it.
+  //   ENDPOINT where reports are POSTed as JSON. Empty means no endpoint at
+  //            all exists to abuse: the page then hands the reporter their
+  //            report to copy and send however they like.
+  //   EMAIL    optional, offered as a prefilled message in that fallback.
+  var FEEDBACK = {
+    CLOSES: '2026-09-22',
+    ENDPOINT: '',
+    EMAIL: ''
+  };
+
   var LIST = document.getElementById('list');
-  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [] };
+  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [],
+                flags: {}, painters: [] };
   var maxSources = 0;   // how many answer keys the build had available
 
   function el(tag, cls, text) {
@@ -345,6 +438,13 @@
     var n = 0, k;
     for (k in q.votes) n += q.votes[k].length;
     return n;
+  }
+
+  // 1 uwaga zapisana / 2–4 uwagi zapisane / 5+ uwag zapisanych
+  function uwagi(n) {
+    if (n === 1) return '1 uwaga zapisana';
+    return n + (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)
+      ? ' uwagi zapisane' : ' uwag zapisanych');
   }
 
   // 1 źródło / 2–4 źródła / 5+ źródeł
@@ -423,6 +523,7 @@
 
   function render() {
     LIST.textContent = '';
+    state.painters = [];   // the rows they pointed at are about to be replaced
     state.order.forEach(function (qi, idx) {
       var q = state.questions[qi];
       var card = el('article', 'q');
@@ -457,6 +558,7 @@
     observe();
     buildinfo();
     update();
+    countFlags();
   }
 
   function buildinfo() {
@@ -525,7 +627,190 @@
 
     var cov = coverage(q);
     if (cov) card.appendChild(cov);
+    card.appendChild(flagRow(q));
     update();
+  }
+
+  // ------------------------------------------------------ reporting a key
+  // Offered only once the key is visible: before answering there is nothing
+  // to disagree with.
+  function flagRow(q) {
+    var box = el('div', 'flag');
+    var btn = el('button', 'flag-btn');
+    btn.type = 'button';
+    box.appendChild(btn);
+
+    var form = null;
+
+    function paint() {
+      var f = state.flags[q.id];
+      box.className = f ? 'flag on' : 'flag';
+      btn.textContent = f ? '✓ zgłoszone — cofnij' : 'Klucz jest tu błędny';
+      if (f && !form) {
+        form = buildForm(q);
+        box.appendChild(form);
+      } else if (!f && form) {
+        box.removeChild(form);
+        form = null;
+      }
+      countFlags();
+    }
+    // so a successful send can reset every row that is already on screen
+    state.painters.push(paint);
+
+    btn.addEventListener('click', function () {
+      if (state.flags[q.id]) delete state.flags[q.id];
+      else state.flags[q.id] = { nr: q.id, key: q.correct, suggest: '', note: '' };
+      saveFlags();
+      paint();
+    });
+
+    paint();
+    return box;
+  }
+
+  function buildForm(q) {
+    var form = el('div', 'flag-form');
+
+    form.appendChild(el('label', null, 'Twoim zdaniem poprawna jest:'));
+    var sel = document.createElement('select');
+    var none = document.createElement('option');
+    none.value = '';
+    none.textContent = 'nie wiem';
+    sel.appendChild(none);
+    q.options.forEach(function (o) {
+      var opt = document.createElement('option');
+      opt.value = o.letter;
+      opt.textContent = o.letter;
+      sel.appendChild(opt);
+    });
+    sel.value = state.flags[q.id].suggest || '';
+    sel.addEventListener('change', function () {
+      state.flags[q.id].suggest = sel.value;
+      saveFlags();
+    });
+    form.appendChild(sel);
+
+    var note = document.createElement('input');
+    note.type = 'text';
+    note.maxLength = 200;
+    note.placeholder = 'dlaczego? (opcjonalnie)';
+    note.value = state.flags[q.id].note || '';
+    note.addEventListener('input', function () {
+      state.flags[q.id].note = note.value.slice(0, 200);
+      saveFlags();
+    });
+    form.appendChild(note);
+
+    return form;
+  }
+
+  // Kept per browser so a half-finished pass survives a reload. It never
+  // leaves the machine until the reporter presses send.
+  var LS = 'kpp-uwagi';
+  function saveFlags() {
+    try { localStorage.setItem(LS, JSON.stringify(state.flags)); } catch (e) {}
+  }
+  function loadFlags() {
+    try { state.flags = JSON.parse(localStorage.getItem(LS)) || {}; }
+    catch (e) { state.flags = {}; }
+  }
+
+  function countFlags() {
+    var n = Object.keys(state.flags).length;
+    var out = document.getElementById('fbn');
+    if (out) out.textContent = n;
+    var send = document.getElementById('fbsend');
+    if (send) send.disabled = !n;
+    return n;
+  }
+
+  function report() {
+    var items = Object.keys(state.flags)
+      .map(function (k) { return state.flags[k]; })
+      .sort(function (a, b) { return a.nr - b.nr; });
+    return {
+      kind: 'kpp-klucz-uwagi',
+      // Ties the report to the exact question wording it was made against.
+      questions_digest: (state.base || {}).digest || null,
+      answers_built: (state.meta || {}).built || null,
+      sent: new Date().toISOString(),
+      items: items
+    };
+  }
+
+  function asText(r) {
+    return r.items.map(function (i) {
+      return 'Nr ' + i.nr + ': klucz ' + i.key
+        + (i.suggest ? ', moim zdaniem ' + i.suggest : '')
+        + (i.note ? ' — ' + i.note : '');
+    }).join('\n');
+  }
+
+  function said(msg, bad) {
+    var out = document.getElementById('fbout');
+    out.textContent = '';
+    out.appendChild(el('p', bad ? 'sent err' : 'sent', msg));
+    return out;
+  }
+
+  // No endpoint configured: hand the report over instead of posting it. The
+  // page still does the tedious part — collecting the numbers and the key —
+  // and the reporter sends it however the group already talks.
+  function handOver(r) {
+    var text = asText(r);
+    var out = said('Skopiuj poniższe i wyślij — to wszystko, czego potrzebujemy.');
+    var ta = document.createElement('textarea');
+    ta.className = 'copybox';
+    ta.readOnly = true;
+    ta.value = text;
+    out.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)['catch'](function () {});
+      } else {
+        document.execCommand('copy');
+      }
+    } catch (e) {}
+    if (FEEDBACK.EMAIL) {
+      var a = el('a', null, 'albo wyślij mailem');
+      a.href = 'mailto:' + FEEDBACK.EMAIL
+        + '?subject=' + encodeURIComponent('KPP — uwagi do klucza')
+        + '&body=' + encodeURIComponent(text);
+      var p = el('p', 'n');
+      p.appendChild(a);
+      out.appendChild(p);
+    }
+  }
+
+  function send() {
+    if (!countFlags()) return;
+    var r = report();
+    if (!FEEDBACK.ENDPOINT) {
+      handOver(r);
+      return;
+    }
+    said('Wysyłanie…');
+    fetch(FEEDBACK.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(r)
+    }).then(function (res) {
+      if (!res.ok) throw new Error(res.status);
+      said('Dzięki — ' + uwagi(r.items.length) + '.');
+      state.flags = {};
+      saveFlags();
+      // Repaint the rows on screen, then recount — the flags may have come
+      // from storage with no row rendered yet, so the loop can be empty.
+      state.painters.forEach(function (p) { p(); });
+      countFlags();
+    })['catch'](function () {
+      // The reporter did the work; losing it to a network error would be the
+      // one unforgivable outcome. Fall back to handing it over.
+      handOver(r);
+    });
   }
 
   function update() {
@@ -559,7 +844,12 @@
     if (next) next.scrollIntoView({ block: 'center' });
   });
 
+  document.getElementById('fbsend').addEventListener('click', send);
+
   function start(base, key) {
+    loadFlags();
+    document.getElementById('fb').hidden = false;
+
     // The question is the locked record; the key is bolted on beside it and is
     // the only part that changes between builds.
     state.questions = base.questions.map(function (q) {
@@ -600,7 +890,33 @@
     LIST.appendChild(el('p', 'loading', msg));
   }
 
-  if (!window.KPP_QUESTIONS) {
+  // Past the closing date nothing is rendered — not the questions, not the
+  // reporting. Compared as plain YYYY-MM-DD strings in the reader's own
+  // timezone: an hour either way does not matter, and Date parsing across
+  // browsers is more trouble than it is worth.
+  function today() {
+    var d = new Date();
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate());
+  }
+
+  function closed() {
+    document.querySelector('aside').hidden = true;
+    LIST.textContent = '';
+    var box = el('div', 'closed');
+    box.appendChild(el('p', null,
+      'Zbieranie uwag do klucza zakończyło się ' + FEEDBACK.CLOSES + '.'));
+    box.appendChild(el('p', null,
+      'Test był wersją roboczą — w kluczu odpowiedzi są błędy i właśnie po to ' +
+      'był udostępniony, żeby je wyłapać. Nie jest materiałem do nauki i nie ' +
+      'zostanie tu przywrócony, dopóki klucz nie zostanie sprawdzony.'));
+    box.appendChild(el('p', null, 'Dzięki wszystkim, którzy zgłosili poprawki.'));
+    LIST.appendChild(box);
+  }
+
+  if (FEEDBACK.CLOSES && today() > FEEDBACK.CLOSES) {
+    closed();
+  } else if (!window.KPP_QUESTIONS) {
     fail('Nie wczytano pliku questions.js — musi leżeć obok review.html. ' +
          'Zbuduj go poleceniem: python tools/lock-questions.py');
   } else if (!window.KPP_ANSWERS) {
