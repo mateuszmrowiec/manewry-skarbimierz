@@ -970,6 +970,19 @@ window.KPP_RETIRED = {"meta":{"note":"Pytania obecne w starszych wydaniach bazy,
     document.getElementById('left').textContent = 'Pozostało: ' + (n - done) + ' z ' + n;
   }
 
+  // Cards are built by script, so the browser has nothing to jump to when it
+  // first handles the fragment — the jump has to be redone once they exist.
+  // Accepts the number on its own (#31), which is what anyone actually types,
+  // as well as #q31 and #nr31.
+  function gotoHash() {
+    var h = (location.hash || '').replace(/^#/, '');
+    if (!h) return;
+    var m = /^(?:nr|q)?[\s.]*(\d{1,3})$/i.exec(decodeURIComponent(h).trim());
+    if (!m) return;
+    var card = document.getElementById('q' + parseInt(m[1], 10));
+    if (card) card.scrollIntoView({ block: 'start' });
+  }
+
   var io;
   function observe() {
     if (io) io.disconnect();
@@ -1037,6 +1050,10 @@ window.KPP_RETIRED = {"meta":{"note":"Pytania obecne w starszych wydaniach bazy,
       list.appendChild(li);
     });
     render();   // renders the cards, then buildinfo() with anchors into them
+    gotoHash();
+    // webfonts land after this and shift the layout, so aim once more
+    window.addEventListener('load', gotoHash);
+    window.addEventListener('hashchange', gotoHash);
   }
 
   function fail(msg) {
