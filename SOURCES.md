@@ -15,17 +15,47 @@ Egzamin teoretyczny to 30 pytań z tej bazy, próg zaliczenia 90 % (27/30).
 ## Klucze odpowiedzi (nieoficjalne)
 
 Skoro nie istnieje oficjalny klucz, każdy krążący klucz jest czyjąś
-rekonstrukcją. Zestawiamy pięć niezależnych i pozwalamy im głosować.
+rekonstrukcją. Zestawiamy je i pozwalamy im głosować.
+
+Źródła są **trzy**, nie sześć. Sześć plików — ale dwa PDF-y to jedno źródło
+w dwóch wydaniach, a trzy zestawy Quizlet to jeden klucz przepisywany między
+fiszkami. Uzasadnienie niżej; liczenie ich osobno produkowałoby potwierdzenia,
+których nie ma.
 
 | Źródło | Wpisy | Postać |
 |---|---|---|
-| **PDF 2024/2025** | 281 | dwa PDF-y z **pogrubioną** poprawną odpowiedzią — patrz niżej |
-| **quizlet 710735124** | 100 | fiszki: pytanie → treść poprawnej odpowiedzi |
-| **quizlet 595014549** | 250 | jw., wydanie 2021 |
-| **quizlet 804902455** | 150 | fiszki odwrócone: awers = sama litera, rewers = pytanie |
+| **PDF 2024/2025** | 281 | dwa PDF-y z **pogrubioną** poprawną odpowiedzią |
+| **Quizlet 2021/2023** | 409 | trzy zestawy fiszek, scalone |
 | **feniks.care** | 280 | quiz PHP, `const poprawna` w treści strony, plus uzasadnienia |
 
 - feniks.care: `https://feniks.care/quiz_kpp.php?tryb=nauka&id=N`, N = 1..280
+
+### Dlaczego trzy zestawy Quizlet to jedno źródło
+
+| Zestaw | Kart | Ostatnia zmiana | Postać |
+|---|---|---|---|
+| 804902455 | 250 | 2023-05-22 | fiszki odwrócone: awers = sama litera |
+| 710735124 | 100 | 2022-07-06 | pytanie → treść poprawnej odpowiedzi |
+| 595014549 | 250 | 2021-10-03 | jw. |
+
+Tam, gdzie którekolwiek dwa zestawy dotyczą tego samego pytania, **zgadzają się
+co do jednego**:
+
+```
+710735124 vs 595014549:  37/37
+710735124 vs 804902455:  62/62
+595014549 vs 804902455:  55/55
+```
+
+154 porównania, zero rozbieżności. Trzy osoby przepisujące klucz niezależnie
+tak nie trafiają — tak wygląda jeden klucz kopiowany między zestawami, w latach
+2021, 2022 i 2023. Traktujemy je więc jako **jedno źródło**, scalone
+`merge_keys()` od najnowszego, tak samo jak PDF-y.
+
+Skutek jest jeden i konkretny: **Nr 79** miał 3:2 za `E`, bo trzy „niezależne"
+głosy to był ten sam głos policzony trzykrotnie. Po scaleniu jest 1:2 za `D`.
+To nie rozstrzyga, która odpowiedź jest **poprawna** — usuwa tylko pozorne
+potwierdzenie. Pytanie zostaje na liście do weryfikacji.
 
 ### Dlaczego oba PDF-y to jedno źródło
 
@@ -101,34 +131,51 @@ od głosu, zamiast zgadywać.
 
 | Status | Pytań |
 |---|---|
-| `verified` — zgodne, ≥ 2 źródła | **249** |
-| `single-source` — tylko jedno źródło | 26 |
+| `verified` — zgodne, ≥ 2 źródła | **252** |
+| `single-source` — tylko jedno źródło | 23 |
 | `majority` — źródła niezgodne, jest większość | 2 |
 | `conflict` — remis | 1 |
 | **Razem** | **278** |
 
-Rozkład liczby zgodnych źródeł: 1 → 26, 2 → 106, 3 → 62, 4 → 49, 5 → 35.
+Rozkład liczby zgodnych źródeł: 1 → 23, 2 → 127, 3 → 128.
 Każde pytanie ma klucz; żadne nie zostało bez odpowiedzi.
 
-Ile pytań obsłużyło każde źródło: PDF 2024/2025 276, feniks.care 243,
-quizlet-595014549 117, quizlet-804902455 89, quizlet-710735124 70.
+Ile pytań obsłużyło każde źródło: PDF 2024/2025 278, feniks.care 244,
+Quizlet 2021/2023 139.
+
+Wszystkie 23 pytania `single-source` stoją wyłącznie na PDF-ie — to najcieńszy
+lód w całym kluczu:
+
+```
+38, 83, 159, 164, 170, 171, 185, 188, 189, 191, 229, 237,
+239, 240, 242, 251, 261, 262, 265, 266, 268, 269, 276
+```
+
+> Uwaga metodyczna: przy dopasowywaniu pytań remis między niemal identycznymi
+> wpisami oznaczał wstrzymanie się od głosu. Po scaleniu wydań jednego klucza
+> takich remisów robi się dużo — wpisy różnią się kropką na końcu — i kosztowało
+> to 41 pytań pokrycia bez żadnego zysku. Teraz remis blokuje głos tylko wtedy,
+> gdy remisujące wpisy **wskazują różne odpowiedzi**. Pytania różniące się
+> wiekiem poszkodowanego czy dawką nadal się wykluczają, bo tam odpowiedzi
+> faktycznie się różnią.
 
 ### Do rozstrzygnięcia przez instruktora
 
-**Nr 44** — *Po spożyciu przez poszkodowanego dużej ilości leków…* — 4:1.
-`B` prowokować wymioty (PDF + trzy zestawy Quizlet) vs `C`
-zabezpieczyć opakowania (feniks.care). Prowokowanie wymiotów jest dziś
-przeciwwskazane — do potwierdzenia, czego oczekuje komisja.
+**Nr 44** — *Po spożyciu przez poszkodowanego dużej ilości leków…* — 2:1 za `B`.
+`B` prowokować wymioty (PDF, Quizlet) vs `C` zabezpieczyć opakowania
+(feniks.care). Prowokowanie wymiotów jest dziś przeciwwskazane — do
+potwierdzenia, czego oczekuje komisja.
 
-**Nr 79** — *W przypadku braku szyn Kramera…* — 3:2 za `E`.
-`E` przymocowanie do drugiej kończyny **z przekładką** (trzy zestawy Quizlet)
-vs `D` bez przekładki (PDF, feniks.care). Klucz wskazuje `E`, ale
-przewagą jednego głosu — a dwa źródła po stronie `D` to te, które pokrywają
-bazę najpełniej.
+**Nr 79** — *W przypadku braku szyn Kramera…* — 2:1 za `D`.
+`D` przymocowanie do drugiej kończyny (PDF, feniks.care) vs `E` to samo
+**z przekładką** (Quizlet). Klucz wskazywał `E`, dopóki trzy zestawy Quizlet
+liczyły się osobno; po scaleniu jest `D`. Uwaga: `E` opisuje to, czego uczy
+się na kursach — przekładka między kończynami — więc *głosowanie* zmieniło
+zdanie, a nie dowód. Do rozstrzygnięcia.
 
 **Nr 175** — *Zastępcza wentylacja przy niedrożności nosa…* — remis 1:1.
 `B` maska worka samorozprężalnego chwytem jednoręcznym (PDF) vs
-`E` prawdziwe są odpowiedzi A i B (quizlet-595014549).
+`E` prawdziwe są odpowiedzi A i B (Quizlet).
 
 ## Kontrola zgodności z bazą CEM
 

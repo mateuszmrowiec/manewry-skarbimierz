@@ -310,10 +310,25 @@ class Index:
         bar = max(floor, self.STEM_ONLY_FLOOR) if top[3] else floor
         if top[0] < bar or top[1] < 0.50:
             return None
-        # ambiguous between two near-identical questions -> abstain
-        if len(scored) > 1 and top[0] - scored[1][0] < margin:
-            return None
-        return self.entries[top[2]]
+        # Ambiguous between near-identical questions. That only matters if the
+        # candidates disagree about the answer: merging editions of one key
+        # leaves entries differing by a trailing full stop, and abstaining on
+        # those threw away real coverage (41 questions, when the three Quizlet
+        # decks were merged) for no gain. Where the tied entries assert
+        # different things — the near-duplicates that differ only by the
+        # victim's age or a dosage — they still disagree here, and it still
+        # abstains.
+        best = self.entries[top[2]]
+        for other in scored[1:]:
+            if top[0] - other[0] >= margin:
+                break
+            rival = self.entries[other[2]]
+            if 'answer' not in best or 'answer' not in rival:
+                return None
+            if not same_answer(best['answer'], best['options'],
+                               rival['answer'], rival['options']):
+                return None
+        return best
 
 
 def pdf_date(path):

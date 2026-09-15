@@ -3,9 +3,7 @@ window.KPP_ANSWERS = {
   "questions_digest": "012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8",
   "key_sources": [
    "PDF 2024/2025",
-   "quizlet-710735124",
-   "quizlet-595014549",
-   "quizlet-804902455",
+   "Quizlet 2021/2023",
    "feniks.care"
   ],
   "portals": [
@@ -34,11 +32,11 @@ window.KPP_ANSWERS = {
     "url": "https://feniks.care/quiz_kpp.php?tryb=nauka&id=1"
    }
   ],
-  "built": "2026-09-14",
+  "built": "2026-09-15",
   "count": 278,
   "stats": {
-   "verified": 249,
-   "single-source": 26,
+   "verified": 252,
+   "single-source": 23,
    "majority": 2,
    "conflict": 1
   },
@@ -56,10 +54,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -69,10 +65,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -82,8 +76,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -93,10 +87,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -106,10 +98,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -119,9 +108,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -131,8 +119,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "feniks.care"
     ]
    }
   },
@@ -142,9 +129,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -154,9 +139,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -166,10 +149,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -209,9 +189,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -221,10 +200,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -234,10 +211,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -247,8 +222,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "feniks.care"
     ]
    }
   },
@@ -258,9 +232,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -270,8 +243,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -281,10 +254,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -294,8 +265,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -305,9 +276,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -317,9 +287,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -329,9 +298,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -351,10 +318,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -374,9 +339,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -386,8 +350,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "feniks.care"
     ]
    }
   },
@@ -397,10 +360,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -410,10 +371,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -423,9 +382,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -435,9 +393,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -447,10 +404,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -460,9 +415,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -472,10 +425,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -494,9 +445,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -526,9 +476,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -548,9 +497,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023"
     ],
     "C": [
      "feniks.care"
@@ -564,10 +511,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -577,8 +521,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -588,9 +532,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -600,9 +543,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -612,9 +554,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -624,9 +565,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -646,8 +586,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "feniks.care"
     ]
    }
   },
@@ -657,9 +596,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -669,10 +607,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -692,8 +628,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124"
+     "feniks.care"
     ]
    }
   },
@@ -713,10 +648,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -726,9 +659,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -748,9 +679,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -760,10 +690,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -773,10 +701,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -786,10 +711,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -799,10 +722,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -812,10 +732,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -825,10 +743,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -848,10 +764,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -861,9 +774,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -873,10 +784,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -886,9 +795,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -898,10 +806,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -911,9 +817,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -923,9 +828,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -935,10 +838,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -948,10 +849,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -961,14 +860,13 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
   "79": {
-   "correct": "E",
+   "correct": "D",
    "status": "majority",
    "votes": {
     "D": [
@@ -976,9 +874,7 @@ window.KPP_ANSWERS = {
      "feniks.care"
     ],
     "E": [
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023"
     ]
    },
    "pdf_edition": "2025"
@@ -989,9 +885,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1030,10 +925,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1053,10 +946,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1066,9 +957,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1078,10 +968,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1091,10 +979,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1114,10 +1000,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1127,9 +1011,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1139,10 +1022,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-710735124",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1162,8 +1043,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1183,9 +1064,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1195,9 +1075,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1207,8 +1086,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1228,8 +1107,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1239,8 +1118,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1260,8 +1139,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1271,9 +1150,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1283,8 +1161,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1304,9 +1182,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1316,8 +1193,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1337,9 +1214,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1349,9 +1225,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1361,9 +1236,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1383,8 +1257,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1404,8 +1278,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1415,9 +1289,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1437,8 +1310,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -1448,9 +1320,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1460,8 +1331,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1471,9 +1342,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1503,8 +1373,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1514,8 +1384,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1525,8 +1395,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1546,9 +1416,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1578,8 +1447,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1589,9 +1458,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1601,9 +1469,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1613,9 +1480,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1625,8 +1491,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-804902455"
+     "feniks.care"
     ]
    }
   },
@@ -1646,9 +1511,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1658,9 +1522,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1670,9 +1533,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1682,9 +1544,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1694,9 +1555,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1706,8 +1566,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1717,9 +1577,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549",
-     "quizlet-804902455"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1729,8 +1588,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1740,8 +1599,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1751,8 +1610,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1762,8 +1621,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1783,8 +1642,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1794,8 +1653,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1805,8 +1664,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1826,8 +1685,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1847,8 +1706,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1877,8 +1736,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1908,7 +1767,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -1927,8 +1786,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -1938,7 +1797,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -1958,7 +1817,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2006,7 +1865,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2028,7 +1887,7 @@ window.KPP_ANSWERS = {
      "PDF 2024/2025"
     ],
     "E": [
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    },
    "pdf_edition": "2025"
@@ -2039,8 +1898,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2070,8 +1929,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2081,8 +1940,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2102,8 +1961,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2113,8 +1972,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2124,8 +1983,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2144,7 +2003,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2154,7 +2013,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2201,8 +2060,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2212,7 +2071,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2222,8 +2081,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2233,8 +2092,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2253,8 +2112,9 @@ window.KPP_ANSWERS = {
    "status": "verified",
    "votes": {
     "D": [
-     "feniks.care",
-     "quizlet-595014549"
+     "PDF 2024/2025",
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2264,8 +2124,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2275,8 +2135,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2286,8 +2146,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2297,26 +2157,28 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
   "202": {
    "correct": "C",
-   "status": "single-source",
+   "status": "verified",
    "votes": {
     "C": [
-     "PDF 2024/2025"
+     "PDF 2024/2025",
+     "Quizlet 2021/2023"
     ]
    }
   },
   "203": {
    "correct": "C",
-   "status": "single-source",
+   "status": "verified",
    "votes": {
     "C": [
-     "PDF 2024/2025"
+     "PDF 2024/2025",
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2336,8 +2198,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2403,10 +2265,11 @@ window.KPP_ANSWERS = {
   },
   "212": {
    "correct": "D",
-   "status": "single-source",
+   "status": "verified",
    "votes": {
     "D": [
-     "PDF 2024/2025"
+     "PDF 2024/2025",
+     "feniks.care"
     ]
    }
   },
@@ -2466,8 +2329,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2477,8 +2340,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2488,8 +2351,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "A": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2499,8 +2362,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2520,8 +2383,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2530,8 +2393,9 @@ window.KPP_ANSWERS = {
    "status": "verified",
    "votes": {
     "D": [
-     "feniks.care",
-     "quizlet-595014549"
+     "PDF 2024/2025",
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2541,7 +2405,7 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "quizlet-595014549"
+     "Quizlet 2021/2023"
     ]
    }
   },
@@ -2551,8 +2415,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "D": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2562,8 +2426,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2582,8 +2446,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "E": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2603,8 +2467,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "B": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -2614,8 +2478,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },
@@ -3004,8 +2868,8 @@ window.KPP_ANSWERS = {
    "votes": {
     "C": [
      "PDF 2024/2025",
-     "feniks.care",
-     "quizlet-595014549"
+     "Quizlet 2021/2023",
+     "feniks.care"
     ]
    }
   },

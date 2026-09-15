@@ -59,14 +59,25 @@ if key_pdfs:
           ', '.join(f'{pathlib.Path(p).name} ({e})' for p, e in editions))
     SOURCES.append((PDF_SOURCE,
                     merge_keys([src_pdf_bold(p, e) for p, e in editions])))
-for name, fn, fname in [
-    ('quizlet-710735124', src_quizlet_qa, 'quizlet-710735124.json'),
-    ('quizlet-595014549', src_quizlet_qa, 'quizlet-595014549.json'),
-    ('quizlet-804902455', src_quizlet_reversed, 'quizlet-804902455.json'),
-    ('feniks.care', src_feniks, 'feniks-care.json'),
-]:
-    if (DOCS / fname).exists():
-        SOURCES.append((name, fn(DOCS / fname)))
+# The three Quizlet decks are ONE source, for the same reason the two PDFs are.
+# Where any two of them cover the same question they agree — 37/37, 62/62 and
+# 55/55, not a single disagreement in 154 comparisons. Three people typing up a
+# key from scratch do not land on that; one key copied between decks does.
+# Counting them separately inflated 'independent confirmations' threefold.
+# Newest first, so the later deck answers and the older ones only fill gaps.
+QUIZLET_SOURCE = 'Quizlet 2021/2023'
+QUIZLET = [('quizlet-804902455.json', src_quizlet_reversed),   # 2023
+           ('quizlet-710735124.json', src_quizlet_qa),         # 2022
+           ('quizlet-595014549.json', src_quizlet_qa)]         # 2021
+decks = [fn(DOCS / fname) for fname, fn in QUIZLET if (DOCS / fname).exists()]
+if decks:
+    merged = merge_keys(decks)
+    print(f'  Quizlet decks: {len(decks)}, '
+          f'{sum(len(d) for d in decks)} cards -> {len(merged)} after dedupe')
+    SOURCES.append((QUIZLET_SOURCE, merged))
+
+if (DOCS / 'feniks-care.json').exists():
+    SOURCES.append(('feniks.care', src_feniks(DOCS / 'feniks-care.json')))
 
 indexes = []
 for name, entries in SOURCES:
