@@ -110,6 +110,11 @@
     background:var(--paper-deep);border-left:3px solid var(--rule);color:var(--slate);
   }
   .q-stem{margin:0 0 16px;font-weight:600;}
+  /* enumerated stems: each part on its own line. The hanging indent applies
+     only to numbered items, so a wrapped item stays visibly one item. */
+  .q-stem .ln{display:block;}
+  .q-stem .ln.item{padding-left:1.8em;text-indent:-1.8em;}
+  .q-stem .ln.tail{margin-top:.45em;}
 
   .opts{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
   .opt{
@@ -442,6 +447,40 @@
                 flags: {}, painters: [] };
   var maxSources = 0;   // how many answer keys the build had available
 
+  // ---------------------------------------------------------- stem layout
+  //
+  // 20 stems in the bank are enumerated lists — "…: 1) zamknąć dopływ gazu;
+  // 2) ocenić czynności życiowe; … Prawidłowa odpowiedź to:" — and run
+  // together they are genuinely hard to read.
+  //
+  // The breaks are worked out from the text at render time. Nothing is
+  // rewritten: questions.js still quotes the CEM file character for
+  // character, and its digest is untouched. This is layout, not content.
+  var HAS_ENUM = /\s\d{1,2}\)\s/g;
+
+  function stemLines(text) {
+    var t = String(text);
+    if ((t.match(HAS_ENUM) || []).length < 2) return [t];
+    // the instruction that follows the list gets its own line
+    // (Nr 189 ends it with a full stop rather than a colon — CEM's typo)
+    t = t.replace(/\.\s+([A-ZŻŹĆĄŚĘŁÓŃ][^.;]{0,60}[:.])\s*$/, '.\n$1');
+    t = t.replace(/\s+(\d{1,2}\))\s+/g, '\n$1 ');
+    return t.split('\n');
+  }
+
+  function lines(node, arr) {
+    if (arr.length === 1) {
+      node.textContent = arr[0];
+      return node;
+    }
+    arr.forEach(function (line, i) {
+      var kind = /^\d{1,2}\)/.test(line) ? ' item'
+               : (i && i === arr.length - 1) ? ' tail' : '';
+      node.appendChild(el('span', 'ln' + kind, line));
+    });
+    return node;
+  }
+
   function el(tag, cls, text) {
     var n = document.createElement(tag);
     if (cls) n.className = cls;
@@ -549,7 +588,7 @@
       'wycofane po ' + q.last_edition));
     card.appendChild(head);
 
-    card.appendChild(el('p', 'q-stem', q.stem));
+    card.appendChild(lines(el('p', 'q-stem'), stemLines(q.stem)));
 
     var ul = el('ul', 'opts');
     q.options.forEach(function (o) {
@@ -597,7 +636,7 @@
       head.appendChild(el('span', 'badge ' + b[0], b[1]));
       card.appendChild(head);
 
-      card.appendChild(el('p', 'q-stem', q.stem));
+      card.appendChild(lines(el('p', 'q-stem'), stemLines(q.stem)));
 
       var ul = el('ul', 'opts');
       q.options.forEach(function (o) {
