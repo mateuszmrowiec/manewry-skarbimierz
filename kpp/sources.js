@@ -1,7 +1,7 @@
 window.KPP_SOURCES = {
  "meta": {
   "built": "2026-09-15",
-  "count": 9
+  "count": 10
  },
  "groups": [
   {
@@ -52,6 +52,12 @@ window.KPP_SOURCES = {
     {
      "title": "European Resuscitation Council — strona wytycznych",
      "url": "https://cprguidelines.eu/",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "Triaż — system segregacji medycznej START, Jump START i SALT (Medycyna Praktyczna)",
+     "url": "https://www.mp.pl/ratownictwo/algorytmy/189061,triaz-system-segregacji-medycznej-start-jump-start-i-salt",
+     "note": "Kryteria segregacji i znaczenie kolorów. Opracowanie redakcyjne, nie dokument źródłowy.",
      "checked": "2026-09-15"
     },
     {
