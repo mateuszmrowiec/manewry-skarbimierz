@@ -473,6 +473,17 @@
                 flags: {}, painters: [] };
   var maxSources = 0;   // how many answer keys the build had available
 
+  // Order is decided by the data, not by which copy of the page this is: the
+  // published build asks for a shuffle, the review build does not, because
+  // checking question N against the PDF needs N to stay put.
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
   // ---------------------------------------------------------- stem layout
   //
   // 20 stems in the bank are enumerated lists — "…: 1) zamknąć dopływ gazu;
@@ -665,10 +676,14 @@
 
     state.order.forEach(function (qi, idx) {
       var q = state.questions[qi];
-      // anything withdrawn that sits before this question goes in first
-      Object.keys(gone).forEach(function (id) {
-        if (+id < q.id) { LIST.appendChild(retiredCard(gone[id])); delete gone[id]; }
-      });
+      // In CEM order a withdrawn question goes back in its own slot, so the
+      // numbering has no unexplained hole. Once the order is shuffled there is
+      // no such slot, so they go at the end instead.
+      if (!state.shuffled) {
+        Object.keys(gone).forEach(function (id) {
+          if (+id < q.id) { LIST.appendChild(retiredCard(gone[id])); delete gone[id]; }
+        });
+      }
 
       var card = el('article', 'q');
       card.dataset.pos = idx + 1;
@@ -997,6 +1012,7 @@
 
   document.getElementById('reset').addEventListener('click', function () {
     state.ok = 0; state.bad = 0;
+    if (state.shuffled) shuffle(state.order);
     render();
     window.scrollTo({ top: 0 });
   });
@@ -1028,13 +1044,15 @@
       };
     }).filter(function (q) { return q.correct; });
 
-    // Fixed order, by CEM number — the point of this build is that question N
-    // here is question N in the official PDF.
+    state.shuffled = !!base.meta.shuffle;
     state.order = state.questions
       .map(function (_, i) { return i; })
       .sort(function (a, b) { return state.questions[a].id - state.questions[b].id; });
+    if (state.shuffled) shuffle(state.order);
     document.getElementById('total').textContent = 'z ' + state.order.length;
     document.getElementById('ver').textContent = base.meta.version;
+    document.getElementById('reset').textContent =
+      state.shuffled ? 'Losuj od nowa' : 'Zacznij od nowa';
     // the published build carries its own standfirst; the review build's is
     // written into the page
     var lede = document.getElementById('lede');

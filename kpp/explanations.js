@@ -3,8 +3,8 @@ window.KPP_EXPLAIN = {
   "note": "Wyjaśnienia własne, nie pochodzą z CEM.",
   "questions_digest": "012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8",
   "built": "2026-09-15",
-  "count": 22,
-  "reviewed": 43,
+  "count": 27,
+  "reviewed": 59,
   "tricky": [
    44
   ]
@@ -31,6 +31,11 @@ window.KPP_EXPLAIN = {
   "39": "Najpierw usuwasz poszkodowanego ze strefy zagrożenia (3). Potem ścierasz suche wapno szmatką (2), bo woda wlana na nie wywołuje reakcję wytwarzającą ciepło. Na końcu zdecydowanie płuczesz oczy bieżącą wodą (5).",
   "41": "Schładzaniu dłoni chłodną, bieżącą wodą przez ok. 20 minut, zaczynając jak najszybciej. Od razu zdejmij pierścionki i zegarek, zanim pojawi się obrzęk. Po schłodzeniu załóż jałowy opatrunek lub opatrunek hydrożelowy i oddziel palce gazą. Nie przebijaj pęcherzy i nie smaruj dłoni masłem, maściami ani pastą. Oparzenie całej dłoni (ok. 1% powierzchni ciała) zawsze wymaga oceny lekarza.",
   "43": "Nie zbliżać się. Zająć bezpieczne stanowisko od strony nawietrznej (wiatr w plecy) i wezwać pomoc (112, straż pożarna). Dalej:\n- Odczytaj z daleka, np. przez lornetkę, pomarańczową tablicę ADR (numer rozpoznawczy zagrożenia i numer UN) i przekaż dyspozytorowi te numery oraz opis dymu.\n- Nie wchodź do strefy skażenia bez sprzętu ochronnego, nawet jeśli widzisz poszkodowanych, bo bezpieczeństwo ratownika jest na pierwszym miejscu.\n- Zabezpiecz miejsce zdarzenia: nie dopuszczaj innych osób ani pojazdów i ostrzegaj świadków.",
-  "44": "Aktualne zasady prowadzą do takiej odpowiedzi: wezwać ZRM, ocenić czynności życiowe, zabezpieczyć opakowania po lekach, nie prowokować wymiotów i nie zostawiać poszkodowanego samego.\n\nW pierwszej pomocy nie prowokuje się wymiotów w żadnej sytuacji. Grozi to zachłyśnięciem, ponownym oparzeniem przełyku przy substancjach żrących i zachłystowym zapaleniem płuc przy produktach naftowych. Aktualne wytyczne (ANZCOR 9.5.1) wprost to wykluczają. Odpowiedzi zalecające wymioty pochodzą ze starych materiałów."
+  "44": "Aktualne zasady prowadzą do takiej odpowiedzi: wezwać ZRM, ocenić czynności życiowe, zabezpieczyć opakowania po lekach, nie prowokować wymiotów i nie zostawiać poszkodowanego samego.\n\nW pierwszej pomocy nie prowokuje się wymiotów w żadnej sytuacji. Grozi to zachłyśnięciem, ponownym oparzeniem przełyku przy substancjach żrących i zachłystowym zapaleniem płuc przy produktach naftowych. Aktualne wytyczne (ANZCOR 9.5.1) wprost to wykluczają. Odpowiedzi zalecające wymioty pochodzą ze starych materiałów.",
+  "45": "W pierwszej pomocy nie prowokuje się wymiotów w żadnej sytuacji. Grozi to zachłyśnięciem, ponownym oparzeniem przełyku przy substancjach żrących i zachłystowym zapaleniem płuc przy produktach naftowych. Aktualne wytyczne (ANZCOR 9.5.1) wprost to wykluczają. Odpowiedzi zalecające wymioty pochodzą ze starych materiałów.",
+  "46": "Na poziomie KPP postępowanie jest w zasadzie takie samo, a różni się tylko czasem płukania:\n- W obu przypadkach: zadbaj o własną ochronę (rękawiczki), usuń substancję i skażoną odzież, a potem obficie płucz bieżącą wodą. Nie neutralizuj kwasu zasadą ani odwrotnie, bo reakcja wytwarza ciepło i pogłębia uraz.\n- Różnica: zasady wnikają w tkanki głębiej niż kwasy, bo rozpuszczają je (martwica rozpływna), a kwasy tworzą strup, który hamuje dalsze wnikanie. Dlatego przy zasadach, zwłaszcza w oku, płucze się dłużej, a podręczniki podają nawet ok. 60 minut. Ten czas to standard podręcznikowy, którego nie zweryfikowałem w wytycznych.\n- Wyjątek od zasady płukania: suche substancje, np. wapno, najpierw się zmiata, a dopiero potem spłukuje.",
+  "47": "Zaczerwienieniem, bólem i niewielkim obrzękiem, bez pęcherzy. Uszkodzony jest tylko naskórek. Skóra jest sucha, piekąca i wrażliwa na dotyk. Oparzenie goi się samo w ciągu kilku dni i nie zostawia blizn. Typowym przykładem jest oparzenie słoneczne.",
+  "52": "Niedotlenienie tkanek, czyli stan, w którym do komórek dociera za mało tlenu w stosunku do ich zapotrzebowania. Nie myl jej z hipoksemią, czyli obniżoną zawartością tlenu we krwi. Hipoksemia jest jedną z przyczyn hipoksji, ale hipoksja może wystąpić także przy prawidłowym utlenowaniu krwi, np. we wstrząsie albo przy zatruciu tlenkiem węgla. Najbardziej wrażliwy na niedotlenienie jest mózg.",
+  "53": "Po zmianie pozycji z leżącej lub siedzącej na stojącą ciśnienie tętnicze gwałtownie spada. Przyjmuje się spadek ciśnienia skurczowego o co najmniej 20 mmHg lub rozkurczowego o co najmniej 10 mmHg w ciągu 3 minut od pionizacji. Objawia się zawrotami głowy, ciemnieniem przed oczami i osłabieniem, a może skończyć się omdleniem. Poszkodowanego układasz na plecach, a jeśli nie ma urazu, możesz unieść mu nogi."
  }
 };

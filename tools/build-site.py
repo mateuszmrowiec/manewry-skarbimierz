@@ -77,8 +77,11 @@ lede = (
 )
 
 payload = {
+    # The published test draws in random order, the way the exam does; the
+    # review build keeps CEM order, because checking a question against the
+    # PDF needs it to stay put.
     'KPP_QUESTIONS': {'meta': dict(base['meta'], count=len(pub_q),
-                                   lede=lede),
+                                   lede=lede, shuffle=True),
                       'questions': pub_q},
     'KPP_ANSWERS': {'meta': dict(answers['meta'], count=len(pub_a),
                                  needs_review=[n for n in answers['meta']['needs_review']
