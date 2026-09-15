@@ -98,6 +98,15 @@
   .badge.manual{color:var(--ink);border-color:var(--ink);background:var(--signal);}
   .badge.gone{color:var(--slate);border-style:dashed;background:transparent;}
   .badge.tricky{color:var(--ink);border-color:var(--ink);background:var(--signal);}
+  .badge.disputed{color:var(--ink);border-color:var(--ink);background:var(--signal);}
+
+  /* a question where no option is fully right: answered, marked, not scored */
+  .opt.is-neutral{background:var(--paper-deep);border-color:var(--slate);}
+  .disputed-note{
+    margin:16px 0 0;padding:11px 13px;font-size:13.5px;line-height:1.55;
+    background:var(--signal);border-left:3px solid var(--ink);color:var(--ink);
+  }
+  .disputed-note strong{display:block;margin-bottom:3px;}
 
   /* withdrawn from the bank: shown for completeness, not part of the test */
   .q.gone{border-left-color:var(--rule);border-style:dashed;opacity:.86;}
@@ -525,8 +534,8 @@
   };
 
   var LIST = document.getElementById('list');
-  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [],
-                flags: {}, painters: [] };
+  var state = { questions: [], order: [], ok: 0, bad: 0, skip: 0, meta: null,
+                review: [], flags: {}, painters: [] };
   var maxSources = 0;   // how many answer keys the build had available
 
   // Order is decided by the data, not by which copy of the page this is: the
@@ -630,6 +639,7 @@
   }
 
   function badge(q) {
+    if (q.disputed) return ['disputed', 'brak poprawnej odpowiedzi'];
     if (q.tricky) return ['tricky', 'uwaga — pytanie mylące'];
     if (q.status === 'manual') return ['manual', 'ustalone ręcznie'];
     if (q.status === 'conflict') return ['conflict', 'sporne'];
@@ -854,8 +864,11 @@
     card.dataset.done = '1';
 
     var correct = q.correct;
-    var right = letter === correct;
-    right ? state.ok++ : state.bad++;
+    // A question the review found to have no fully correct option is answered
+    // and marked like any other, but scoring it either way would be a lie, so
+    // it counts as done and not as right or wrong.
+    if (q.disputed) state.skip++;
+    else (letter === correct) ? state.ok++ : state.bad++;
 
     var total = sources(q);
     var btns = card.querySelectorAll('.opt');
@@ -868,7 +881,13 @@
         lab.title = backing.join(', ');
         btn.appendChild(lab);
       }
-      if (o.letter === correct) {
+      if (q.disputed) {
+        if (o.letter === correct || o.letter === letter) {
+          btn.classList.add('is-neutral');
+          btn.appendChild(el('span', 'mark',
+            o.letter === correct ? 'klucz' : 'Twoja'));
+        }
+      } else if (o.letter === correct) {
         btn.classList.add('is-correct');
         btn.appendChild(el('span', 'mark', '✓'));
       } else if (o.letter === letter) {
@@ -876,6 +895,16 @@
         btn.appendChild(el('span', 'mark', '✕'));
       }
     });
+
+    if (q.disputed) {
+      var note = el('div', 'disputed-note');
+      note.appendChild(el('strong', null,
+        'W tym pytaniu żadna odpowiedź nie jest w pełni poprawna.'));
+      note.appendChild(document.createTextNode(
+        'Pytanie nie liczy się do wyniku. Klucz wskazuje ' + correct +
+        ' — poniżej jest napisane, dlaczego to za mało.'));
+      card.appendChild(note);
+    }
 
     var cov = coverage(q);
     if (cov) card.appendChild(cov);
@@ -1068,11 +1097,14 @@
   }
 
   function update() {
-    var done = state.ok + state.bad, n = state.order.length;
+    // done counts every card answered; the percentage is out of the scored
+    // ones only, so a question with no correct answer cannot drag it down
+    var scored = state.ok + state.bad;
+    var done = scored + state.skip, n = state.order.length;
     document.getElementById('ok').textContent = state.ok;
     document.getElementById('bad').textContent = state.bad;
     document.getElementById('bar').style.width = n ? (done / n * 100) + '%' : 0;
-    document.getElementById('pct').textContent = done ? Math.round(state.ok / done * 100) + '%' : '–';
+    document.getElementById('pct').textContent = scored ? Math.round(state.ok / scored * 100) + '%' : '–';
     document.getElementById('left').textContent = 'Pozostało: ' + (n - done) + ' z ' + n;
   }
 
@@ -1101,7 +1133,7 @@
   }
 
   document.getElementById('reset').addEventListener('click', function () {
-    state.ok = 0; state.bad = 0;
+    state.ok = 0; state.bad = 0; state.skip = 0;
     if (state.shuffled) shuffle(state.order);
     render();
     window.scrollTo({ top: 0 });
@@ -1114,13 +1146,14 @@
 
   document.getElementById('fbsend').addEventListener('click', send);
 
-  var trickySet = {};
+  var trickySet = {}, disputedSet = {};
 
   function start(base, key) {
     loadFlags();
     document.getElementById('fb').hidden = false;
-    ((window.KPP_EXPLAIN || {}).meta || {}).tricky &&
-      window.KPP_EXPLAIN.meta.tricky.forEach(function (n) { trickySet[n] = true; });
+    var emeta = (window.KPP_EXPLAIN || {}).meta || {};
+    (emeta.tricky || []).forEach(function (n) { trickySet[n] = true; });
+    (emeta.disputed || []).forEach(function (n) { disputedSet[n] = true; });
 
     // The question is the locked record; the key is bolted on beside it and is
     // the only part that changes between builds.
@@ -1130,7 +1163,8 @@
         id: q.id, stem: q.stem, options: q.options,
         correct: a.correct || null, status: a.status || 'unkeyed',
         votes: a.votes || {}, voted: a.voted || null, note: a.note || '',
-        tricky: trickySet[q.id] || false
+        tricky: trickySet[q.id] || false,
+        disputed: disputedSet[q.id] || false
       };
     }).filter(function (q) { return q.correct; });
 

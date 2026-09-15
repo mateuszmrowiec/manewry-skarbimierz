@@ -46,7 +46,7 @@ if meta.get('questions_digest') and meta['questions_digest'] != base['meta']['di
     raise SystemExit('the review log was written against a different question '
                      'base than the one locked now — check before building')
 
-explain, orphan, tricky = {}, [], []
+explain, orphan, tricky, disputed = {}, [], [], []
 for nr, rec in sorted(rows.items()):
     if nr not in known:
         if rec.get('why'):
@@ -56,6 +56,10 @@ for nr, rec in sorted(rows.items()):
     # the circulating key disagrees with what is taught now
     if rec.get('tricky'):
         tricky.append(nr)
+    # the reviewer found no option fully correct — the page still shows the
+    # question and the key, but refuses to score it
+    if rec.get('verdict') == 'none' or rec.get('disputed'):
+        disputed.append(nr)
     why = (rec.get('why') or '').strip()
     if why:
         explain[str(nr)] = why
@@ -67,6 +71,10 @@ print(f'covered so far : {done[0]}-{done[-1]}' if done else 'nothing yet')
 missing = sorted(known - set(rows))
 print(f'still to review: {len(missing)}' +
       (f', next is Nr {missing[0]}' if missing else ' — the whole bank is done'))
+if tricky:
+    print(f'marked tricky  : {tricky}')
+if disputed:
+    print(f'no correct answer: {disputed}')
 if orphan:
     print(f'explanations for questions outside the locked base: {orphan}')
 
@@ -78,6 +86,7 @@ write_js(OUT, 'KPP_EXPLAIN', {
         'count': len(explain),
         'reviewed': len(rows),
         'tricky': tricky,
+        'disputed': disputed,
     },
     'explain': explain,
 })
