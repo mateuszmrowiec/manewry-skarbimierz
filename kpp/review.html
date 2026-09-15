@@ -1023,6 +1023,10 @@
       .sort(function (a, b) { return state.questions[a].id - state.questions[b].id; });
     document.getElementById('total').textContent = 'z ' + state.order.length;
     document.getElementById('ver').textContent = base.meta.version;
+    // the published build carries its own standfirst; the review build's is
+    // written into the page
+    var lede = document.getElementById('lede');
+    if (lede && base.meta.lede) lede.textContent = base.meta.lede;
     state.meta = key.meta;
     state.base = base.meta;
     state.review = key.meta.needs_review || [];
