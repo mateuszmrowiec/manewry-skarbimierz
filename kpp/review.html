@@ -914,7 +914,12 @@
     LIST.appendChild(box);
   }
 
-  if (FEEDBACK.CLOSES && today() > FEEDBACK.CLOSES) {
+  // The timer exists to limit how long a link is live in public. A file opened
+  // from disk was never public, and the person opening it is the one checking
+  // the key — expiring on them mid-pass would be pure damage.
+  var served = location.protocol === 'http:' || location.protocol === 'https:';
+
+  if (served && FEEDBACK.CLOSES && today() > FEEDBACK.CLOSES) {
     closed();
   } else if (!window.KPP_QUESTIONS) {
     fail('Nie wczytano pliku questions.js — musi leżeć obok review.html. ' +
