@@ -74,8 +74,10 @@ lede = (
   'Pytania pochodzą z oficjalnej bazy Centrum Egzaminów Medycznych. '
   'CEM nie publikuje odpowiedzi, więc klucz jest nieoficjalny — te '
   f'{len(ids)} pytań przeszliśmy ręcznie, jedno po drugim, i tylko one są tutaj. '
-  'Reszta bazy dojdzie, gdy zostanie sprawdzona. Jeśli widzisz błędną '
-  'odpowiedź, kliknij przy niej „Klucz jest tu błędny”.'
+  'Reszta bazy dojdzie, gdy zostanie sprawdzona. Test losuje z nich 30 pytań, '
+  'tak jak na egzaminie, i zalicza od 27 poprawnych; „Cała baza” pokazuje '
+  'wszystkie sprawdzone. Jeśli widzisz błędną odpowiedź, kliknij przy niej '
+  '„Klucz jest tu błędny”.'
 )
 
 payload = {

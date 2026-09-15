@@ -298,6 +298,31 @@
   .tile.good .n{color:var(--good);}
   .tile.bad .n{color:var(--bad);}
 
+  /* drawn test vs. the whole bank */
+  .modes{display:flex;margin:0 0 14px;border:1px solid var(--rule);}
+  .modes button{
+    flex:1;font:inherit;font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:13px;font-weight:600;letter-spacing:.03em;
+    padding:7px 6px;cursor:pointer;border:0;
+    background:var(--paper);color:var(--slate);
+  }
+  .modes button + button{border-left:1px solid var(--rule);}
+  .modes button:hover{color:var(--ink);}
+  .modes button.on{background:var(--ink);color:var(--paper);}
+
+  /* only shown once a drawn test is finished */
+  .verdict{
+    margin:0 0 16px;padding:11px 12px;text-align:center;
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    border:1px solid var(--rule);
+  }
+  .verdict b{
+    display:block;font-size:19px;letter-spacing:.04em;text-transform:uppercase;
+  }
+  .verdict span{font-size:13px;}
+  .verdict.pass{color:var(--good);border-color:var(--good);background:var(--good-bg);}
+  .verdict.fail{color:var(--bad);border-color:var(--bad);background:var(--bad-bg);}
+
   .score{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
     font-size:14px;color:var(--slate);margin:0 0 16px;padding-top:14px;
@@ -390,6 +415,13 @@
     .panel h2,.score,.fineprint,.btn.ghost{display:none;}
     .now{margin:0;font-size:13px;flex:0 0 auto;}
     .now b{font-size:18px;}
+    /* the switch and the result both stay: one starts the test, the other is
+       the point of taking it */
+    .modes{order:7;flex:1 0 100%;margin:0;}
+    .modes button{padding:5px 6px;font-size:12px;}
+    .verdict{order:6;flex:1 0 100%;margin:0;padding:6px 10px;
+             display:flex;align-items:baseline;justify-content:center;gap:9px;}
+    .verdict b{font-size:15px;}
     .bar{order:9;flex:1 0 100%;margin:0;}
     .tally{margin:0;gap:8px;display:flex;flex:0 0 auto;}
     .tile{padding:3px 9px;display:flex;gap:6px;align-items:baseline;}
@@ -439,6 +471,10 @@
   <aside>
     <div class="panel">
       <h2>Postęp</h2>
+      <div class="modes" id="mode">
+        <button type="button" data-mode="exam">Test 30 pytań</button>
+        <button type="button" data-mode="all">Cała baza</button>
+      </div>
       <p class="now">pytanie <b id="cur">–</b> <span id="total"></span></p>
       <div class="bar"><span id="bar"></span></div>
       <div class="tally">
@@ -446,6 +482,7 @@
         <div class="tile bad"><span class="n" id="bad">0</span><span class="l">źle</span></div>
       </div>
       <p class="score">Skuteczność: <b id="pct">–</b><br><span id="left"></span></p>
+      <div class="verdict" id="verdict" hidden></div>
       <button class="btn" id="reset" type="button">Zacznij od nowa</button>
       <button class="btn ghost" id="jump" type="button">Następne bez odpowiedzi</button>
 
@@ -534,8 +571,13 @@
   };
 
   var LIST = document.getElementById('list');
+  // The real thing: 30 questions drawn from the bank, 90% to pass — 27 of 30.
+  // Simplified here in that there is no time limit and the answer is shown at
+  // once rather than at the end.
+  var EXAM = { N: 30, PASS: 27 };
+
   var state = { questions: [], order: [], ok: 0, bad: 0, skip: 0, meta: null,
-                review: [], flags: {}, painters: [] };
+                review: [], flags: {}, painters: [], mode: 'all' };
   var maxSources = 0;   // how many answer keys the build had available
 
   // Order is decided by the data, not by which copy of the page this is: the
@@ -737,8 +779,11 @@
     LIST.textContent = '';
     state.painters = [];   // the rows they pointed at are about to be replaced
 
+    // A withdrawn question is a footnote to the bank, not part of a drawn test
     var gone = {};
-    (state.retired || []).forEach(function (q) { gone[q.id] = q; });
+    if (state.mode !== 'exam') {
+      (state.retired || []).forEach(function (q) { gone[q.id] = q; });
+    }
 
     state.order.forEach(function (qi, idx) {
       var q = state.questions[qi];
@@ -1106,6 +1151,56 @@
     document.getElementById('bar').style.width = n ? (done / n * 100) + '%' : 0;
     document.getElementById('pct').textContent = scored ? Math.round(state.ok / scored * 100) + '%' : '–';
     document.getElementById('left').textContent = 'Pozostało: ' + (n - done) + ' z ' + n;
+    verdict(done, n);
+  }
+
+  // The pass mark applies to a drawn test and to nothing else: announcing
+  // "zaliczone" after somebody worked through the whole bank would mean
+  // something quite different from passing an exam.
+  function verdict(done, n) {
+    var box = document.getElementById('verdict');
+    if (!box) return;
+    if (state.mode !== 'exam' || done < n || !n) { box.hidden = true; return; }
+    var pass = state.ok >= EXAM.PASS;
+    box.hidden = false;
+    box.className = 'verdict ' + (pass ? 'pass' : 'fail');
+    box.textContent = '';
+    box.appendChild(el('b', null, pass ? 'Zaliczone' : 'Niezaliczone'));
+    box.appendChild(el('span', null, state.ok + ' / ' + n +
+      ' — próg to ' + EXAM.PASS + ' z ' + EXAM.N));
+  }
+
+  // Exam mode draws its questions; study mode shows the lot. A question the
+  // review found unanswerable is left out of the draw, because the pass mark
+  // has to be counted out of 30 scored questions.
+  function buildOrder() {
+    var all = state.questions.map(function (_, i) { return i; });
+    if (state.mode === 'exam') {
+      var pool = all.filter(function (i) { return !state.questions[i].disputed; });
+      shuffle(pool);
+      state.order = pool.slice(0, Math.min(EXAM.N, pool.length));
+    } else {
+      state.order = all.sort(function (a, b) {
+        return state.questions[a].id - state.questions[b].id;
+      });
+      if (state.shuffled) shuffle(state.order);
+    }
+    state.ok = 0; state.bad = 0; state.skip = 0;
+    document.getElementById('total').textContent = 'z ' + state.order.length;
+    document.getElementById('reset').textContent =
+      state.mode === 'exam' ? 'Losuj nowy test'
+        : (state.shuffled ? 'Losuj od nowa' : 'Zacznij od nowa');
+    [].forEach.call(document.querySelectorAll('#mode button'), function (b) {
+      b.classList.toggle('on', b.dataset.mode === state.mode);
+    });
+  }
+
+  function setMode(mode) {
+    if (mode === state.mode) return;
+    state.mode = mode;
+    buildOrder();
+    render();
+    window.scrollTo({ top: 0 });
   }
 
   // Cards are built by script, so the browser has nothing to jump to when it
@@ -1117,7 +1212,14 @@
     if (!h) return;
     var m = /^(?:nr|q)?[\s.]*(\d{1,3})$/i.exec(decodeURIComponent(h).trim());
     if (!m) return;
-    var card = document.getElementById('q' + parseInt(m[1], 10));
+    var id = 'q' + parseInt(m[1], 10);
+    var card = document.getElementById(id);
+    // asking for a question the draw left out means the draw is not what was
+    // wanted — show the whole bank rather than silently ignoring the link
+    if (!card && state.mode === 'exam') {
+      setMode('all');
+      card = document.getElementById(id);
+    }
     if (card) card.scrollIntoView({ block: 'start' });
   }
 
@@ -1133,10 +1235,14 @@
   }
 
   document.getElementById('reset').addEventListener('click', function () {
-    state.ok = 0; state.bad = 0; state.skip = 0;
-    if (state.shuffled) shuffle(state.order);
+    buildOrder();     // exam mode draws a fresh 30
     render();
     window.scrollTo({ top: 0 });
+  });
+
+  document.getElementById('mode').addEventListener('click', function (e) {
+    var b = e.target.closest('button');
+    if (b) setMode(b.dataset.mode);
   });
 
   document.getElementById('jump').addEventListener('click', function () {
@@ -1169,14 +1275,14 @@
     }).filter(function (q) { return q.correct; });
 
     state.shuffled = !!base.meta.shuffle;
-    state.order = state.questions
-      .map(function (_, i) { return i; })
-      .sort(function (a, b) { return state.questions[a].id - state.questions[b].id; });
-    if (state.shuffled) shuffle(state.order);
-    document.getElementById('total').textContent = 'z ' + state.order.length;
+    // The published build opens on a drawn test; the review build opens on the
+    // whole bank in CEM order, because checking Nr 91 needs Nr 91 to be there.
+    // A link to a particular question also wins over the draw, for the same
+    // reason: the question asked for must be on the page.
+    state.mode = (state.shuffled && !location.hash) ? 'exam' : 'all';
+    if (state.questions.length < EXAM.N) state.mode = 'all';
+    buildOrder();
     document.getElementById('ver').textContent = base.meta.version;
-    document.getElementById('reset').textContent =
-      state.shuffled ? 'Losuj od nowa' : 'Zacznij od nowa';
     // the published build carries its own standfirst; the review build's is
     // written into the page
     var lede = document.getElementById('lede');

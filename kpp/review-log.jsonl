@@ -90,3 +90,7 @@
 {"nr": 88, "verdict": "B", "why": "Czerwony to najwyższy priorytet terapeutyczny i transportowy, czyli poszkodowani, którzy wymagają natychmiastowej pomocy i jak najszybszego transportu, bo ich życie jest zagrożone, ale mają szansę przeżyć.\n\nW systemie START do grupy czerwonej trafia poszkodowany, który oddycha i spełnia co najmniej jedno z kryteriów:\n\nczęstość oddechów powyżej 30/min (albo oddech pojawił się dopiero po udrożnieniu dróg oddechowych),\nnawrót kapilarny powyżej 2 s lub brak tętna na tętnicy promieniowej,\nnie wykonuje prostych poleceń.\n\nPozostałe kolory to żółty (pilna pomoc, odroczona), zielony (chodzący, lekko ranni) i czarny (nieoddychający mimo udrożnienia dróg oddechowych)."}
 {"nr": 89, "verdict": "A"}
 {"nr": 90, "verdict": "C"}
+{"nr": 91, "verdict": "C"}
+{"nr": 92, "verdict": "B"}
+{"nr": 93, "verdict": "B"}
+{"nr": 94, "verdict": "A"}
