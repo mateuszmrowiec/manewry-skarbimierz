@@ -4,25 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Test KPP — chwilowo wyłączony</title>
+<title>Test KPP — Manewry SAR Skarbimierz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#E8E9E4;
+    --paper-deep:#DDDFD8;
+    --card:#F2F3EF;
     --ink:#1C2321;
     --terrain:#6B7C6E;
     --slate:#4A5551;
     --signal:#FFD400;
     --rule:#C3C7BE;
+
+    --good:#2E6B4F;
+    --good-bg:#D4E6DA;
     --bad:#9B3B2E;
     --bad-bg:#F1DBD6;
-    --measure:64ch;
   }
 
   *{box-sizing:border-box;}
-  html{-webkit-text-size-adjust:100%;}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 
   body{
     margin:0;
@@ -33,90 +37,1060 @@
     line-height:1.62;
   }
 
+  .sans{font-family:"Archivo Narrow",Arial Narrow,sans-serif;}
+
   a{color:var(--ink);text-decoration-color:var(--terrain);text-underline-offset:3px;}
-  a:hover{text-decoration-color:var(--ink);}
-  a:focus-visible{outline:3px solid var(--ink);outline-offset:2px;background:var(--signal);}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--ink);outline-offset:2px;}
 
-  .wrap{max-width:860px;margin:0 auto;padding:0 24px;}
-
-  header.masthead{
-    border-bottom:2px solid var(--ink);
-    padding:56px 0 32px;
-  }
+  /* ---------- masthead ---------- */
+  header.masthead{border-bottom:2px solid var(--ink);background:var(--paper);}
+  .masthead-inner{max-width:1180px;margin:0 auto;padding:40px 24px 22px;}
   .kicker{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
-    font-weight:600;font-size:16px;letter-spacing:.02em;
-    color:var(--slate);margin:0 0 10px;
+    font-weight:600;font-size:15px;letter-spacing:.04em;
+    text-transform:uppercase;color:var(--slate);margin:0 0 8px;
   }
   h1{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
-    font-weight:700;
-    font-size:clamp(30px,6vw,50px);
-    line-height:1.04;
-    margin:0;
-    max-width:20ch;
+    font-weight:700;font-size:clamp(30px,5vw,48px);line-height:1.05;
+    margin:0 0 14px;
+  }
+  .lede{margin:0;max-width:62ch;color:var(--slate);font-size:16px;}
+
+  /* ---------- layout ---------- */
+  .shell{
+    max-width:1180px;margin:0 auto;padding:28px 24px 80px;
+    display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:40px;align-items:start;
   }
 
-  main{padding:44px 0 0;}
-
-  .notice{
-    background:var(--bad-bg);
-    border-left:4px solid var(--bad);
-    padding:20px 22px;
-    margin:0;
-    max-width:var(--measure);
+  /* ---------- question cards ---------- */
+  .q{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-left:3px solid var(--terrain);
+    padding:22px 24px;margin:0 0 20px;
+    scroll-margin-top:24px;      /* anchor jumps clear the viewport edge */
   }
-  .notice p{margin:0;font-size:18px;}
-  .notice strong{font-weight:600;}
-
-  .back{
-    margin-top:38px;
-    border-top:1px solid var(--rule);
-    padding:22px 0 72px;
-    max-width:var(--measure);
+  .q-head{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+    margin-bottom:12px;
   }
-  .back a{
+  code{font-family:ui-monospace,Consolas,monospace;font-size:.92em;}
+  .q-num{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
-    font-weight:700;font-size:18px;
+    font-weight:700;font-size:14px;letter-spacing:.06em;
+    color:var(--slate);text-transform:uppercase;
+  }
+  /* The CEM number is what the PDF is searched by, so it leads the card. */
+  .q-nr{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:17px;letter-spacing:.02em;
+    color:var(--ink);
+  }
+  .badge{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+    padding:2px 8px;border:1px solid var(--rule);color:var(--slate);
+    background:var(--paper-deep);border-radius:2px;
+  }
+  .badge.verified{color:var(--good);border-color:var(--good);background:var(--good-bg);}
+  .badge.conflict{color:var(--bad);border-color:var(--bad);background:var(--bad-bg);}
+  .badge.manual{color:var(--ink);border-color:var(--ink);background:var(--signal);}
+  .badge.gone{color:var(--slate);border-style:dashed;background:transparent;}
+
+  /* withdrawn from the bank: shown for completeness, not part of the test */
+  .q.gone{border-left-color:var(--rule);border-style:dashed;opacity:.86;}
+  .q.gone .q-stem,.q.gone .q-nr{color:var(--slate);}
+  .q.gone .opt{cursor:default;background:transparent;}
+  .q.gone .opt.was-key{
+    background:var(--paper-deep);border-color:var(--slate);font-weight:600;
+  }
+  .gone-note{
+    margin:14px 0 0;padding:10px 12px;font-size:13.5px;line-height:1.5;
+    background:var(--paper-deep);border-left:3px solid var(--rule);color:var(--slate);
+  }
+  .q-stem{margin:0 0 16px;font-weight:600;}
+  /* enumerated stems: each part on its own line. The hanging indent applies
+     only to numbered items, so a wrapped item stays visibly one item. */
+  .q-stem .ln{display:block;}
+  .q-stem .ln.item{padding-left:1.8em;text-indent:-1.8em;}
+  .q-stem .ln.tail{margin-top:.45em;}
+
+  .opts{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+  .opt{
+    display:flex;gap:12px;width:100%;text-align:left;
+    font:inherit;color:inherit;cursor:pointer;
+    background:var(--paper);border:1px solid var(--rule);
+    padding:11px 14px;border-radius:2px;
+    transition:background .12s,border-color .12s;
+  }
+  .opt:hover:not(:disabled){background:var(--paper-deep);border-color:var(--terrain);}
+  .opt:disabled{cursor:default;}
+  .opt .letter{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;flex:0 0 auto;min-width:1.2em;
+  }
+  .opt.is-correct{background:var(--good-bg);border-color:var(--good);color:var(--good);font-weight:600;}
+  .opt.is-wrong{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+  .opt .mark{margin-left:auto;font-weight:700;flex:0 0 auto;align-self:flex-start;}
+  /* how many keys pointed at this option — revealed with the answer */
+  .opt .votes{
+    margin-left:auto;flex:0 0 auto;align-self:flex-start;margin-top:2px;
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:12px;letter-spacing:.03em;
+    padding:1px 7px;border:1px solid var(--rule);border-radius:2px;
+    background:var(--paper-deep);color:var(--slate);
+  }
+  .opt .votes + .mark{margin-left:10px;}
+  .opt.is-correct .votes{background:var(--good-bg);border-color:var(--good);color:var(--good);}
+  .opt.is-wrong .votes{background:var(--bad-bg);border-color:var(--bad);color:var(--bad);}
+
+  .q-note{
+    margin:14px 0 0;padding:10px 12px;font-size:14px;line-height:1.5;
+    background:var(--bad-bg);border-left:3px solid var(--bad);color:var(--bad);
   }
 
-  @media (max-width:620px){
-    body{font-size:16px;}
-    .wrap{padding:0 18px;}
-    header.masthead{padding:40px 0 26px;}
-    main{padding-top:32px;}
-    .notice{padding:16px 18px;}
-    .notice p{font-size:17px;}
+  /* ---------- explanation, revealed with the answer ---------- */
+  .why{
+    margin:16px 0 0;padding:13px 15px;
+    background:var(--paper-deep);border-left:3px solid var(--terrain);
+    font-size:14.5px;line-height:1.55;
+  }
+  .why-h{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--terrain);margin:0 0 7px;
+  }
+  .why p{margin:0 0 9px;}
+  .why p:last-child{margin:0;}
+  .why-list{margin:0 0 9px;padding-left:20px;}
+  .why-list:last-child{margin:0;}
+  .why-list li{margin-bottom:3px;}
+  .why-list li::marker{color:var(--terrain);}
+
+  /* ---------- reporting a wrong key ---------- */
+  .flag{margin:14px 0 0;}
+  .flag-btn{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:13px;font-weight:600;letter-spacing:.03em;
+    background:transparent;border:1px solid var(--rule);color:var(--slate);
+    padding:5px 11px;border-radius:2px;cursor:pointer;
+  }
+  .flag-btn:hover{border-color:var(--bad);color:var(--bad);}
+  .flag.on .flag-btn{background:var(--signal);border-color:var(--ink);color:var(--ink);}
+  .flag-form{
+    margin-top:10px;padding:11px 12px;
+    background:var(--paper-deep);border:1px solid var(--rule);
+    display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;
+    font-size:14px;
+  }
+  .flag-form label{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:13px;color:var(--slate);
+  }
+  .flag-form select,.flag-form input{
+    font:inherit;font-size:14px;padding:5px 8px;
+    background:var(--paper);border:1px solid var(--rule);color:var(--ink);
+    border-radius:2px;
+  }
+  .flag-form input{flex:1 1 15em;min-width:0;}
+  .flag-form select:focus-visible,.flag-form input:focus-visible,
+  .flag-btn:focus-visible{outline:2px solid var(--ink);outline-offset:1px;}
+
+  /* panel: how many reports are waiting to be sent */
+  .fb{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);}
+  .fb .n{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:14px;color:var(--slate);margin:0 0 10px;
+  }
+  .fb .n b{color:var(--ink);font-size:17px;}
+  .sent{
+    margin:10px 0 0;padding:9px 11px;font-size:13.5px;line-height:1.5;
+    background:var(--good-bg);border-left:3px solid var(--good);color:var(--good);
+  }
+  .sent.err{background:var(--bad-bg);border-left-color:var(--bad);color:var(--bad);}
+  .copybox{
+    width:100%;margin-top:9px;min-height:8em;font:inherit;font-size:12.5px;
+    background:var(--paper);border:1px solid var(--rule);color:var(--ink);padding:8px;
+  }
+
+  .closed{
+    max-width:64ch;margin:0;padding:20px 22px;
+    background:var(--bad-bg);border-left:4px solid var(--bad);
+  }
+  .closed p{margin:0 0 10px;}
+  .closed p:last-child{margin:0;}
+
+  /* ---------- source coverage ---------- */
+  .cov{margin:16px 0 0;padding-top:13px;border-top:1px solid var(--rule);}
+  .cov .q-note{margin:11px 0 0;}
+  .cov-h{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--bad);margin:0 0 7px;display:flex;justify-content:space-between;gap:12px;
+  }
+  .cov-h em{color:var(--slate);}
+  .cov-h em{font-style:normal;}
+  /* one cell per source: 1/1 must not look as strong as 4/4 */
+  .cov-bar{display:flex;gap:3px;height:10px;}
+  .cov-bar span{display:block;flex:1 1 0;border:1px solid var(--rule);}
+  .cov-bar .key{background:var(--good);border-color:var(--good);}
+  .cov-bar .dis{background:var(--bad);border-color:var(--bad);}
+  .cov-bar .pad{background:var(--paper-deep);}
+  .cov-list{
+    list-style:none;margin:9px 0 0;padding:0;
+    font-size:13.5px;line-height:1.5;color:var(--slate);
+  }
+  .cov-list li{display:flex;gap:9px;align-items:baseline;}
+  .cov-list li + li{margin-top:3px;}
+  .cov-list .l{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;min-width:1.1em;
+  }
+  .cov-list .pc{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;min-width:7.4em;
+  }
+  .cov-list .src{font-size:12.5px;opacity:.85;}
+  .cov-list .key .l,.cov-list .key .pc{color:var(--good);}
+  .cov-list .dis .l,.cov-list .dis .pc{color:var(--bad);}
+
+  /* ---------- sidebar ---------- */
+  aside{position:sticky;top:22px;}
+  .panel{
+    background:var(--card);border:1px solid var(--rule);
+    border-top:3px solid var(--ink);padding:20px;
+  }
+  .panel h2{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:15px;letter-spacing:.06em;text-transform:uppercase;
+    margin:0 0 16px;color:var(--slate);font-weight:600;
+  }
+  .now{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:15px;color:var(--slate);margin:0 0 6px;
+  }
+  .now b{font-size:26px;color:var(--ink);}
+
+  .bar{height:8px;background:var(--paper-deep);border:1px solid var(--rule);margin:12px 0 18px;}
+  .bar span{display:block;height:100%;background:var(--terrain);width:0;transition:width .2s;}
+
+  .tally{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+  .tile{padding:10px;border:1px solid var(--rule);background:var(--paper);text-align:center;}
+  .tile .n{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:30px;font-weight:700;line-height:1;display:block;
+  }
+  .tile .l{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--slate);
+  }
+  .tile.good .n{color:var(--good);}
+  .tile.bad .n{color:var(--bad);}
+
+  .score{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:14px;color:var(--slate);margin:0 0 16px;padding-top:14px;
+    border-top:1px solid var(--rule);
+  }
+  .score b{color:var(--ink);font-size:17px;}
+
+  .btn{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:600;font-size:14px;letter-spacing:.04em;text-transform:uppercase;
+    width:100%;padding:10px;cursor:pointer;
+    background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+  }
+  .btn:hover{background:var(--slate);border-color:var(--slate);}
+  .btn.ghost{background:transparent;color:var(--ink);margin-top:8px;}
+  .btn.ghost:hover{background:var(--paper-deep);color:var(--ink);}
+
+  .fineprint{
+    font-size:13px;line-height:1.5;color:var(--slate);
+    margin:18px 0 0;padding-top:14px;border-top:1px solid var(--rule);
+  }
+
+  footer{
+    border-top:2px solid var(--ink);background:var(--paper-deep);
+    padding:26px 24px;font-size:14px;color:var(--slate);
+  }
+  footer .inner{max-width:1180px;margin:0 auto;}
+  footer p{margin:0 0 8px;max-width:74ch;}
+  .portals{
+    list-style:none;margin:0 0 12px;padding:0;
+    display:flex;flex-wrap:wrap;gap:3px 18px;
+  }
+
+  .loading{padding:40px 0;color:var(--slate);}
+
+  /* ---------- narrow ---------- */
+  @media (max-width:860px){
+    .masthead-inner{padding:32px 16px 18px;}
+    .shell{grid-template-columns:minmax(0,1fr);gap:0;padding:20px 16px 60px;}
+    aside{
+      position:sticky;top:0;z-index:20;order:-1;
+      margin:0 -16px 20px;padding:0;
+    }
+    /* flex-wrap, not a fixed grid: the tiles and button cannot share a row
+       at phone widths without forcing the page wider than the viewport */
+    .panel{
+      border:0;border-bottom:2px solid var(--ink);
+      display:flex;flex-wrap:wrap;align-items:center;
+      gap:8px 10px;padding:9px 16px;
+    }
+    .panel h2,.score,.fineprint,.btn.ghost{display:none;}
+    .now{margin:0;font-size:13px;flex:0 0 auto;}
+    .now b{font-size:18px;}
+    .bar{order:9;flex:1 0 100%;margin:0;}
+    .tally{margin:0;gap:8px;display:flex;flex:0 0 auto;}
+    .tile{padding:3px 9px;display:flex;gap:6px;align-items:baseline;}
+    .tile .n{font-size:18px;}
+    .btn{width:auto;padding:6px 11px;font-size:11px;margin-left:auto;}
+    /* the sticky bar is the phone's whole header — the report count and its
+       button share one row rather than costing two */
+    .fb{
+      order:8;flex:1 0 100%;margin:0;padding:0;border:0;
+      display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;
+    }
+    .fb .n{margin:0;font-size:12px;}
+    .fb .n b{font-size:15px;}
+    .q{padding:18px 16px;scroll-margin-top:76px;}   /* clear the sticky bar */
+    .opt{padding:10px 12px;}
+    .cov-list li{flex-wrap:wrap;}
+    .cov-list .src{flex:1 0 100%;}
+  }
+  @media (max-width:420px){
+    h1{font-size:clamp(24px,8vw,34px);}
+    .cov-list .pc{min-width:6.6em;}
   }
 </style>
 </head>
 <body>
 
 <header class="masthead">
-  <div class="wrap">
+  <div class="masthead-inner">
     <p class="kicker">Manewry Search &amp; Rescue Skarbimierz</p>
-    <h1>Test KPP — chwilowo wyłączony</h1>
+    <h1>Test — kwalifikowana pierwsza pomoc</h1>
+    <p class="lede" id="lede"></p>
   </div>
 </header>
 
-<main>
-  <div class="wrap">
+<div class="shell">
+  <main id="list" aria-live="polite">
+    <p class="loading">Wczytywanie pytań…</p>
+  </main>
 
-    <div class="notice">
-      <p><strong>W kluczu odpowiedzi znaleziono błędy.</strong> Test pozostaje
-      wyłączony do czasu sprawdzenia całej bazy.</p>
+  <aside>
+    <div class="panel">
+      <h2>Postęp</h2>
+      <p class="now">pytanie <b id="cur">–</b> <span id="total"></span></p>
+      <div class="bar"><span id="bar"></span></div>
+      <div class="tally">
+        <div class="tile good"><span class="n" id="ok">0</span><span class="l">dobrze</span></div>
+        <div class="tile bad"><span class="n" id="bad">0</span><span class="l">źle</span></div>
+      </div>
+      <p class="score">Skuteczność: <b id="pct">–</b><br><span id="left"></span></p>
+      <button class="btn" id="reset" type="button">Zacznij od nowa</button>
+      <button class="btn ghost" id="jump" type="button">Następne bez odpowiedzi</button>
+
+      <div class="fb" id="fb" hidden>
+        <p class="n">Zgłoszone błędy w kluczu: <b id="fbn">0</b></p>
+        <button class="btn" id="fbsend" type="button">Wyślij uwagi</button>
+        <div id="fbout"></div>
+      </div>
+
+      <p class="fineprint">
+        Egzamin teoretyczny KPP to 30 pytań z tej bazy. Próg zaliczenia — 90%.
+      </p>
     </div>
+  </aside>
+</div>
 
-    <div class="back">
-      <a href="../index.html">← Strona główna</a>
-    </div>
-
+<footer>
+  <div class="inner">
+    <p>
+      <strong>Pytania:</strong> Centrum Egzaminów Medycznych —
+      <a href="https://www.cem.edu.pl/ppomoc.php">cem.edu.pl</a>, wydanie
+      <span id="ver">KPP2026</span>. Baza publikowana przez CEM jako materiał urzędowy.
+    </p>
+    <p>
+      <strong>Klucz odpowiedzi jest nieoficjalny</strong> — CEM nie publikuje odpowiedzi.
+      Klucz zestawiono z:
+    </p>
+    <ul class="portals" id="portals"></ul>
+    <p>
+      <strong>Wyjaśnienia są nasze własne</strong> — CEM ich nie publikuje,
+      tak samo jak klucza. Piszemy je przy przechodzeniu przez bazę pytanie
+      po pytaniu i traktujemy jak notatki z nauki, nie jak wykładnię.
+    </p>
+    <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
+    <p id="lockinfo"></p>
+    <p id="buildinfo"></p>
   </div>
-</main>
+</footer>
 
-<!-- GoatCounter: cookieless analytics, no consent banner required -->
-<script data-goatcounter="https://manewry-skarbimierz.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+<!-- Two files on purpose: questions.js is the frozen CEM base, answers.js is
+     the key being worked on. Rebuilding the key never touches the questions. -->
+<script>
+window.KPP_QUESTIONS = {"meta":{"source":"Centrum Egzaminów Medycznych (CEM)","url":"https://www.cem.edu.pl/ppomoc.php","version":"KPP2026 / 2026-06-17","file":"KPP2026-CEM-official.pdf","locked":"2026-09-14","count":29,"digest":"012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8","lede":"Pytania pochodzą z oficjalnej bazy Centrum Egzaminów Medycznych. CEM nie publikuje odpowiedzi, więc klucz jest nieoficjalny — te 29 pytań przeszliśmy ręcznie, jedno po drugim, i tylko one są tutaj. Reszta bazy dojdzie, gdy zostanie sprawdzona. Jeśli widzisz błędną odpowiedź, kliknij przy niej „Klucz jest tu błędny”."},"questions":[{"id":1,"stem":"Jedną z przyczyn wstrząsu hipowolemicznego jest:","options":[{"letter":"A","text":"nagły spadek poziomu glukozy we krwi"},{"letter":"B","text":"nagłe podniesienie poziomu glukozy we krwi"},{"letter":"C","text":"chwilowa utrata przytomności"},{"letter":"D","text":"spadek objętości krwi krążącej"},{"letter":"E","text":"żadne z wymienionych"}]},{"id":2,"stem":"Osobę poszkodowaną zabezpieczamy przed wychłodzeniem folią „NRC\". Należy ja ułożyć:","options":[{"letter":"A","text":"złotą stroną na zewnątrz"},{"letter":"B","text":"srebrną stroną na zewnątrz"},{"letter":"C","text":"kolor nie ma znaczenia"},{"letter":"D","text":"najważniejsze jest dokładne owinięcie poszkodowanego folią"},{"letter":"E","text":"prawdziwe są odpowiedzi C i D"}]},{"id":3,"stem":"Pozycja przeciwwstrząsowa polega na ułożeniu poszkodowanego:","options":[{"letter":"A","text":"w pozycji bocznej ustalonej"},{"letter":"B","text":"na wznak (na plecach), jeżeli brak cech urazów, można zastosować bierne uniesienie kończyn dolnych do 7 minut"},{"letter":"C","text":"na wznak z uniesionymi kończynami dolnymi 30 cm do góry"},{"letter":"D","text":"na wznak z uniesioną głową (wałek pod głowę)"},{"letter":"E","text":"w pozycji półsiedzącej"}]},{"id":4,"stem":"Niepokój, szybki oddech, brak wyczuwalnego tętna na tętnicy promieniowej, nawrót kapilarny >2 sek., bladość powłok skórnych, zimny pot. Te objawy mogą być oznaką:","options":[{"letter":"A","text":"udaru cieplnego"},{"letter":"B","text":"śmierci klinicznej"},{"letter":"C","text":"przegrzania"},{"letter":"D","text":"wstrząsu"},{"letter":"E","text":"żadne z wymienionych"}]},{"id":5,"stem":"Czas nawrotu kapilarnego (CRT, Capillary Refill Time).","options":[{"letter":"A","text":"<2 sek. świadczy, że nie wystąpiła centralizacja krążenia"},{"letter":"B","text":">2 sek. może być jedną z oznak wstrząsu"},{"letter":"C","text":"przy wychłodzeniu nie jest wyznacznikiem stanu poszkodowanego"},{"letter":"D","text":"prawdziwe są odpowiedzi B i C"},{"letter":"E","text":"prawdziwe są odpowiedzi A, B i C"}]},{"id":6,"stem":"Będąc świadkiem napadu drgawek u poszkodowanego na ulicy należy:","options":[{"letter":"A","text":"wezwać natychmiast zespół ratownictwa medycznego"},{"letter":"B","text":"przy pomocy długopisu rozchylić usta poszkodowanego"},{"letter":"C","text":"przytrzymać całe ciało starając się wyhamować drgawki"},{"letter":"D","text":"chronić głowę przed obrażeniami, następnie utrzymać drożność górnych dróg oddechowych"},{"letter":"E","text":"nie dotykać poszkodowanego, bo napad musi sam minąć"}]},{"id":7,"stem":"Wskaż fałszywe stwierdzenie dotyczące napadu drgawkowego:","options":[{"letter":"A","text":"może wystąpić utrata przytomności z niepamięcią wsteczną"},{"letter":"B","text":"najczęściej dochodzi do zagryzienia języka i należy włożyć patyk między zęby, by nie było krwawienia (nawet podczas drgawek należy próbować)"},{"letter":"C","text":"często bezwiednie następuje oddanie moczu"},{"letter":"D","text":"podczas drgawek może dojść do urazów głowy"},{"letter":"E","text":"drgawki i prężenia często obejmują całe ciało"}]},{"id":8,"stem":"Drgawki mogą występować przy:","options":[{"letter":"A","text":"urazie mózgowo-czaszkowym"},{"letter":"B","text":"zatruciu, niedotlenieniu"},{"letter":"C","text":"wysokiej temperaturze ciała, szczególnie u dzieci"},{"letter":"D","text":"odwodnieniu, udarze cieplnym"},{"letter":"E","text":"wszystkich wymienionych"}]},{"id":9,"stem":"Wskaż prawdziwe stwierdzenie dotyczące występowania śpiączki u chorego na cukrzycę:","options":[{"letter":"A","text":"może być spowodowana znacznym spadkiem glukozy we krwi"},{"letter":"B","text":"występują zaburzenia świadomości aż do jej utraty"},{"letter":"C","text":"może być spowodowana przedawkowaniem insuliny"},{"letter":"D","text":"prawdziwe są odpowiedzi A i B"},{"letter":"E","text":"prawdziwe są odpowiedzi A, B i C"}]},{"id":10,"stem":"U osoby, która jest nieprzytomna, śpiączkę cukrzycową można podejrzewać na podstawie:","options":[{"letter":"A","text":"obecności cukierków w kieszeni, bo to chroni przed „niedocukrzeniem\""},{"letter":"B","text":"zapachu acetonu w wydychanym powietrzu"},{"letter":"C","text":"suchości skóry i języka"},{"letter":"D","text":"pokłutych opuszków palców"},{"letter":"E","text":"prawdziwe są odpowiedzi B, C i D"}]},{"id":11,"stem":"Hipoglikemia to stan:","options":[{"letter":"A","text":"w którym może dojść do utraty przytomności"},{"letter":"B","text":"charakteryzujący się niskim poziomem glukozy we krwi (znacznie poniżej normy)"},{"letter":"C","text":"w którym mogą wystąpić następujące objawy: dezorientacja, bełkotliwa mowa, uczucie niepokoju, obfite pocenie się lub bladość powłok skórnych"},{"letter":"D","text":"w którym jak najszybciej należy podać insulinę"},{"letter":"E","text":"prawdziwe są odpowiedzi A, B i C"}]},{"id":12,"stem":"Na przystanku autobusowym leży na brzuchu mężczyzna w wieku około 55 lat. Wskaż właściwe postępowanie:","options":[{"letter":"A","text":"wzywać policję, mężczyzna zapewne jest pijany"},{"letter":"B","text":"ułożyć mężczyznę w pozycji bocznej ustalonej, wzywać policję"},{"letter":"C","text":"sprawdzić oznaki życia"},{"letter":"D","text":"wsiąść do autobusu, bo nadjechał ten, na który czekałeś"},{"letter":"E","text":"zapytać czy jest w pobliżu lekarz"}]},{"id":14,"stem":"U osoby, która uskarżała się na ból w klatce piersiowej doszło do utraty przytomności i osunięcia na podłogę w obecności innych ludzi. Wskaż właściwe postępowanie:","options":[{"letter":"A","text":"ułożyć osobę w pozycji bocznej ustalonej z utrzymaniem drożności dróg oddechowych i wezwać pomoc"},{"letter":"B","text":"ułożyć osobę na wznak z nogami uniesionymi około 30 cm do góry i wezwać pomoc"},{"letter":"C","text":"sprawdzić czy w kieszeni poszkodowany nie ma leków na serce by je podać"},{"letter":"D","text":"udrożnić drogi oddechowe i sprawdzić obecność oddechu, podjąć uciśnięcia klatki piersiowej, jeśli jest brak oddechu"},{"letter":"E","text":"po stwierdzeniu braku oddechu prowadzić oddech zastępczy"}]},{"id":15,"stem":"U nieprzytomnej osoby dorosłej brak oddechu stanowi podstawę do podjęcia resuscytacji krążeniowo-oddechowej w schemacie:","options":[{"letter":"A","text":"2 wdechy, 15 uciśnięć klatki piersiowej"},{"letter":"B","text":"2 wdechy, 30 uciśnięć klatki piersiowej"},{"letter":"C","text":"15 uciśnięć klatki piersiowej, 2 wdechy"},{"letter":"D","text":"30 uciśnięć klatki piersiowej, 2 wdechy"},{"letter":"E","text":"dowolnym z wymienionych"}]},{"id":16,"stem":"Do często spotykanych objawów zawału mięśnia sercowego należy:","options":[{"letter":"A","text":"ból w klatce piersiowej w okolicy zamostkowej o charakterze gniecenia"},{"letter":"B","text":"drętwienie lewej kończyny górnej"},{"letter":"C","text":"uczucie lęku"},{"letter":"D","text":"pobudzenie psychoruchowe"},{"letter":"E","text":"prawdziwe są odpowiedzi A, B i C"}]},{"id":17,"stem":"Częstym powikłaniem uciśnięć klatki piersiowej u osoby z zatrzymaniem oddechu i krążenia jest:","options":[{"letter":"A","text":"uraz kręgosłupa"},{"letter":"B","text":"niedowład kończyn dolnych"},{"letter":"C","text":"złamanie żeber i mostka"},{"letter":"D","text":"uszkodzenie naczyń w klatce piersiowej"},{"letter":"E","text":"zaburzenia rytmu serca"}]},{"id":18,"stem":"Przy trudnościach w oddychaniu poszkodowanego przebywającego w strefie zadymienia należy:","options":[{"letter":"A","text":"podać tlen i posadzić poszkodowanego w pozycji półsiedzącej"},{"letter":"B","text":"podać tlen i ewakuować ze strefy zadymienia"},{"letter":"C","text":"wezwać pomoc do poszkodowanego i przystąpić do oceny stanu poszkodowanego w miejscu zdarzenia"},{"letter":"D","text":"w miarę możliwości odizolować drogi oddechowe poszkodowanego od atmosfery toksycznej i ewakuować ze strefy zagrożenia"},{"letter":"E","text":"ułożyć w pozycji bezpiecznej i czekać na przybycie ratowników"}]},{"id":19,"stem":"Oddechu zastępczego metodą usta-usta nie wolno wykonywać, gdy:","options":[{"letter":"A","text":"poszkodowany jest pijany"},{"letter":"B","text":"poszkodowany jest chory na cukrzycę"},{"letter":"C","text":"poszkodowany ma krótką szyję"},{"letter":"D","text":"poszkodowany wypił środki ochrony roślin"},{"letter":"E","text":"należy prowadzić oddech zastępczy z użyciem mokrej chusteczki"}]},{"id":20,"stem":"Przy podejrzeniu zatrucia cyjanowodorem, poszkodowanego (możliwy wyczuwalny zapach gorzkich migdałów), który ma ślady wymiocin na ustach można:","options":[{"letter":"A","text":"zaniechać wentylacji metodą usta-usta, jeżeli są opory natury estetycznej"},{"letter":"B","text":"wentylować tylko przy użyciu maski twarzowej"},{"letter":"C","text":"wentylować metodą usta-usta, jeśli nie ma innych możliwości"},{"letter":"D","text":"wentylować z użyciem nawilżonej wodą chusteczki"},{"letter":"E","text":"wentylować go tylko przy użyciu worka samorozprężalnego"}]},{"id":21,"stem":"Najczęstszą przyczyną zgonu u osób, które uległy zatruciu substancjami wpływającymi na funkcjonowanie centralnego układu nerwowego jest:","options":[{"letter":"A","text":"działanie samej substancji trującej"},{"letter":"B","text":"podawanie odtrutek przez osoby niewykwalifikowane"},{"letter":"C","text":"utrata przytomności i niedrożność górnych dróg oddechowych"},{"letter":"D","text":"zaburzenia świadomości i próby samobójcze"},{"letter":"E","text":"żadne z wymienionych"}]},{"id":22,"stem":"W stosunku do osoby, która w wyniku zatrucia straciła przytomność należy podjąć następujące czynności:","options":[{"letter":"A","text":"podać węgiel aktywowany jako odtrutkę i wezwać zespół ratownictwa medycznego"},{"letter":"B","text":"sprowokować wymioty i wezwać zespół ratownictwa medycznego"},{"letter":"C","text":"zabezpieczyć substancję, która została zażyta i wezwać zespół ratownictwa medycznego"},{"letter":"D","text":"przy zachowanym oddechu, ułożyć poszkodowanego w pozycji bocznej bezpiecznej i wezwać zespół ratownictwa medycznego"},{"letter":"E","text":"wezwać zespół ratownictwa medycznego by nie tracić czasu na zbędne działania"}]},{"id":23,"stem":"Wskaż prawidłową kolejność postępowania z osobą, która straciła przytomność podczas kąpieli w łazience, w której jest piecyk gazowy: 1) wstrzymując oddech zamknąć dopływ gazu i otworzyć okno w łazience; 2) ocenić czynności życiowe; 3) wynieść poszkodowanego poza strefę zagrożenia; 4) wezwać zespół ratownictwa medycznego i straż pożarną następnie udzielić pomocy w razie potrzeby. 5) opuścić pomieszczenie by osobie udzielającej pomocy nic się nie stało i wezwać zespół ratownictwa medycznego. Prawidłowa odpowiedź to:","options":[{"letter":"A","text":"5,4"},{"letter":"B","text":"3,2,4,1"},{"letter":"C","text":"3,4,5"},{"letter":"D","text":"1,2,3,4"},{"letter":"E","text":"3,2,4"}]},{"id":24,"stem":"Wskaż fałszywe stwierdzenie dotyczące informacji o tlenku węgla:","options":[{"letter":"A","text":"łączy się z hemoglobiną 250-300 razy trwalej niż tlen"},{"letter":"B","text":"ma charakterystyczny zapach i barwę"},{"letter":"C","text":"jest lżejszy od powietrza"},{"letter":"D","text":"potocznie nazywany jest czadem"},{"letter":"E","text":"powstaje podczas spalania"}]},{"id":25,"stem":"Po wyjściu z kąpieli, z łazienki, w której jest piecyk gazowy, osoba zgłasza nudności oraz zawroty głowy, zaczyna wymiotować. W tej sytuacji należy:","options":[{"letter":"A","text":"podejrzewać, że za długo przebywała w gorącej kąpieli i polecić jej odpoczynek w pokoju"},{"letter":"B","text":"podejrzewać, że zjadła „coś\" co jej zaszkodziło"},{"letter":"C","text":"podejrzewać zatrucie gazami spalinowymi w łazience (CO)"},{"letter":"D","text":"podejrzewać, że piła alkohol w łazience podczas kąpieli"},{"letter":"E","text":"zabrać ją na spacer by się „przewietrzyła\""}]},{"id":26,"stem":"Pulsoksymetria jako metoda pomiarowa jest metodą:","options":[{"letter":"A","text":"nieinwazyjną przezskórnego oznaczania wysycenia krwi tlenem"},{"letter":"B","text":"nieinwazyjną przezskórnego oznaczania wysycenia krwi CO2"},{"letter":"C","text":"inwazyjną żylnego oznaczania wysycenia krwi tlenem"},{"letter":"D","text":"która pozwala na jednoczesną ocenę tętna"},{"letter":"E","text":"prawdziwe są odpowiedzi A i D"}]},{"id":27,"stem":"Jednym z pierwszych objawów zatrucia tlenkiem węgla są:","options":[{"letter":"A","text":"bóle brzucha"},{"letter":"B","text":"zawroty głowy"},{"letter":"C","text":"drapanie w gardle"},{"letter":"D","text":"skoki temperatury"},{"letter":"E","text":"swędzenie skóry"}]},{"id":28,"stem":"Osobie, która uległa podtopieniu, po wyjęciu z wody należy:","options":[{"letter":"A","text":"wylać wodę z dróg oddechowych poprzez odpowiednie ułożenie"},{"letter":"B","text":"utrzymywać stabilizację kręgosłupa, gdyż najczęściej dochodzi do urazu w odcinku szyjnym"},{"letter":"C","text":"okryć natychmiast folią życia chroniąc przed wychłodzeniem"},{"letter":"D","text":"sprawdzić jamę ustną, następnie udrożnić drogi oddechowe i w przypadku braku oddechu wykonać 5 oddechów ratowniczych"},{"letter":"E","text":"wszystkie wymienione"}]},{"id":29,"stem":"Wskaż prawdziwe stwierdzenie:","options":[{"letter":"A","text":"woda słona uszkadza drogi oddechowe i należy ją najpierw wylać z poszkodowanego"},{"letter":"B","text":"woda słodka nie wchłania się i należy ją wylać z poszkodowanego"},{"letter":"C","text":"przy utonięciu w wodzie morskiej rokowanie jest lepsze"},{"letter":"D","text":"przy utonięciu w wodzie słodkiej rokowanie jest lepsze"},{"letter":"E","text":"postępowanie z osobą podtopioną jest takie samo, niezależnie od rodzaju wody"}]},{"id":30,"stem":"Ratując osobę podtopioną w wodzie o niskiej temperaturze należy pamiętać, że:","options":[{"letter":"A","text":"śmierć mózgu następuje szybciej w zimnej wodzie"},{"letter":"B","text":"uciskanie klatki piersiowej i prowadzenie oddechu zastępczego jest mało efektywne z uwagi na wodę w płucach"},{"letter":"C","text":"głowa nie powinna być odchylana z uwagi na możliwość zachłyśnięcia wypitą wodą"},{"letter":"D","text":"uzyskanie powrotu czynności życiowych może wystąpić po kilkudziesięciu minutach resuscytacji krążeniowo-oddechowej"},{"letter":"E","text":"wszystkie stwierdzenia są fałszywe"}]}]};
+window.KPP_ANSWERS = {"meta":{"questions_digest":"012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8","key_sources":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"],"portals":[{"label":"drogaratownika.pl","url":"https://drogaratownika.pl/baza-plikow/cmeitwl4b0015p60hyl5mz5cd"},{"label":"dlaratownikaimedyka.pl","url":"https://dlaratownikaimedyka.pl/wp-content/uploads/2025/06/kpp-pytania-i-odpowiedzi-2025.pdf"},{"label":"quizlet 710735124","url":"https://quizlet.com/pl/710735124"},{"label":"quizlet 595014549","url":"https://quizlet.com/pl/595014549"},{"label":"quizlet 804902455","url":"https://quizlet.com/pl/804902455"},{"label":"feniks.care","url":"https://feniks.care/quiz_kpp.php?tryb=nauka&id=1"}],"built":"2026-09-15","count":29,"stats":{"verified":252,"single-source":23,"majority":2,"conflict":1},"needs_review":[],"manual":[]},"answers":{"1":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"2":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"3":{"correct":"B","status":"verified","votes":{"B":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"4":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"5":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"6":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"7":{"correct":"B","status":"verified","votes":{"B":["PDF 2024/2025","feniks.care"]}},"8":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"9":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"10":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"11":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"12":{"correct":"C","status":"verified","votes":{"C":["PDF 2024/2025","feniks.care"]}},"14":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","feniks.care"]}},"15":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"16":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"17":{"correct":"C","status":"verified","votes":{"C":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"18":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","feniks.care"]}},"19":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"20":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"21":{"correct":"C","status":"verified","votes":{"C":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"22":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"23":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"24":{"correct":"B","status":"verified","votes":{"B":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"25":{"correct":"C","status":"verified","votes":{"C":["PDF 2024/2025","feniks.care"]}},"26":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","feniks.care"]}},"27":{"correct":"B","status":"verified","votes":{"B":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"28":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","feniks.care"]}},"29":{"correct":"E","status":"verified","votes":{"E":["PDF 2024/2025","Quizlet 2021/2023","feniks.care"]}},"30":{"correct":"D","status":"verified","votes":{"D":["PDF 2024/2025","feniks.care"]}}}};
+window.KPP_EXPLAIN = {"meta":{"note":"Wyjaśnienia własne, nie pochodzą z CEM.","questions_digest":"012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8","built":"2026-09-15","count":12,"reviewed":29},"explain":{"4":"Wstrząsu (najczęściej hipowolemicznego, np. krwotocznego). Brak tętna na tętnicy promieniowej przy zachowanym tętnie centralnym wskazuje na centralizację krążenia i spadek ciśnienia. Wydłużony nawrót kapilarny, bladość i zimny pot świadczą o słabym ukrwieniu obwodowym.","5":"Norma: do 2 sekund. Badanie polega na uciśnięciu płytki paznokcia (lub opuszki palca, mostka u dzieci) przez ok. 5 s, zwolnieniu ucisku i zmierzeniu czasu powrotu różowego zabarwienia. Wynik powyżej 2 s oznacza zaburzoną perfuzję obwodową, np. we wstrząsie. Test wykorzystuje się też w segregacji START do oceny krążenia. Wynik może zafałszować zimno otoczenia, bo samo wychłodzenie wydłuża nawrót.","6":"Chronić poszkodowanego przed urazami i nie krępować jego ruchów. W praktyce oznacza to:\n- odsunąć niebezpieczne przedmioty i podłożyć coś miękkiego pod głowę,\n- niczego nie wkładać do ust, nie przytrzymywać siłą i nie podawać płynów,\n- zanotować czas trwania napadu.\n\nPo napadzie trzeba ocenić oddech i ułożyć poszkodowanego w pozycji bocznej bezpiecznej. Pod 112 dzwoń, gdy napad trwa ponad 5 minut, powtarza się, jest pierwszy w życiu albo doszło do urazu.","12":"Oznaki życia sprawdzasz w trzech krokach:\n- Przytomność: głośno zawołaj i delikatnie potrząśnij poszkodowanego za barki.\n- Oddech: odwróć go na plecy, udrożnij drogi oddechowe (odgięcie głowy, uniesienie żuchwy) i przez maksymalnie 10 s oceniaj oddech metodą „patrz, słuchaj, czuj”. Patrzysz na ruchy klatki piersiowej, słuchasz szmerów oddechowych i czujesz wydychane powietrze na policzku. Pojedyncze, rzadkie westchnięcia (oddech agonalny) traktuj jak brak oddechu.\n- Tętno (poziom KPP): jednocześnie z oceną oddechu badaj tętno na tętnicy szyjnej, łącznie również przez maksymalnie 10 s.","15":"30 uciśnięć klatki piersiowej : 2 oddechy ratownicze, zaczynając od uciśnięć. Uciskasz na głębokość 5–6 cm, z częstotliwością 100–120 na minutę, w środku klatki piersiowej. Po 30 uciśnięciach wykonujesz 2 oddechy, każdy trwający ok. 1 s.\n\nWyjątek: u dzieci i u osób po podtopieniu zaczynasz od 5 oddechów ratowniczych, a dopiero potem przechodzisz do 30:2 (u dzieci 15:2 w przypadku ratowników przeszkolonych w PLS).","16":"Silny ból w klatce piersiowej (za mostkiem), trwający ponad 20 minut. Ból jest gniotący, piekący lub ściskający i nie mija po odpoczynku. Często promieniuje do lewej ręki, żuchwy, szyi, pleców lub w okolice żołądka. Typowo towarzyszą mu:\n- duszność,\n- bladość, zimny pot,\n- nudności lub wymioty,\n- niepokój i lęk przed śmiercią.\n\nU kobiet, osób starszych i diabetyków ból może być słaby albo w ogóle nie występować. Wtedy dominują duszność, osłabienie i nudności.","18":"Najpierw ewakuować poszkodowanego ze strefy zadymienia, ale tylko wtedy, gdy możesz to zrobić bezpiecznie. Sam nie wchodź do dymu bez ochrony dróg oddechowych. Poza strefą:\n- podaj tlen w wysokim przepływie (maska z rezerwuarem), bo trzeba zakładać zatrucie tlenkiem węgla,\n- jeśli jest przytomny, ułóż go w pozycji półsiedzącej; jeśli jest nieprzytomny i oddycha, w pozycji bocznej bezpiecznej,\n- wezwij ZRM i stale kontroluj oddech.","19":"Gdy poszkodowany uległ zatruciu substancją toksyczną, która może przejść na ratownika (np. cyjanki, związki fosforoorganiczne, gazy drażniące). Wtedy wentylujesz przez maskę kieszonkową z zaworem albo workiem samorozprężalnym.\n\nMetodę usta-usta trzeba też zmienić, gdy:\n- obrażenia ust lub żuchwy uniemożliwiają szczelne objęcie ust (stosujesz metodę usta-nos),\n- ratownikowi grozi zakażenie i ma dostępną maskę.","21":"Niedrożność dróg oddechowych. Substancje działające na OUN (alkohol, opioidy, leki nasenne) wywołują utratę przytomności. U nieprzytomnego język opada i zamyka drogi oddechowe, a do tego dochodzi ryzyko zachłyśnięcia się wymiocinami. Te substancje dodatkowo hamują ośrodek oddechowy, co prowadzi do niewydolności oddechowej.\n\nDlatego u takiego poszkodowanego najważniejsze jest udrożnienie dróg oddechowych i ułożenie go w pozycji bocznej bezpiecznej, jeśli oddycha.","24":"Dodatkowo:\n- pulsoksymetr zawyża saturację, więc jego odczyt jest niewiarygodny,\n- leczy się go tlenem w wysokim przepływie (100%).","27":"Bóle głowy, często razem z zawrotami głowy, nudnościami i osłabieniem. Przy dłuższym narażeniu pojawiają się senność, splątanie, zaburzenia widzenia, a w końcu drgawki i utrata przytomności. Wczesne objawy łatwo pomylić z grypą, a wskazówką jest to, że występują u kilku osób naraz albo w jednym pomieszczeniu.","30":"Niska temperatura chroni mózg przed niedotlenieniem, więc resuscytację prowadzi się dłużej niż zwykle. Obowiązuje zasada: nie uznaje się zgonu, dopóki poszkodowany nie zostanie ogrzany.\n\nPrzy takim ratowaniu pamiętaj też, że:\n- poszkodowanego wyjmuje się z wody w pozycji poziomej i porusza delikatnie, bo wychłodzone serce łatwo wpada w migotanie komór,\n- trzeba zapobiegać dalszej utracie ciepła: zdjąć mokre ubranie i okryć folią NRC lub kocem,\n- tętno i oddech mogą być bardzo słabe, więc ocenę wydłuża się do ok. 1 minuty."}};
+window.KPP_RETIRED = {"meta":{"note":"Pytania obecne w starszych wydaniach bazy, nieobecne w KPP2026.","dropped_from":"KPP2026 / 2026-06-17","built":"2026-09-15","count":2},"questions":[{"id":13,"stem":"W autobusie siedzi mężczyzna, skarżący się na piekący ból w klatce piersiowej. Jest blady i spocony, oddycha szybko. Wskaż właściwe postępowanie:","options":[{"letter":"A","text":"natychmiast wyprowadzić mężczyznę z autobusu i zaprowadzić na postój taksówek by pojechał do szpitala"},{"letter":"B","text":"nie pozwolić mężczyźnie wstać, rozpiąć koszulę, zapytać: jak długo boli czy leczy się na serce, wezwać zespół ratownictwa medycznego, rozważyć ułożenie w pozycji przeciwwstrząsowej"},{"letter":"C","text":"podać aspirynę (160-300 mg), jeśli jest dostępna"},{"letter":"D","text":"nie należy podawać aspiryny dorosłym z bólem w klatce piersiowej niejasnego pochodzenia, uczulonym na lek lub przyjmującym go na stałe"},{"letter":"E","text":"prawdziwe są odpowiedzi B, C i D"}],"correct":"E","last_edition":"2025","seen_in":["2024","2025"]}]};
+</script>
+<script>
+(function () {
+  // ------------------------------------------------ collecting the feedback
+  //
+  // The point of publishing this at all is to find the wrong answers, so
+  // reporting one has to cost nothing: no account, no login, no email address.
+  // That means an open write endpoint, which is why CLOSES exists.
+  //
+  //   CLOSES   last day the test is served, YYYY-MM-DD. After it the page
+  //            renders a notice and NO questions — so a link that leaked
+  //            outside the group goes inert by itself, and nobody is left
+  //            learning answers we already know are wrong. It is a courtesy
+  //            timer, not a lock: deleting the files is the real end of it.
+  //   ENDPOINT where reports are POSTed as JSON. Empty means no endpoint at
+  //            all exists to abuse: the page then hands the reporter their
+  //            report to copy and send however they like.
+  //   EMAIL    optional, offered as a prefilled message in that fallback.
+  var FEEDBACK = {
+    CLOSES: '',
+    ENDPOINT: '',
+    EMAIL: ''
+  };
 
+  var LIST = document.getElementById('list');
+  var state = { questions: [], order: [], ok: 0, bad: 0, meta: null, review: [],
+                flags: {}, painters: [] };
+  var maxSources = 0;   // how many answer keys the build had available
+
+  // ---------------------------------------------------------- stem layout
+  //
+  // 20 stems in the bank are enumerated lists — "…: 1) zamknąć dopływ gazu;
+  // 2) ocenić czynności życiowe; … Prawidłowa odpowiedź to:" — and run
+  // together they are genuinely hard to read.
+  //
+  // The breaks are worked out from the text at render time. Nothing is
+  // rewritten: questions.js still quotes the CEM file character for
+  // character, and its digest is untouched. This is layout, not content.
+  var HAS_ENUM = /\s\d{1,2}\)\s/g;
+
+  function stemLines(text) {
+    var t = String(text);
+    if ((t.match(HAS_ENUM) || []).length < 2) return [t];
+    // the instruction that follows the list gets its own line
+    // (Nr 189 ends it with a full stop rather than a colon — CEM's typo)
+    t = t.replace(/\.\s+([A-ZŻŹĆĄŚĘŁÓŃ][^.;]{0,60}[:.])\s*$/, '.\n$1');
+    t = t.replace(/\s+(\d{1,2}\))\s+/g, '\n$1 ');
+    return t.split('\n');
+  }
+
+  function lines(node, arr) {
+    if (arr.length === 1) {
+      node.textContent = arr[0];
+      return node;
+    }
+    arr.forEach(function (line, i) {
+      var kind = /^\d{1,2}\)/.test(line) ? ' item'
+               : (i && i === arr.length - 1) ? ' tail' : '';
+      node.appendChild(el('span', 'ln' + kind, line));
+    });
+    return node;
+  }
+
+  // Explanations are written as plain text: blank lines separate paragraphs,
+  // lines starting with "- " are list items, and a paragraph may introduce a
+  // list. Rendered, not dumped — a wall of text is not worth reading.
+  function prose(box, text) {
+    String(text).split(/\n{2,}/).forEach(function (block) {
+      var lead = [], items = [];
+      block.split('\n').forEach(function (line) {
+        if (/^\s*-\s+/.test(line)) items.push(line.replace(/^\s*-\s+/, '').trim());
+        else if (line.trim()) lead.push(line.trim());
+      });
+      if (lead.length) box.appendChild(el('p', null, lead.join(' ')));
+      if (items.length) {
+        var ul = el('ul', 'why-list');
+        items.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+        box.appendChild(ul);
+      }
+    });
+    return box;
+  }
+
+  function whyBox(q) {
+    var text = (state.explain || {})[String(q.id)];
+    if (!text) return null;
+    var box = el('div', 'why');
+    box.appendChild(el('p', 'why-h', 'Dlaczego'));
+    return prose(box, text);
+  }
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
+
+  function sources(q) {
+    var n = 0, k;
+    for (k in q.votes) n += q.votes[k].length;
+    return n;
+  }
+
+  // 1 uwaga zapisana / 2–4 uwagi zapisane / 5+ uwag zapisanych
+  function uwagi(n) {
+    if (n === 1) return '1 uwaga zapisana';
+    return n + (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)
+      ? ' uwagi zapisane' : ' uwag zapisanych');
+  }
+
+  // 1 źródło / 2–4 źródła / 5+ źródeł
+  function zrodla(n) {
+    if (n === 1) return '1 źródło';
+    return n + (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)
+      ? ' źródła' : ' źródeł');
+  }
+
+  function badge(q) {
+    if (q.status === 'manual') return ['manual', 'ustalone ręcznie'];
+    if (q.status === 'conflict') return ['conflict', 'sporne'];
+    if (q.status === 'majority') return ['conflict', 'niezgodne'];
+    if (!q.correct) return ['conflict', 'brak klucza'];
+    return [q.status === 'verified' ? 'verified' : '', zrodla(sources(q))];
+  }
+
+  // Only rendered when the keys disagree. When they are unanimous the badge on
+  // the card already says how many backed it, and a 100% bar adds nothing.
+  function coverage(q) {
+    var total = sources(q);
+    var rows = Object.keys(q.votes).map(function (L) {
+      return { letter: L, srcs: q.votes[L], pct: q.votes[L].length / total * 100 };
+    }).sort(function (a, b) {
+      return b.srcs.length - a.srcs.length || (a.letter < b.letter ? -1 : 1);
+    });
+    // A hand-set answer always shows its working, even when the sources were
+    // unanimous — especially then, since it is overruling all of them.
+    if (rows.length < 2 && q.status !== 'manual') return null;
+
+    var box = el('div', 'cov');
+    var head = el('div', 'cov-h');
+    head.appendChild(el('span', null, q.status === 'manual'
+      ? 'Odpowiedź ustalona ręcznie — tak głosowały źródła'
+      : 'Źródła nie są zgodne'));
+    head.appendChild(el('em', null, total + ' z ' + zrodla(maxSources)));
+    box.appendChild(head);
+
+    // one cell per source, plus empty cells up to the number of keys we hold,
+    // so a lone source reads as 1-of-5 rather than a confident 100%
+    var bar = el('div', 'cov-bar');
+    rows.forEach(function (r) {
+      r.srcs.forEach(function () {
+        bar.appendChild(el('span', r.letter === q.correct ? 'key' : 'dis'));
+      });
+    });
+    for (var i = total; i < maxSources; i++) bar.appendChild(el('span', 'pad'));
+    box.appendChild(bar);
+
+    var ul = el('ul', 'cov-list');
+    rows.forEach(function (r) {
+      var li = el('li', r.letter === q.correct ? 'key' : 'dis');
+      li.appendChild(el('span', 'l', r.letter));
+      li.appendChild(el('span', 'pc',
+        Math.round(r.pct) + '% (' + r.srcs.length + '/' + total + ')'));
+      li.appendChild(el('span', 'src', r.srcs.join(', ')));
+      ul.appendChild(li);
+    });
+    box.appendChild(ul);
+
+    var note;
+    if (q.status === 'manual') {
+      note = 'Odpowiedź ' + q.correct + ' wpisana ręcznie'
+        + (q.voted && q.voted !== q.correct ? ' zamiast wygłosowanej ' + q.voted : '')
+        + '.' + (q.note ? ' ' + q.note : '');
+    } else if (q.status === 'conflict') {
+      note = 'Remis — zaznaczona odpowiedź to tylko przybliżenie. '
+        + 'Do rozstrzygnięcia przez instruktora.';
+    } else {
+      note = 'Zaznaczono odpowiedź większościową. '
+        + 'Do rozstrzygnięcia przez instruktora.';
+    }
+    box.appendChild(el('p', 'q-note', note));
+    return box;
+  }
+
+  // A question CEM has dropped. Rendered where it used to sit so the numbering
+  // reads continuously, but it is not answerable and not scored — it is a
+  // record, not part of the test.
+  function retiredCard(q) {
+    var card = el('article', 'q gone');
+    card.id = 'q' + q.id;
+
+    var head = el('div', 'q-head');
+    head.appendChild(el('span', 'q-nr', 'Nr ' + q.id));
+    head.appendChild(el('span', 'badge gone',
+      'wycofane po ' + q.last_edition));
+    card.appendChild(head);
+
+    card.appendChild(lines(el('p', 'q-stem'), stemLines(q.stem)));
+
+    var ul = el('ul', 'opts');
+    q.options.forEach(function (o) {
+      var li = document.createElement('li');
+      var row = el('div', 'opt' + (o.letter === q.correct ? ' was-key' : ''));
+      row.appendChild(el('span', 'letter', o.letter + '.'));
+      row.appendChild(el('span', 'txt', o.text));
+      li.appendChild(row);
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+
+    card.appendChild(el('p', 'gone-note',
+      'Pytania nie ma w bazie CEM KPP2026 — było w wydaniach ' +
+      q.seen_in.join(', ') + ', ostatni raz w ' + q.last_edition + '. ' +
+      'Zaznaczono odpowiedź ze starych kluczy (' + q.correct + '); ' +
+      'nie liczy się do wyniku.'));
+    return card;
+  }
+
+  function render() {
+    LIST.textContent = '';
+    state.painters = [];   // the rows they pointed at are about to be replaced
+
+    var gone = {};
+    (state.retired || []).forEach(function (q) { gone[q.id] = q; });
+
+    state.order.forEach(function (qi, idx) {
+      var q = state.questions[qi];
+      // anything withdrawn that sits before this question goes in first
+      Object.keys(gone).forEach(function (id) {
+        if (+id < q.id) { LIST.appendChild(retiredCard(gone[id])); delete gone[id]; }
+      });
+
+      var card = el('article', 'q');
+      card.dataset.pos = idx + 1;
+      // Anchored on the CEM number, not on the position: the order is fixed,
+      // so a link to a question stays valid between reloads.
+      card.id = 'q' + q.id;
+
+      var head = el('div', 'q-head');
+      head.appendChild(el('span', 'q-nr', 'Nr ' + q.id));
+      head.appendChild(el('span', 'q-num', (idx + 1) + ' / ' + state.order.length));
+      var b = badge(q);
+      head.appendChild(el('span', 'badge ' + b[0], b[1]));
+      card.appendChild(head);
+
+      card.appendChild(lines(el('p', 'q-stem'), stemLines(q.stem)));
+
+      var ul = el('ul', 'opts');
+      q.options.forEach(function (o) {
+        var li = document.createElement('li');
+        var btn = el('button', 'opt');
+        btn.type = 'button';
+        btn.appendChild(el('span', 'letter', o.letter + '.'));
+        btn.appendChild(el('span', 'txt', o.text));
+        btn.addEventListener('click', function () { answer(card, q, o.letter); });
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      LIST.appendChild(card);
+    });
+    // any withdrawn number after the last live question
+    Object.keys(gone).sort(function (a, b) { return a - b; })
+      .forEach(function (id) { LIST.appendChild(retiredCard(gone[id])); });
+    observe();
+    buildinfo();
+    update();
+    countFlags();
+  }
+
+  function buildinfo() {
+    var lock = document.getElementById('lockinfo');
+    if (lock && state.base) {
+      lock.textContent = 'Baza pytań zamrożona ' + state.base.locked + ' z pliku ' +
+        state.base.file + ' — ' + state.base.count + ' pytań, suma kontrolna ' +
+        state.base.digest.slice(0, 12) + '. Pytania się nie zmieniają; ' +
+        'przebudowywany jest wyłącznie klucz odpowiedzi.';
+    }
+
+    var box = document.getElementById('buildinfo'), m = state.meta;
+    if (!box || !m) return;
+    box.textContent = 'Baza zbudowana ' + m.built + ' — ' + m.count + ' pytań, ' +
+      ((m.stats && m.stats.verified) || 0) + ' potwierdzonych przez co najmniej dwa źródła, ';
+
+    if (!state.review.length) {
+      box.appendChild(document.createTextNode('brak spornych.'));
+      return;
+    }
+    var have = {};
+    state.order.forEach(function (qi) { have[state.questions[qi].id] = true; });
+
+    box.appendChild(document.createTextNode('do weryfikacji: '));
+    state.review.forEach(function (id, i) {
+      if (i) box.appendChild(document.createTextNode(', '));
+      if (have[id]) {
+        var a = el('a', null, 'nr ' + id);
+        a.href = '#q' + id;
+        a.title = 'Przejdź do pytania nr ' + id;
+        box.appendChild(a);
+      } else {
+        box.appendChild(document.createTextNode('nr ' + id));
+      }
+    });
+    box.appendChild(document.createTextNode('.'));
+  }
+
+  function answer(card, q, letter) {
+    if (card.dataset.done) return;
+    card.dataset.done = '1';
+
+    var correct = q.correct;
+    var right = letter === correct;
+    right ? state.ok++ : state.bad++;
+
+    var total = sources(q);
+    var btns = card.querySelectorAll('.opt');
+    q.options.forEach(function (o, i) {
+      var btn = btns[i];
+      btn.disabled = true;
+      var backing = q.votes[o.letter] || [];
+      if (backing.length) {
+        var lab = el('span', 'votes', backing.length + '/' + total);
+        lab.title = backing.join(', ');
+        btn.appendChild(lab);
+      }
+      if (o.letter === correct) {
+        btn.classList.add('is-correct');
+        btn.appendChild(el('span', 'mark', '✓'));
+      } else if (o.letter === letter) {
+        btn.classList.add('is-wrong');
+        btn.appendChild(el('span', 'mark', '✕'));
+      }
+    });
+
+    var cov = coverage(q);
+    if (cov) card.appendChild(cov);
+    var why = whyBox(q);
+    if (why) card.appendChild(why);
+    card.appendChild(flagRow(q));
+    update();
+  }
+
+  // ------------------------------------------------------ reporting a key
+  // Offered only once the key is visible: before answering there is nothing
+  // to disagree with.
+  function flagRow(q) {
+    var box = el('div', 'flag');
+    var btn = el('button', 'flag-btn');
+    btn.type = 'button';
+    box.appendChild(btn);
+
+    var form = null;
+
+    function paint() {
+      var f = state.flags[q.id];
+      box.className = f ? 'flag on' : 'flag';
+      btn.textContent = f ? '✓ zgłoszone — cofnij' : 'Klucz jest tu błędny';
+      if (f && !form) {
+        form = buildForm(q);
+        box.appendChild(form);
+      } else if (!f && form) {
+        box.removeChild(form);
+        form = null;
+      }
+      countFlags();
+    }
+    // so a successful send can reset every row that is already on screen
+    state.painters.push(paint);
+
+    btn.addEventListener('click', function () {
+      if (state.flags[q.id]) delete state.flags[q.id];
+      else state.flags[q.id] = { nr: q.id, key: q.correct, suggest: '', note: '' };
+      saveFlags();
+      paint();
+    });
+
+    paint();
+    return box;
+  }
+
+  function buildForm(q) {
+    var form = el('div', 'flag-form');
+
+    form.appendChild(el('label', null, 'Twoim zdaniem poprawna jest:'));
+    var sel = document.createElement('select');
+    var none = document.createElement('option');
+    none.value = '';
+    none.textContent = 'nie wiem';
+    sel.appendChild(none);
+    q.options.forEach(function (o) {
+      var opt = document.createElement('option');
+      opt.value = o.letter;
+      opt.textContent = o.letter;
+      sel.appendChild(opt);
+    });
+    sel.value = state.flags[q.id].suggest || '';
+    sel.addEventListener('change', function () {
+      state.flags[q.id].suggest = sel.value;
+      saveFlags();
+    });
+    form.appendChild(sel);
+
+    var note = document.createElement('input');
+    note.type = 'text';
+    note.maxLength = 200;
+    note.placeholder = 'dlaczego? (opcjonalnie)';
+    note.value = state.flags[q.id].note || '';
+    note.addEventListener('input', function () {
+      state.flags[q.id].note = note.value.slice(0, 200);
+      saveFlags();
+    });
+    form.appendChild(note);
+
+    return form;
+  }
+
+  // Kept per browser so a half-finished pass survives a reload. It never
+  // leaves the machine until the reporter presses send.
+  var LS = 'kpp-uwagi';
+  function saveFlags() {
+    try { localStorage.setItem(LS, JSON.stringify(state.flags)); } catch (e) {}
+  }
+  function loadFlags() {
+    try { state.flags = JSON.parse(localStorage.getItem(LS)) || {}; }
+    catch (e) { state.flags = {}; }
+  }
+
+  function countFlags() {
+    var n = Object.keys(state.flags).length;
+    var out = document.getElementById('fbn');
+    if (out) out.textContent = n;
+    var send = document.getElementById('fbsend');
+    if (send) send.disabled = !n;
+    return n;
+  }
+
+  function report() {
+    var items = Object.keys(state.flags)
+      .map(function (k) { return state.flags[k]; })
+      .sort(function (a, b) { return a.nr - b.nr; });
+    return {
+      kind: 'kpp-klucz-uwagi',
+      // Ties the report to the exact question wording it was made against.
+      questions_digest: (state.base || {}).digest || null,
+      answers_built: (state.meta || {}).built || null,
+      sent: new Date().toISOString(),
+      items: items
+    };
+  }
+
+  function asText(r) {
+    return r.items.map(function (i) {
+      return 'Nr ' + i.nr + ': klucz ' + i.key
+        + (i.suggest ? ', moim zdaniem ' + i.suggest : '')
+        + (i.note ? ' — ' + i.note : '');
+    }).join('\n');
+  }
+
+  function said(msg, bad) {
+    var out = document.getElementById('fbout');
+    out.textContent = '';
+    out.appendChild(el('p', bad ? 'sent err' : 'sent', msg));
+    return out;
+  }
+
+  // No endpoint configured: hand the report over instead of posting it. The
+  // page still does the tedious part — collecting the numbers and the key —
+  // and the reporter sends it however the group already talks.
+  function handOver(r) {
+    var text = asText(r);
+    var out = said('Skopiuj poniższe i wyślij — to wszystko, czego potrzebujemy.');
+    var ta = document.createElement('textarea');
+    ta.className = 'copybox';
+    ta.readOnly = true;
+    ta.value = text;
+    out.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)['catch'](function () {});
+      } else {
+        document.execCommand('copy');
+      }
+    } catch (e) {}
+    if (FEEDBACK.EMAIL) {
+      var a = el('a', null, 'albo wyślij mailem');
+      a.href = 'mailto:' + FEEDBACK.EMAIL
+        + '?subject=' + encodeURIComponent('KPP — uwagi do klucza')
+        + '&body=' + encodeURIComponent(text);
+      var p = el('p', 'n');
+      p.appendChild(a);
+      out.appendChild(p);
+    }
+  }
+
+  function send() {
+    if (!countFlags()) return;
+    var r = report();
+    if (!FEEDBACK.ENDPOINT) {
+      handOver(r);
+      return;
+    }
+    said('Wysyłanie…');
+    fetch(FEEDBACK.ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(r)
+    }).then(function (res) {
+      if (!res.ok) throw new Error(res.status);
+      said('Dzięki — ' + uwagi(r.items.length) + '.');
+      state.flags = {};
+      saveFlags();
+      // Repaint the rows on screen, then recount — the flags may have come
+      // from storage with no row rendered yet, so the loop can be empty.
+      state.painters.forEach(function (p) { p(); });
+      countFlags();
+    })['catch'](function () {
+      // The reporter did the work; losing it to a network error would be the
+      // one unforgivable outcome. Fall back to handing it over.
+      handOver(r);
+    });
+  }
+
+  function update() {
+    var done = state.ok + state.bad, n = state.order.length;
+    document.getElementById('ok').textContent = state.ok;
+    document.getElementById('bad').textContent = state.bad;
+    document.getElementById('bar').style.width = n ? (done / n * 100) + '%' : 0;
+    document.getElementById('pct').textContent = done ? Math.round(state.ok / done * 100) + '%' : '–';
+    document.getElementById('left').textContent = 'Pozostało: ' + (n - done) + ' z ' + n;
+  }
+
+  var io;
+  function observe() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) document.getElementById('cur').textContent = e.target.dataset.pos;
+      });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    document.querySelectorAll('.q').forEach(function (c) { io.observe(c); });
+  }
+
+  document.getElementById('reset').addEventListener('click', function () {
+    state.ok = 0; state.bad = 0;
+    render();
+    window.scrollTo({ top: 0 });
+  });
+
+  document.getElementById('jump').addEventListener('click', function () {
+    var next = document.querySelector('.q:not([data-done])');
+    if (next) next.scrollIntoView({ block: 'center' });
+  });
+
+  document.getElementById('fbsend').addEventListener('click', send);
+
+  function start(base, key) {
+    loadFlags();
+    document.getElementById('fb').hidden = false;
+
+    // The question is the locked record; the key is bolted on beside it and is
+    // the only part that changes between builds.
+    state.questions = base.questions.map(function (q) {
+      var a = key.answers[String(q.id)] || {};
+      return {
+        id: q.id, stem: q.stem, options: q.options,
+        correct: a.correct || null, status: a.status || 'unkeyed',
+        votes: a.votes || {}, voted: a.voted || null, note: a.note || ''
+      };
+    }).filter(function (q) { return q.correct; });
+
+    // Fixed order, by CEM number — the point of this build is that question N
+    // here is question N in the official PDF.
+    state.order = state.questions
+      .map(function (_, i) { return i; })
+      .sort(function (a, b) { return state.questions[a].id - state.questions[b].id; });
+    document.getElementById('total').textContent = 'z ' + state.order.length;
+    document.getElementById('ver').textContent = base.meta.version;
+    // the published build carries its own standfirst; the review build's is
+    // written into the page
+    var lede = document.getElementById('lede');
+    if (lede && base.meta.lede) lede.textContent = base.meta.lede;
+    state.meta = key.meta;
+    state.base = base.meta;
+    state.review = key.meta.needs_review || [];
+    state.retired = (window.KPP_RETIRED || {}).questions || [];
+    state.explain = (window.KPP_EXPLAIN || {}).explain || {};
+    maxSources = key.meta.key_sources.length;
+
+    var list = document.getElementById('portals');
+    (key.meta.portals || []).forEach(function (p) {
+      var a = el('a', null, p.label);
+      a.href = p.url;
+      a.rel = 'noopener';
+      var li = document.createElement('li');
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    render();   // renders the cards, then buildinfo() with anchors into them
+  }
+
+  function fail(msg) {
+    LIST.textContent = '';
+    LIST.appendChild(el('p', 'loading', msg));
+  }
+
+  // Past the closing date nothing is rendered — not the questions, not the
+  // reporting. Compared as plain YYYY-MM-DD strings in the reader's own
+  // timezone: an hour either way does not matter, and Date parsing across
+  // browsers is more trouble than it is worth.
+  function today() {
+    var d = new Date();
+    function two(n) { return (n < 10 ? '0' : '') + n; }
+    return d.getFullYear() + '-' + two(d.getMonth() + 1) + '-' + two(d.getDate());
+  }
+
+  function closed() {
+    document.querySelector('aside').hidden = true;
+    LIST.textContent = '';
+    var box = el('div', 'closed');
+    box.appendChild(el('p', null,
+      'Zbieranie uwag do klucza zakończyło się ' + FEEDBACK.CLOSES + '.'));
+    box.appendChild(el('p', null,
+      'Test był wersją roboczą — w kluczu odpowiedzi są błędy i właśnie po to ' +
+      'był udostępniony, żeby je wyłapać. Nie jest materiałem do nauki i nie ' +
+      'zostanie tu przywrócony, dopóki klucz nie zostanie sprawdzony.'));
+    box.appendChild(el('p', null, 'Dzięki wszystkim, którzy zgłosili poprawki.'));
+    LIST.appendChild(box);
+  }
+
+  // The timer exists to limit how long a link is live in public. A file opened
+  // from disk was never public, and the person opening it is the one checking
+  // the key — expiring on them mid-pass would be pure damage.
+  var served = location.protocol === 'http:' || location.protocol === 'https:';
+
+  if (served && FEEDBACK.CLOSES && today() > FEEDBACK.CLOSES) {
+    closed();
+  } else if (!window.KPP_QUESTIONS) {
+    fail('Nie wczytano pliku questions.js — musi leżeć obok review.html. ' +
+         'Zbuduj go poleceniem: python tools/lock-questions.py');
+  } else if (!window.KPP_ANSWERS) {
+    fail('Nie wczytano pliku answers.js — musi leżeć obok review.html. ' +
+         'Zbuduj go poleceniem: python tools/build-answers.py');
+  } else if (window.KPP_ANSWERS.meta.questions_digest !== window.KPP_QUESTIONS.meta.digest) {
+    // Refusing here rather than showing the test: a key built against other
+    // question wording can silently attach the right answer to the wrong
+    // question, which is exactly the failure the lock exists to prevent.
+    fail('Klucz odpowiedzi zbudowano na innej bazie pytań niż wczytana. ' +
+         'Przebuduj go poleceniem: python tools/build-answers.py');
+  } else {
+    start(window.KPP_QUESTIONS, window.KPP_ANSWERS);
+  }
+})();
+</script>
 </body>
 </html>
