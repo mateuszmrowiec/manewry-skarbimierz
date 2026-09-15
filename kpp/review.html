@@ -324,6 +324,30 @@
 
   .loading{padding:40px 0;color:var(--slate);}
 
+  /* ---------- sources ---------- */
+  .src{margin:14px 0 0;max-width:74ch;}
+  .src > summary{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-weight:700;font-size:14px;cursor:pointer;color:var(--ink);
+    padding:4px 0;
+  }
+  .src > summary:hover{color:var(--terrain);}
+  .src-group{margin:14px 0 0;}
+  .src-group h3{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--terrain);margin:0 0 6px;font-weight:700;
+  }
+  .src-list{list-style:none;margin:0;padding:0;}
+  .src-list li{margin-bottom:9px;line-height:1.45;}
+  .src-list a{font-size:13.5px;}
+  .src-list .n{display:block;font-size:12.5px;color:var(--slate);margin-top:1px;}
+  .src-caveats{
+    margin:16px 0 0;padding-top:11px;border-top:1px solid var(--rule);
+    list-style:none;padding-left:0;
+  }
+  .src-caveats li{font-size:12.5px;line-height:1.45;margin-bottom:5px;}
+
   /* ---------- narrow ---------- */
   @media (max-width:860px){
     .masthead-inner{padding:32px 16px 18px;}
@@ -432,19 +456,33 @@
       po pytaniu i traktujemy jak notatki z nauki, nie jak wykładnię.
     </p>
     <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
+
+    <details class="src" id="src" hidden>
+      <summary>Przepisy i wytyczne, na których opieramy wyjaśnienia</summary>
+      <div id="srcbody"></div>
+    </details>
+
     <p id="lockinfo"></p>
     <p id="buildinfo"></p>
   </div>
 </footer>
 
-<!-- Two files on purpose: questions.js is the frozen CEM base, answers.js is
-     the key being worked on. Rebuilding the key never touches the questions. -->
+<!-- DATA:START — everything between these markers is replaced by inlined data
+     when tools/build-site.py renders the published page. Add a data file here
+     and it ships automatically; the build refuses if the markers go missing.
+
+     questions.js    the frozen CEM base
+     answers.js      the key being worked on — rebuilding it never touches the
+                     questions
+     retired.js      questions CEM has withdrawn, shown in place, not scored
+     explanations.js our own explanations, revealed with the answer
+     sources.js      regulations and guidelines the explanations rest on -->
 <script src="questions.js"></script>
 <script src="answers.js"></script>
-<!-- optional: questions CEM has withdrawn, shown in place but not scored -->
 <script src="retired.js"></script>
-<!-- optional: our own explanations, shown once a question is answered -->
 <script src="explanations.js"></script>
+<script src="sources.js"></script>
+<!-- DATA:END -->
 <script>
 (function () {
   // ------------------------------------------------ collecting the feedback
@@ -721,6 +759,40 @@
     buildinfo();
     update();
     countFlags();
+  }
+
+  // The harvested answer keys and these are not the same kind of thing: a key
+  // says what somebody believed the answer was, a regulation or a guideline
+  // says what is required or taught. They stay in separate blocks.
+  function sourcesBlock() {
+    var data = window.KPP_SOURCES;
+    var box = document.getElementById('src');
+    if (!data || !box) return;
+    var body = document.getElementById('srcbody');
+
+    (data.groups || []).forEach(function (g) {
+      var sec = el('div', 'src-group');
+      sec.appendChild(el('h3', null, g.title));
+      var ul = el('ul', 'src-list');
+      g.items.forEach(function (it) {
+        var li = document.createElement('li');
+        var a = el('a', null, it.title);
+        a.href = it.url;
+        a.rel = 'noopener';
+        li.appendChild(a);
+        if (it.note) li.appendChild(el('span', 'n', it.note));
+        ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      body.appendChild(sec);
+    });
+
+    if ((data.caveats || []).length) {
+      var ul = el('ul', 'src-caveats');
+      data.caveats.forEach(function (c) { ul.appendChild(el('li', null, c)); });
+      body.appendChild(ul);
+    }
+    box.hidden = false;
   }
 
   function buildinfo() {
@@ -1073,6 +1145,7 @@
       li.appendChild(a);
       list.appendChild(li);
     });
+    sourcesBlock();
     render();   // renders the cards, then buildinfo() with anchors into them
     gotoHash();
     // webfonts land after this and shift the layout, so aim once more

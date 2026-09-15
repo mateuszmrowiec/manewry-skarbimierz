@@ -1,0 +1,82 @@
+window.KPP_SOURCES = {
+ "meta": {
+  "built": "2026-09-15",
+  "count": 9
+ },
+ "groups": [
+  {
+   "id": "przepisy",
+   "title": "Przepisy",
+   "items": [
+    {
+     "title": "Rozporządzenie Ministra Zdrowia z 19 marca 2007 r. w sprawie kursu w zakresie kwalifikowanej pierwszej pomocy — tekst ogłoszony (Dz.U. 2007 nr 60 poz. 408)",
+     "url": "https://api.sejm.gov.pl/eli/acts/DU/2007/408/text.pdf",
+     "note": "Annex 1 = course curriculum; § 5 = 30-question test from the CEM question bank, 90% pass mark.",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "To samo rozporządzenie — tekst jednolity (Dz.U. 2021 poz. 411)",
+     "url": "https://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000411/O/D20210411.pdf",
+     "note": "Preferred citation. The ISAP link opens in a browser but refuses automated fetch; the same document is served directly at https://eli.gov.pl/api/acts/DU/2021/411/text/O/D20210411.pdf",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "Status aktu w ELI",
+     "url": "https://eli.gov.pl/eli/DU/2007/408/ogl/pol",
+     "note": "Current-force status after the 2025 amendments not confirmed.",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "Rozporządzenie MSWiA z 12 sierpnia 2025 r. w sprawie szkolenia w zakresie kwalifikowanej pierwszej pomocy",
+     "url": "https://eli.gov.pl/api/acts/DU/2025/1124/text/I/D20251124.pdf",
+     "note": "Applies only to MSWiA services, not to civilian courses.",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "Zatwierdzanie programów kursów KPP — Warmińsko-Mazurski Urząd Wojewódzki",
+     "url": "https://www.gov.pl/web/uw-warminsko-mazurski/kursy-kwalifikowanej-pierwszej-pomocy---informacje",
+     "checked": "2026-09-15"
+    }
+   ]
+  },
+  {
+   "id": "wytyczne",
+   "title": "Wytyczne",
+   "items": [
+    {
+     "title": "ERC Guidelines 2025: First Aid (Resuscitation 2025)",
+     "url": "https://doi.org/10.1016/j.resuscitation.2025.110752",
+     "note": "Current European guidelines; narrowed scope, no general poisoning section.",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "European Resuscitation Council — strona wytycznych",
+     "url": "https://cprguidelines.eu/",
+     "checked": "2026-09-15"
+    },
+    {
+     "title": "ANZCOR Guideline 9.5.1 — First Aid Management of Poisoning",
+     "url": "https://www.anzcor.org/assets/anzcor-guidelines/guideline-9-5-1-first-aid-management-of-poisoning-282.pdf",
+     "note": "Do not induce vomiting; do not neutralise acids or alkalis.",
+     "checked": "2026-09-15"
+    }
+   ]
+  },
+  {
+   "id": "inne",
+   "title": "Inne",
+   "items": [
+    {
+     "title": "WHO — Manual for the Health Care of Children in Humanitarian Emergencies: Poisoning",
+     "url": "https://www.ncbi.nlm.nih.gov/books/NBK143750/",
+     "note": "Clinical exception only, not a KPP standard.",
+     "checked": "2026-09-15"
+    }
+   ]
+  }
+ ],
+ "caveats": [
+  "Część faktów (progi, czasy, objawy) to standard podręcznikowy bez zweryfikowanego źródła. Takie miejsca są oznaczone w wyjaśnieniu.",
+  "Klucz odpowiedzi nie pochodzi z CEM. CEM publikuje wyłącznie pytania."
+ ]
+};

@@ -28,3 +28,5 @@ kpp/explanations.js
 # question by question against the official PDF. kpp/index.html stays the
 # takedown notice until that check is finished.
 kpp/review.html
+kpp/sources.json
+kpp/sources.js

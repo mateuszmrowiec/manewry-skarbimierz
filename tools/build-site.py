@@ -35,6 +35,8 @@ explain = (load_js(ROOT / 'kpp' / 'explanations.js', 'KPP_EXPLAIN')
            if (ROOT / 'kpp' / 'explanations.js').exists() else {'explain': {}})
 retired = (load_js(ROOT / 'kpp' / 'retired.js', 'KPP_RETIRED')
            if (ROOT / 'kpp' / 'retired.js').exists() else {'questions': []})
+sources = (load_js(ROOT / 'kpp' / 'sources.js', 'KPP_SOURCES')
+           if (ROOT / 'kpp' / 'sources.js').exists() else None)
 
 if answers['meta']['questions_digest'] != base['meta']['digest']:
     raise SystemExit('answers.js was built against a different question base')
@@ -91,6 +93,10 @@ payload = {
                     'explain': pub_e},
     'KPP_RETIRED': {'meta': retired.get('meta', {}), 'questions': pub_r},
 }
+if sources:
+    payload['KPP_SOURCES'] = sources
+    print(f'sources        : {sources["meta"]["count"]} in '
+          f'{len(sources["groups"])} groups')
 
 # ---- rewrite the page ------------------------------------------------------
 html = SRC.read_text(encoding='utf-8')
@@ -109,10 +115,16 @@ data = '<script>\n' + '\n'.join(
     f'window.{k} = ' + json.dumps(v, ensure_ascii=False, separators=(',', ':')) + ';'
     for k, v in payload.items()) + '\n</script>'
 
-html = once(r'<!-- optional: questions CEM has withdrawn.*?<script src="explanations\.js"></script>',
-            lambda m: data, html, 'the data script tags', re.S)
-html = once(r'<script src="questions\.js"></script>\s*<script src="answers\.js"></script>\s*',
-            '', html, 'the questions/answers script tags')
+html = once(r'<!-- DATA:START.*?DATA:END -->', lambda m: data, html,
+            'the DATA:START/DATA:END markers', re.S)
+
+# Nothing may still be pulled in from a separate file: those files are not
+# published, so a surviving tag would be a 404 on the site and a test with no
+# questions. This caught exactly that once.
+stray = re.findall(r'<script[^>]*\bsrc="(?!https?:)([^"]+)"', html)
+if stray:
+    raise SystemExit(f'build-site: the page still loads {stray} from disk — '
+                     'move those tags inside the DATA markers')
 html = once(r'<title>.*?</title>', '<title>Test KPP — Manewry SAR Skarbimierz</title>',
             html, 'the title')
 html = once(r'<h1>.*?</h1>', '<h1>Test — kwalifikowana pierwsza pomoc</h1>',
