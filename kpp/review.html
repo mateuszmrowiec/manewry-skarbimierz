@@ -96,6 +96,19 @@
   .badge.verified{color:var(--good);border-color:var(--good);background:var(--good-bg);}
   .badge.conflict{color:var(--bad);border-color:var(--bad);background:var(--bad-bg);}
   .badge.manual{color:var(--ink);border-color:var(--ink);background:var(--signal);}
+  .badge.gone{color:var(--slate);border-style:dashed;background:transparent;}
+
+  /* withdrawn from the bank: shown for completeness, not part of the test */
+  .q.gone{border-left-color:var(--rule);border-style:dashed;opacity:.86;}
+  .q.gone .q-stem,.q.gone .q-nr{color:var(--slate);}
+  .q.gone .opt{cursor:default;background:transparent;}
+  .q.gone .opt.was-key{
+    background:var(--paper-deep);border-color:var(--slate);font-weight:600;
+  }
+  .gone-note{
+    margin:14px 0 0;padding:10px 12px;font-size:13.5px;line-height:1.5;
+    background:var(--paper-deep);border-left:3px solid var(--rule);color:var(--slate);
+  }
   .q-stem{margin:0 0 16px;font-weight:600;}
 
   .opts{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
@@ -399,6 +412,8 @@
      the key being worked on. Rebuilding the key never touches the questions. -->
 <script src="questions.js"></script>
 <script src="answers.js"></script>
+<!-- optional: questions CEM has withdrawn, shown in place but not scored -->
+<script src="retired.js"></script>
 <script>
 (function () {
   // ------------------------------------------------ collecting the feedback
@@ -521,11 +536,54 @@
     return box;
   }
 
+  // A question CEM has dropped. Rendered where it used to sit so the numbering
+  // reads continuously, but it is not answerable and not scored — it is a
+  // record, not part of the test.
+  function retiredCard(q) {
+    var card = el('article', 'q gone');
+    card.id = 'q' + q.id;
+
+    var head = el('div', 'q-head');
+    head.appendChild(el('span', 'q-nr', 'Nr ' + q.id));
+    head.appendChild(el('span', 'badge gone',
+      'wycofane po ' + q.last_edition));
+    card.appendChild(head);
+
+    card.appendChild(el('p', 'q-stem', q.stem));
+
+    var ul = el('ul', 'opts');
+    q.options.forEach(function (o) {
+      var li = document.createElement('li');
+      var row = el('div', 'opt' + (o.letter === q.correct ? ' was-key' : ''));
+      row.appendChild(el('span', 'letter', o.letter + '.'));
+      row.appendChild(el('span', 'txt', o.text));
+      li.appendChild(row);
+      ul.appendChild(li);
+    });
+    card.appendChild(ul);
+
+    card.appendChild(el('p', 'gone-note',
+      'Pytania nie ma w bazie CEM KPP2026 — było w wydaniach ' +
+      q.seen_in.join(', ') + ', ostatni raz w ' + q.last_edition + '. ' +
+      'Zaznaczono odpowiedź ze starych kluczy (' + q.correct + '); ' +
+      'nie liczy się do wyniku.'));
+    return card;
+  }
+
   function render() {
     LIST.textContent = '';
     state.painters = [];   // the rows they pointed at are about to be replaced
+
+    var gone = {};
+    (state.retired || []).forEach(function (q) { gone[q.id] = q; });
+
     state.order.forEach(function (qi, idx) {
       var q = state.questions[qi];
+      // anything withdrawn that sits before this question goes in first
+      Object.keys(gone).forEach(function (id) {
+        if (+id < q.id) { LIST.appendChild(retiredCard(gone[id])); delete gone[id]; }
+      });
+
       var card = el('article', 'q');
       card.dataset.pos = idx + 1;
       // Anchored on the CEM number, not on the position: the order is fixed,
@@ -555,6 +613,9 @@
       card.appendChild(ul);
       LIST.appendChild(card);
     });
+    // any withdrawn number after the last live question
+    Object.keys(gone).sort(function (a, b) { return a - b; })
+      .forEach(function (id) { LIST.appendChild(retiredCard(gone[id])); });
     observe();
     buildinfo();
     update();
@@ -871,6 +932,7 @@
     state.meta = key.meta;
     state.base = base.meta;
     state.review = key.meta.needs_review || [];
+    state.retired = (window.KPP_RETIRED || {}).questions || [];
     maxSources = key.meta.key_sources.length;
 
     var list = document.getElementById('portals');

@@ -15,9 +15,13 @@ __pycache__/
 #   questions.js         the CEM bank, frozen and checksummed; does not change
 #   answers.js           the key, rebuilt as often as needed
 #   answers-manual.json  answers settled by hand; they outrank the vote
+#   retired.js           questions CEM has withdrawn, kept for the record
+#   review-log.jsonl     the question-by-question pass, appended as it goes
 kpp/questions.js
 kpp/answers.js
 kpp/answers-manual.json
+kpp/retired.js
+kpp/review-log.jsonl
 
 # Unpublished working copy of the test: fixed CEM order, used to check the key
 # question by question against the official PDF. kpp/index.html stays the

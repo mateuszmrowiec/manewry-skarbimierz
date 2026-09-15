@@ -159,6 +159,53 @@ lód w całym kluczu:
 > wiekiem poszkodowanego czy dawką nadal się wykluczają, bo tam odpowiedzi
 > faktycznie się różnią.
 
+## Pytania wycofane przez CEM
+
+Baza KPP2026 numeruje 1–280, ale zawiera **278 pytań** — brakuje **13** i **218**.
+To nie jest błąd parsowania: oficjalny plik CEM tych numerów po prostu nie ma,
+co potwierdza niezależnie `verify-cem.py`.
+
+Numeracja **nie przesunęła się**: wszystkie 278 numerów wspólnych z wydaniem
+2024 trzyma to samo pytanie, 278/278, każdy rdzeń dopasowany w 1.00. CEM
+wyjął dwa pytania i zostawił dziury, zamiast przenumerować bazę.
+
+Oba były w bazie co najmniej od 2021 do 2025 i wszystkie pięć zebranych
+kluczy zgadza się co do nich:
+
+| Nr | Temat | Stary klucz | Widziane w |
+|---|---|---|---|
+| 13 | ból w klatce piersiowej w autobusie, postępowanie | `E` (B, C i D) | 2021–2025 |
+| 218 | RKO ciężarnej, odbarczenie aortalno-żylne | `D` (przechylenie w osi długiej) | 2021, 2024, 2025 |
+
+Nr 218 wygląda na pytanie, które wyprzedziły wytyczne: dziś uczy się **ręcznego
+przesunięcia macicy w lewo** (odpowiedź `A`), bo przechylanie całego ciała psuje
+jakość uciśnięć. Stary klucz wskazuje `D`. Jeśli CEM wolał je wycofać niż
+przekluczować, to dokładnie ten scenariusz, na który trzeba uważać w reszcie
+klucza — baza jest z 2026, a klucze z lat 2021–2025.
+
+Pytania te trzyma `kpp/retired.js`, budowany przez `tools/lock-retired.py`
+(numer obecny w starszym wydaniu, nieobecny w bieżącym pliku CEM; treść i klucz
+z najnowszego wydania, które je jeszcze miało). **Nie trafiają do
+`questions.js`** — tamten plik cytuje wyłącznie bazę CEM i ma się zgadzać z nią
+co do znaku. W teście pokazują się na swoim miejscu, wyszarzone, z etykietą
+*wycofane po 2025*, bez możliwości odpowiadania i bez wpływu na wynik.
+
+## Źródła merytoryczne
+
+Wszystko powyżej to rekonstrukcje **cudzych kluczy** — mówią, co ktoś uznał za
+poprawne, nie co jest poprawne. Do rozstrzygania spornych pytań potrzebna jest
+doktryna, a nie kolejna kopia klucza:
+
+- **ERC Guidelines 2025** — <https://www.erc.edu/science-research/guidelines/guidelines-2025/guidelines-2025-english>
+  Wytyczne Europejskiej Rady Resuscytacji. Polskie szkolenia KPP opierają się na
+  nich, więc to najbliższe „źródło prawdy", jakie tu mamy.
+
+Uwaga na przesunięcie w czasie: baza pytań CEM to wydanie KPP2026, a krążące
+klucze powstały w latach 2021–2025, częściowo jeszcze na wytycznych 2021.
+Tam, gdzie wytyczne się zmieniły, klucz i doktryna mogą się rozjeżdżać —
+i wtedy wygrywa to, czego oczekuje komisja egzaminacyjna, nawet jeśli
+wytyczne mówią co innego. Taka rozbieżność jest warta odnotowania w `note`.
+
 ### Do rozstrzygnięcia przez instruktora
 
 **Nr 44** — *Po spożyciu przez poszkodowanego dużej ilości leków…* — 2:1 za `B`.
