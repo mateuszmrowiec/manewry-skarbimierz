@@ -22,6 +22,7 @@ kpp/answers.js
 kpp/answers-manual.json
 kpp/retired.js
 kpp/review-log.jsonl
+kpp/explanations.js
 
 # Unpublished working copy of the test: fixed CEM order, used to check the key
 # question by question against the official PDF. kpp/index.html stays the

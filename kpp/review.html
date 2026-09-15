@@ -150,6 +150,24 @@
     background:var(--bad-bg);border-left:3px solid var(--bad);color:var(--bad);
   }
 
+  /* ---------- explanation, revealed with the answer ---------- */
+  .why{
+    margin:16px 0 0;padding:13px 15px;
+    background:var(--paper-deep);border-left:3px solid var(--terrain);
+    font-size:14.5px;line-height:1.55;
+  }
+  .why-h{
+    font-family:"Archivo Narrow",Arial Narrow,sans-serif;
+    font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--terrain);margin:0 0 7px;
+  }
+  .why p{margin:0 0 9px;}
+  .why p:last-child{margin:0;}
+  .why-list{margin:0 0 9px;padding-left:20px;}
+  .why-list:last-child{margin:0;}
+  .why-list li{margin-bottom:3px;}
+  .why-list li::marker{color:var(--terrain);}
+
   /* ---------- reporting a wrong key ---------- */
   .flag{margin:14px 0 0;}
   .flag-btn{
@@ -407,6 +425,11 @@
       Klucz zestawiono z:
     </p>
     <ul class="portals" id="portals"></ul>
+    <p>
+      <strong>Wyjaśnienia są nasze własne</strong> — CEM ich nie publikuje,
+      tak samo jak klucza. Piszemy je przy przechodzeniu przez bazę pytanie
+      po pytaniu i traktujemy jak notatki z nauki, nie jak wykładnię.
+    </p>
     <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
     <p id="lockinfo"></p>
     <p id="buildinfo"></p>
@@ -419,6 +442,8 @@
 <script src="answers.js"></script>
 <!-- optional: questions CEM has withdrawn, shown in place but not scored -->
 <script src="retired.js"></script>
+<!-- optional: our own explanations, shown once a question is answered -->
+<script src="explanations.js"></script>
 <script>
 (function () {
   // ------------------------------------------------ collecting the feedback
@@ -479,6 +504,34 @@
       node.appendChild(el('span', 'ln' + kind, line));
     });
     return node;
+  }
+
+  // Explanations are written as plain text: blank lines separate paragraphs,
+  // lines starting with "- " are list items, and a paragraph may introduce a
+  // list. Rendered, not dumped — a wall of text is not worth reading.
+  function prose(box, text) {
+    String(text).split(/\n{2,}/).forEach(function (block) {
+      var lead = [], items = [];
+      block.split('\n').forEach(function (line) {
+        if (/^\s*-\s+/.test(line)) items.push(line.replace(/^\s*-\s+/, '').trim());
+        else if (line.trim()) lead.push(line.trim());
+      });
+      if (lead.length) box.appendChild(el('p', null, lead.join(' ')));
+      if (items.length) {
+        var ul = el('ul', 'why-list');
+        items.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+        box.appendChild(ul);
+      }
+    });
+    return box;
+  }
+
+  function whyBox(q) {
+    var text = (state.explain || {})[String(q.id)];
+    if (!text) return null;
+    var box = el('div', 'why');
+    box.appendChild(el('p', 'why-h', 'Dlaczego'));
+    return prose(box, text);
   }
 
   function el(tag, cls, text) {
@@ -727,6 +780,8 @@
 
     var cov = coverage(q);
     if (cov) card.appendChild(cov);
+    var why = whyBox(q);
+    if (why) card.appendChild(why);
     card.appendChild(flagRow(q));
     update();
   }
@@ -972,6 +1027,7 @@
     state.base = base.meta;
     state.review = key.meta.needs_review || [];
     state.retired = (window.KPP_RETIRED || {}).questions || [];
+    state.explain = (window.KPP_EXPLAIN || {}).explain || {};
     maxSources = key.meta.key_sources.length;
 
     var list = document.getElementById('portals');

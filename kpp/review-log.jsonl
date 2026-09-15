@@ -21,3 +21,11 @@
 {"nr": 20, "verdict": "E"}
 {"nr": 21, "verdict": "C", "why": "Niedrożność dróg oddechowych. Substancje działające na OUN (alkohol, opioidy, leki nasenne) wywołują utratę przytomności. U nieprzytomnego język opada i zamyka drogi oddechowe, a do tego dochodzi ryzyko zachłyśnięcia się wymiocinami. Te substancje dodatkowo hamują ośrodek oddechowy, co prowadzi do niewydolności oddechowej.\n\nDlatego u takiego poszkodowanego najważniejsze jest udrożnienie dróg oddechowych i ułożenie go w pozycji bocznej bezpiecznej, jeśli oddycha."}
 {"nr": 22, "verdict": "D"}
+{"nr": 23, "verdict": "E", "comment": "zawór gazu niekoniecznie jest pod ręka i sprawny, okna zazwyczaj nie ma"}
+{"nr": 24, "verdict": "B", "why": "Dodatkowo:\n- pulsoksymetr zawyża saturację, więc jego odczyt jest niewiarygodny,\n- leczy się go tlenem w wysokim przepływie (100%)."}
+{"nr": 25, "verdict": "C"}
+{"nr": 26, "verdict": "E"}
+{"nr": 27, "verdict": "B", "why": "Bóle głowy, często razem z zawrotami głowy, nudnościami i osłabieniem. Przy dłuższym narażeniu pojawiają się senność, splątanie, zaburzenia widzenia, a w końcu drgawki i utrata przytomności. Wczesne objawy łatwo pomylić z grypą, a wskazówką jest to, że występują u kilku osób naraz albo w jednym pomieszczeniu."}
+{"nr": 28, "verdict": "D"}
+{"nr": 29, "verdict": "E"}
+{"nr": 30, "verdict": "D", "why": "Niska temperatura chroni mózg przed niedotlenieniem, więc resuscytację prowadzi się dłużej niż zwykle. Obowiązuje zasada: nie uznaje się zgonu, dopóki poszkodowany nie zostanie ogrzany.\n\nPrzy takim ratowaniu pamiętaj też, że:\n- poszkodowanego wyjmuje się z wody w pozycji poziomej i porusza delikatnie, bo wychłodzone serce łatwo wpada w migotanie komór,\n- trzeba zapobiegać dalszej utracie ciepła: zdjąć mokre ubranie i okryć folią NRC lub kocem,\n- tętno i oddech mogą być bardzo słabe, więc ocenę wydłuża się do ok. 1 minuty."}
