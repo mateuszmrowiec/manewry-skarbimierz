@@ -199,6 +199,10 @@ doktryna, a nie kolejna kopia klucza:
 - **ERC Guidelines 2025** — <https://www.erc.edu/science-research/guidelines/guidelines-2025/guidelines-2025-english>
   Wytyczne Europejskiej Rady Resuscytacji. Polskie szkolenia KPP opierają się na
   nich, więc to najbliższe „źródło prawdy", jakie tu mamy.
+- **ANZCOR Guidelines** (Australian and New Zealand Committee on Resuscitation) —
+  przywołane przy Nr 44 (9.5.1, zatrucia). Spoza europejskiego obiegu, ale
+  w kwestii prowokowania wymiotów mówią to samo, co ERC, więc działają jak
+  niezależne potwierdzenie doktryny.
 
 Uwaga na przesunięcie w czasie: baza pytań CEM to wydanie KPP2026, a krążące
 klucze powstały w latach 2021–2025, częściowo jeszcze na wytycznych 2021.
