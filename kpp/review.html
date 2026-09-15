@@ -325,13 +325,28 @@
   .loading{padding:40px 0;color:var(--slate);}
 
   /* ---------- sources ---------- */
-  .src{margin:14px 0 0;max-width:74ch;}
+  /* A bare <summary> line in a wall of footer text does not read as something
+     you can open, so it gets a box and a marker of its own. */
+  .src{margin:4px 0 14px;max-width:74ch;}
   .src > summary{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
     font-weight:700;font-size:14px;cursor:pointer;color:var(--ink);
-    padding:4px 0;
+    list-style:none;padding:8px 12px;
+    background:var(--paper);border:1px solid var(--rule);border-radius:2px;
+    display:flex;align-items:center;gap:9px;
   }
-  .src > summary:hover{color:var(--terrain);}
+  .src > summary::-webkit-details-marker{display:none;}
+  .src > summary::before{
+    content:"+";font-size:16px;line-height:1;color:var(--terrain);
+    font-weight:700;width:1em;text-align:center;
+  }
+  .src[open] > summary::before{content:"–";}
+  .src > summary:hover{border-color:var(--terrain);color:var(--terrain);}
+  .src[open] > summary{border-bottom-left-radius:0;border-bottom-right-radius:0;}
+  #srcbody{
+    padding:4px 13px 14px;
+    background:var(--paper);border:1px solid var(--rule);border-top:0;
+  }
   .src-group{margin:14px 0 0;}
   .src-group h3{
     font-family:"Archivo Narrow",Arial Narrow,sans-serif;
@@ -455,12 +470,15 @@
       tak samo jak klucza. Piszemy je przy przechodzeniu przez bazę pytanie
       po pytaniu i traktujemy jak notatki z nauki, nie jak wykładnię.
     </p>
-    <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
 
+    <!-- Sits with the other provenance, not below the sign-off: what an answer
+         is checked against belongs next to where the answers came from. -->
     <details class="src" id="src" hidden>
       <summary>Przepisy i wytyczne, na których opieramy wyjaśnienia</summary>
       <div id="srcbody"></div>
     </details>
+
+    <p>Narzędzie do nauki własnej — nie zastępuje kursu KPP.</p>
 
     <p id="lockinfo"></p>
     <p id="buildinfo"></p>
