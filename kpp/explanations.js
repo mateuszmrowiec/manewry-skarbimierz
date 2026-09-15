@@ -3,8 +3,11 @@ window.KPP_EXPLAIN = {
   "note": "Wyjaśnienia własne, nie pochodzą z CEM.",
   "questions_digest": "012f39c495d248ac0f1682241fc319d6dfe76c99a87779f658bdad98492496d8",
   "built": "2026-09-15",
-  "count": 12,
-  "reviewed": 29
+  "count": 22,
+  "reviewed": 43,
+  "tricky": [
+   44
+  ]
  },
  "explain": {
   "4": "Wstrząsu (najczęściej hipowolemicznego, np. krwotocznego). Brak tętna na tętnicy promieniowej przy zachowanym tętnie centralnym wskazuje na centralizację krążenia i spadek ciśnienia. Wydłużony nawrót kapilarny, bladość i zimny pot świadczą o słabym ukrwieniu obwodowym.",
@@ -18,6 +21,16 @@ window.KPP_EXPLAIN = {
   "21": "Niedrożność dróg oddechowych. Substancje działające na OUN (alkohol, opioidy, leki nasenne) wywołują utratę przytomności. U nieprzytomnego język opada i zamyka drogi oddechowe, a do tego dochodzi ryzyko zachłyśnięcia się wymiocinami. Te substancje dodatkowo hamują ośrodek oddechowy, co prowadzi do niewydolności oddechowej.\n\nDlatego u takiego poszkodowanego najważniejsze jest udrożnienie dróg oddechowych i ułożenie go w pozycji bocznej bezpiecznej, jeśli oddycha.",
   "24": "Dodatkowo:\n- pulsoksymetr zawyża saturację, więc jego odczyt jest niewiarygodny,\n- leczy się go tlenem w wysokim przepływie (100%).",
   "27": "Bóle głowy, często razem z zawrotami głowy, nudnościami i osłabieniem. Przy dłuższym narażeniu pojawiają się senność, splątanie, zaburzenia widzenia, a w końcu drgawki i utrata przytomności. Wczesne objawy łatwo pomylić z grypą, a wskazówką jest to, że występują u kilku osób naraz albo w jednym pomieszczeniu.",
-  "30": "Niska temperatura chroni mózg przed niedotlenieniem, więc resuscytację prowadzi się dłużej niż zwykle. Obowiązuje zasada: nie uznaje się zgonu, dopóki poszkodowany nie zostanie ogrzany.\n\nPrzy takim ratowaniu pamiętaj też, że:\n- poszkodowanego wyjmuje się z wody w pozycji poziomej i porusza delikatnie, bo wychłodzone serce łatwo wpada w migotanie komór,\n- trzeba zapobiegać dalszej utracie ciepła: zdjąć mokre ubranie i okryć folią NRC lub kocem,\n- tętno i oddech mogą być bardzo słabe, więc ocenę wydłuża się do ok. 1 minuty."
+  "30": "Niska temperatura chroni mózg przed niedotlenieniem, więc resuscytację prowadzi się dłużej niż zwykle. Obowiązuje zasada: nie uznaje się zgonu, dopóki poszkodowany nie zostanie ogrzany.\n\nPrzy takim ratowaniu pamiętaj też, że:\n- poszkodowanego wyjmuje się z wody w pozycji poziomej i porusza delikatnie, bo wychłodzone serce łatwo wpada w migotanie komór,\n- trzeba zapobiegać dalszej utracie ciepła: zdjąć mokre ubranie i okryć folią NRC lub kocem,\n- tętno i oddech mogą być bardzo słabe, więc ocenę wydłuża się do ok. 1 minuty.",
+  "31": "Jak najszybciej, jeśli to możliwe już w wodzie. Przeszkolony ratownik, który ma wsparcie (np. sprzęt wypornościowy) i może bezpiecznie udrożnić drogi oddechowe, może zacząć wentylację jeszcze w wodzie. Uciśnięć klatki piersiowej w wodzie się nie wykonuje, bo są nieskuteczne. Na brzegu zaczynasz od 5 oddechów, a potem prowadzisz RKO 30:2.",
+  "32": "1% powierzchni ciała. Chodzi o dłoń poszkodowanego razem z palcami. Tej reguły używa się do szacowania rozległości oparzeń, zwłaszcza gdy są rozproszone lub małe. Przy dużych oparzeniach stosuje się regułę dziewiątek Wallace'a.",
+  "33": "Jak najszybciej schładzać obie ręce chłodną, bieżącą wodą przez ok. 20 minut. Oprócz tego:\n- zdejmij pierścionki, zegarek i bransoletki, zanim pojawi się obrzęk,\n- nie przebijaj pęcherzy i nie smaruj rąk niczym (masłem, maściami, pastą),\n- załóż jałowy opatrunek lub opatrunek hydrożelowy, a palce oddziel od siebie gazą, żeby się nie posklejały,\n- chroń poszkodowanego przed wychłodzeniem i wezwij ZRM, bo oparzenie obu rąk wymaga oceny w szpitalu.",
+  "34": "Oparzenie II stopnia powyżej 20% powierzchni ciała albo III stopnia powyżej 10% powierzchni ciała (u dorosłych). Za ciężkie uważa się też, niezależnie od rozległości, oparzenia:\n- twarzy, szyi, rąk, stóp i krocza,\n- dróg oddechowych,\n- elektryczne i chemiczne,\n- oparzenia, którym towarzyszą inne urazy, oraz oparzenia u małych dzieci i osób starszych.\n\nU dzieci progi są niższe (ok. 10% dla II stopnia).",
+  "35": "Ocenić czynności życiowe, czyli przytomność i oddech. Porażenie prądem może wywołać zatrzymanie krążenia (migotanie komór), więc przy braku prawidłowego oddechu od razu wzywasz pomoc, organizujesz AED i zaczynasz RKO 30:2. Jeśli poszkodowany oddycha, zaopatrujesz oparzenia w miejscu wejścia i wyjścia prądu, przy podejrzeniu upadku chronisz kręgosłup i wzywasz ZRM zawsze, bo zaburzenia rytmu serca mogą pojawić się później.",
+  "38": "III stopnia. Oparzenie niszczy całą grubość skóry razem z zakończeniami nerwowymi, dlatego samo miejsce urazu jest niebolesne. Skóra jest wtedy biała, szara lub czarna, twarda i sucha. Ból może jednak występować na obrzeżach rany, gdzie są oparzenia II stopnia. Dla porównania, oparzenia I i II stopnia bolą najbardziej.",
+  "39": "Najpierw usuwasz poszkodowanego ze strefy zagrożenia (3). Potem ścierasz suche wapno szmatką (2), bo woda wlana na nie wywołuje reakcję wytwarzającą ciepło. Na końcu zdecydowanie płuczesz oczy bieżącą wodą (5).",
+  "41": "Schładzaniu dłoni chłodną, bieżącą wodą przez ok. 20 minut, zaczynając jak najszybciej. Od razu zdejmij pierścionki i zegarek, zanim pojawi się obrzęk. Po schłodzeniu załóż jałowy opatrunek lub opatrunek hydrożelowy i oddziel palce gazą. Nie przebijaj pęcherzy i nie smaruj dłoni masłem, maściami ani pastą. Oparzenie całej dłoni (ok. 1% powierzchni ciała) zawsze wymaga oceny lekarza.",
+  "43": "Nie zbliżać się. Zająć bezpieczne stanowisko od strony nawietrznej (wiatr w plecy) i wezwać pomoc (112, straż pożarna). Dalej:\n- Odczytaj z daleka, np. przez lornetkę, pomarańczową tablicę ADR (numer rozpoznawczy zagrożenia i numer UN) i przekaż dyspozytorowi te numery oraz opis dymu.\n- Nie wchodź do strefy skażenia bez sprzętu ochronnego, nawet jeśli widzisz poszkodowanych, bo bezpieczeństwo ratownika jest na pierwszym miejscu.\n- Zabezpiecz miejsce zdarzenia: nie dopuszczaj innych osób ani pojazdów i ostrzegaj świadków.",
+  "44": "Aktualne zasady prowadzą do takiej odpowiedzi: wezwać ZRM, ocenić czynności życiowe, zabezpieczyć opakowania po lekach, nie prowokować wymiotów i nie zostawiać poszkodowanego samego."
  }
 };

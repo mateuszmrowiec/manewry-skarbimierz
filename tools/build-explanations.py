@@ -46,15 +46,19 @@ if meta.get('questions_digest') and meta['questions_digest'] != base['meta']['di
     raise SystemExit('the review log was written against a different question '
                      'base than the one locked now — check before building')
 
-explain, orphan = {}, []
+explain, orphan, tricky = {}, [], []
 for nr, rec in sorted(rows.items()):
-    why = (rec.get('why') or '').strip()
-    if not why:
-        continue
     if nr not in known:
-        orphan.append(nr)          # e.g. a withdrawn question
+        if rec.get('why'):
+            orphan.append(nr)      # e.g. a withdrawn question
         continue
-    explain[str(nr)] = why
+    # questions the reviewer marked as traps: the obvious answer is wrong, or
+    # the circulating key disagrees with what is taught now
+    if rec.get('tricky'):
+        tricky.append(nr)
+    why = (rec.get('why') or '').strip()
+    if why:
+        explain[str(nr)] = why
 
 done = sorted(rows)
 print(f'review log     : {len(rows)} questions judged, '
@@ -73,6 +77,7 @@ write_js(OUT, 'KPP_EXPLAIN', {
         'built': datetime.date.today().isoformat(),
         'count': len(explain),
         'reviewed': len(rows),
+        'tricky': tricky,
     },
     'explain': explain,
 })

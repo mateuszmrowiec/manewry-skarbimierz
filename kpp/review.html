@@ -97,6 +97,7 @@
   .badge.conflict{color:var(--bad);border-color:var(--bad);background:var(--bad-bg);}
   .badge.manual{color:var(--ink);border-color:var(--ink);background:var(--signal);}
   .badge.gone{color:var(--slate);border-style:dashed;background:transparent;}
+  .badge.tricky{color:var(--ink);border-color:var(--ink);background:var(--signal);}
 
   /* withdrawn from the bank: shown for completeness, not part of the test */
   .q.gone{border-left-color:var(--rule);border-style:dashed;opacity:.86;}
@@ -562,6 +563,7 @@
   }
 
   function badge(q) {
+    if (q.tricky) return ['tricky', 'uwaga — pytanie mylące'];
     if (q.status === 'manual') return ['manual', 'ustalone ręcznie'];
     if (q.status === 'conflict') return ['conflict', 'sporne'];
     if (q.status === 'majority') return ['conflict', 'niezgodne'];
@@ -1014,9 +1016,13 @@
 
   document.getElementById('fbsend').addEventListener('click', send);
 
+  var trickySet = {};
+
   function start(base, key) {
     loadFlags();
     document.getElementById('fb').hidden = false;
+    ((window.KPP_EXPLAIN || {}).meta || {}).tricky &&
+      window.KPP_EXPLAIN.meta.tricky.forEach(function (n) { trickySet[n] = true; });
 
     // The question is the locked record; the key is bolted on beside it and is
     // the only part that changes between builds.
@@ -1025,7 +1031,8 @@
       return {
         id: q.id, stem: q.stem, options: q.options,
         correct: a.correct || null, status: a.status || 'unkeyed',
-        votes: a.votes || {}, voted: a.voted || null, note: a.note || ''
+        votes: a.votes || {}, voted: a.voted || null, note: a.note || '',
+        tricky: trickySet[q.id] || false
       };
     }).filter(function (q) { return q.correct; });
 
