@@ -614,19 +614,11 @@
     });
     box.appendChild(ul);
 
-    var note;
-    if (q.status === 'manual') {
-      note = 'Odpowiedź ' + q.correct + ' wpisana ręcznie'
-        + (q.voted && q.voted !== q.correct ? ' zamiast wygłosowanej ' + q.voted : '')
-        + '.' + (q.note ? ' ' + q.note : '');
-    } else if (q.status === 'conflict') {
-      note = 'Remis — zaznaczona odpowiedź to tylko przybliżenie. '
-        + 'Do rozstrzygnięcia przez instruktora.';
-    } else {
-      note = 'Zaznaczono odpowiedź większościową. '
-        + 'Do rozstrzygnięcia przez instruktora.';
-    }
-    box.appendChild(el('p', 'q-note', note));
+    // Only a note somebody actually wrote. The card used to generate its own
+    // sentence about the override; it was machine-written Polish and read like
+    // it. The bar above already says which sources voted for what, which is
+    // the part that carries information.
+    if (q.note) box.appendChild(el('p', 'q-note', q.note));
     return box;
   }
 

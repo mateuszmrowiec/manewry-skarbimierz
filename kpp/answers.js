@@ -507,7 +507,7 @@ window.KPP_ANSWERS = {
    },
    "pdf_edition": "2025",
    "voted": "B",
-   "note": "Sprawdzone ręcznie 15.09.2026. Krążące klucze (PDF, Quizlet) wskazują B — prowokowanie wymiotów — co jest dziś przeciwwskazane. Do potwierdzenia, czego oczekuje komisja."
+   "note": ""
   },
   "45": {
    "correct": "D",
