@@ -1,7 +1,7 @@
 window.KPP_SOURCES = {
  "meta": {
-  "built": "2026-09-15",
-  "count": 10
+  "built": "2026-09-16",
+  "count": 11
  },
  "groups": [
   {
@@ -19,6 +19,12 @@ window.KPP_SOURCES = {
      "url": "https://isap.sejm.gov.pl/isap.nsf/download.xsp/WDU20210000411/O/D20210411.pdf",
      "note": "Preferred citation. The ISAP link opens in a browser but refuses automated fetch; the same document is served directly at https://eli.gov.pl/api/acts/DU/2021/411/text/O/D20210411.pdf",
      "checked": "2026-09-15"
+    },
+    {
+     "title": "Ustawa z 8 września 2006 r. o Państwowym Ratownictwie Medycznym — tekst jednolity z 21 stycznia 2026 r. (Dz.U. 2026 poz. 141)",
+     "url": "https://api.sejm.gov.pl/eli/acts/DU/2026/141/text.pdf",
+     "note": "Art. 5 ust. 1 — ochrona jak dla funkcjonariusza publicznego; art. 13 ust. 1 — kto może być ratownikiem (pkt 2 uchylony).",
+     "checked": "2026-09-16"
     },
     {
      "title": "Status aktu w ELI",
